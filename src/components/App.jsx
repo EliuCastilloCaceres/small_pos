@@ -1,7 +1,8 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Navigate } from 'react-router-dom';
 import './app.css';
 
 function App() {
+  if(!localStorage.getItem("token")) return <Navigate to="/login" />
   return (
     <>
       <div className="main-container border border-primary">

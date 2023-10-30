@@ -20,7 +20,7 @@ const usePetition = (endpoint)=>{
             }
         })
             .then((data) => {
-                 console.log(data.data.data)
+                //console.log(data.data.data)
                 setData(data.data.data)
                 setisLoading(false)
             })
