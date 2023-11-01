@@ -30,8 +30,9 @@ function ProductUpdate() {
     const handleSubmit = (e) => {
         e.preventDefault();
         //console.log(e.target);
+        const formData = new FormData(e.target);
         const URL_BASE=import.meta.env.VITE_URL_BASE
-        axios.put(`${URL_BASE}products/update/${productId}`,product,{
+        axios.put(`${URL_BASE}products/update/${productId}`,formData,{
             headers:{
                 'Authorization': `Bearer ${token}`
             }
@@ -52,7 +53,7 @@ function ProductUpdate() {
             <div className="container">
                 <h2 className='fw-bold text-center my-3'>Detalles Producto {productId}</h2>
 
-                <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold">
+                <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
                     <div className="col-md-1">
                         <label htmlFor="productId" className="form-label">Id</label>
                         <input disabled readOnly type="text" className="form-control-plaintext" defaultValue={data[0].product_id} />
@@ -99,7 +100,7 @@ function ProductUpdate() {
                     </div>
                     <div className="col-md-12">
                         <label className="form-label" htmlFor="image">image</label>
-                        <input onChange={(e) => { setProduct({ ...product, image: e.target.value }) }} className="form-control" type="file" name="image" />
+                        <input onChange={(e) => { setProduct({ ...product, image: e.target.files[0] }) }} className="form-control" type="file" name="image" />
                     </div>
 
                     <div className="col-12">
