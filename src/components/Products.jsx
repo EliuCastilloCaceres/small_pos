@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import usePetition from '../hooks/usePetition.js';
 import { format } from 'date-fns';
 import { useState, useEffect } from 'react';
+import './products.css'
 function Products() {
 
     const [data, IsLoading, error] = usePetition('products');
@@ -29,7 +30,7 @@ function Products() {
         }
     }, [data])
     return (
-        <div className='container'>
+        <div>
             <h2 className='fw-bold text-center my-3'>PRODUCTOS</h2>
             {
                 IsLoading ?
@@ -41,7 +42,7 @@ function Products() {
                     : error ?
                         (<span>Error: {error}</span>)
                         : data ? (
-                            <table className="table table-hover table-striped text-center align-middle">
+                            <table className="table table-hover table-striped text-center align-middle products-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -88,7 +89,7 @@ function Products() {
                                     }
                                 </tbody>
                             </table>
-                        ) : (<span>No hay Ventas para mostrar</span>)}
+                        ) : (<span>No hay Productos para mostrar</span>)}
         </div>
     )
 

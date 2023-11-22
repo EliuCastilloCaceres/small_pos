@@ -14,14 +14,14 @@ function Header() {
 
 
     return (
-        <header className=' container-fluid'>
+        <header className=' container-fluid sticky-top'>
             <Link className='logo' to={accesToken ? '/pos' : '/login'}>SMALL POS V1.0</Link>
             <div>
                 {!isLoginPath && (
                     <div>
                         <button
                             type='button'
-                            className='fw-bold btn btn-danger btn-lg'
+                            className='fw-bold btn btn-danger'
                             onClick={handleClick}
                         >Cerrar sesión
                         </button>

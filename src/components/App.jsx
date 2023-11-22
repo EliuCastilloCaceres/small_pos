@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className="main-container border border-primary">
-        <aside className='side-menu'>
+        <div className='menu container-fluid sticky-top'>
           <NavLink to='/dashboard' className='menu-element'>
           <i className="bi bi-pie-chart"></i>
             DASHBOARD
@@ -31,8 +31,8 @@ function App() {
           <i className="bi bi-person-badge"></i>
             CLIENTES
           </NavLink>
-        </aside>
-        <main className='main-content'>
+        </div>
+        <main className='main-content container-fluid'>
             <Outlet/>
         </main>
       </div>

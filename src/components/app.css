@@ -1,31 +1,27 @@
 .main-container{
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    height: calc(100vh - 80px);
-}
-
-.side-menu{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.menu-element:first-child{
-    margin-top: 10px;
-}
-.menu-element{
-    display: flex;
     width: 100%;
+}
+
+.menu{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+.menu-element{
+    padding: 10px;
+    display: flex;
     align-items: center;
     justify-content: center;
     background-color:#0d6efd;
     gap: 5px;
-    height: 80px;
     text-decoration: none;
     border-radius: 5px;
     color: white;
     font-weight: bold;
-    font-size: 1.2rem;
     transition: background-color 300ms ease-in-out;    
 }
 

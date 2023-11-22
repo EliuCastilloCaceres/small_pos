@@ -50,7 +50,7 @@ function ProductUpdate() {
     if (error) return <span>Error: {error}</span>
     if (data) {
         return (
-            <div className="container">
+            <div>
                 <h2 className='fw-bold text-center my-3'>Detalles Producto {productId}</h2>
 
                 <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >

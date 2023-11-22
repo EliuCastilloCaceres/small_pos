@@ -6,7 +6,7 @@ function Orders() {
     const [data, IsLoading, error] = usePetition('orders');
     let i = 1;
     return (
-        <div className='container'>
+        <div>
             <h2 className='fw-bold text-center my-3'>VENTAS</h2>
             {
                 IsLoading ?
