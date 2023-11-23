@@ -14,7 +14,7 @@ function Header() {
 
 
     return (
-        <header className=' container-fluid sticky-top'>
+        <header className=''>
             <Link className='logo' to={accesToken ? '/pos' : '/login'}>SMALL POS V1.0</Link>
             <div>
                 {!isLoginPath && (

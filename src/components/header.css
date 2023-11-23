@@ -4,6 +4,7 @@ header{
     justify-content: space-between;
     align-items: center;
     background-color: #1b2028;
+    flex-wrap: wrap;
 }
 .logo{
     font-size: 1rem;

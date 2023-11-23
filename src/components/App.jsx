@@ -5,8 +5,8 @@ function App() {
   if(!localStorage.getItem("token")) return <Navigate to="/login" />
   return (
     <>
-      <div className="main-container border border-primary">
-        <div className='menu container-fluid sticky-top'>
+      <div className="main-container">
+        <div className='menu'>
           <NavLink to='/dashboard' className='menu-element'>
           <i className="bi bi-pie-chart"></i>
             DASHBOARD
@@ -32,7 +32,7 @@ function App() {
             CLIENTES
           </NavLink>
         </div>
-        <main className='main-content container-fluid'>
+        <main className='main-content'>
             <Outlet/>
         </main>
       </div>

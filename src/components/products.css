@@ -1,0 +1,25 @@
+#prouducts-container{
+    scroll-behavior: auto;
+    overflow-x: scroll;
+}
+
+.product-image{
+    width: 80px;
+    height: 80px;
+}
+@media screen and (max-width: 1400px) {
+   .column-headers:nth-child(4){
+    display: none;
+   }
+   .column-values:nth-child(4){
+    display: none;
+   }
+}
+@media screen and (max-width: 1240px) {
+    .column-headers:nth-child(12){
+     display: none;
+    }
+    .column-values:nth-child(12){
+     display: none;
+    }
+ }
