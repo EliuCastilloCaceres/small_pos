@@ -3,6 +3,7 @@ import usePetition from "../hooks/usePetition";
 import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "./ProvidersPicker";
+import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
 
 function ProductUpdate() {
     const { productId } = useParams();
@@ -11,7 +12,6 @@ function ProductUpdate() {
     const token = localStorage.getItem("token")
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target[1].checked);
         const formData = new FormData(e.target);
         const URL_BASE=import.meta.env.VITE_URL_BASE
         axios.put(`${URL_BASE}products/update/${productId}`,formData,{

@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import usePetition from '../hooks/usePetition.js';
 import { format } from 'date-fns';
 import './products.css'
+import { useState } from 'react';
 function Products() {
+    const [search, setSearch] = useState('')
     const [data, IsLoading, error] = usePetition('products');
     let i = 1;
     return (
         <>
          <h2 className='fw-bold text-center my-3'>PRODUCTOS</h2>
-         <input id='search-field' className="form-control form-control-lg my-3" type="text" placeholder="Buscar producto.." aria-label="search product" autoFocus />
+         <input onChange={(e)=>{setSearch(e.target.value)}} id='search-field' className="form-control form-control-lg my-3" type="text" placeholder="Buscar producto.." aria-label="search product" autoFocus />
+        
          <div id='prouducts-container'>       
             {
                 IsLoading ?
@@ -41,7 +44,9 @@ function Products() {
                                 </thead>
                                 <tbody>
                                     {
-                                        data.map(product => (
+                                        data.filter(item=>{  
+                                            return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search) || item.sku.toLowerCase().includes(search) || item.description.toLowerCase().includes(search) || item.color.toLowerCase().includes(search)
+                                        }).map(product => (
                                             <tr key={product.product_id}>
                                                 <td  className='column-values'>{i++}</td>
                                                 <td  className='sticky column-values'>{product.product_id}</td>
