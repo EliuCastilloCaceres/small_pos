@@ -1,5 +1,5 @@
 import usePetition from "../hooks/usePetition"
-function ProvidersPicker({ selectedProvider, handleChange, name }) {
+function ProvidersPicker({ selectedProvider, name }) {
     const [data, isloading, error] = usePetition('providers')
     return (
         <>
@@ -7,7 +7,7 @@ function ProvidersPicker({ selectedProvider, handleChange, name }) {
                 isloading ? (<span>Cargando..</span>)
                     : error ? (<span>Error: {error}</span>)
                         : data &&
-                        (<select className="form-select" defaultValue={selectedProvider} onChange={handleChange} name={name}>
+                        (<select className="form-select" defaultValue={selectedProvider}  name={name}>
                             {
                                 data.map(({name,provider_id})=>{
                                     return(

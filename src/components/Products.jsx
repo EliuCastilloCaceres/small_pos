@@ -6,8 +6,10 @@ function Products() {
     const [data, IsLoading, error] = usePetition('products');
     let i = 1;
     return (
-        <div id='prouducts-container'>
-            <h2 className='fw-bold text-center my-3'>PRODUCTOS</h2>
+        <>
+         <h2 className='fw-bold text-center my-3'>PRODUCTOS</h2>
+         <input id='search-field' className="form-control form-control-lg my-3" type="text" placeholder="Buscar producto.." aria-label="search product" autoFocus />
+         <div id='prouducts-container'>       
             {
                 IsLoading ?
                     (<div className="d-flex justify-content-center">
@@ -22,8 +24,8 @@ function Products() {
                                 <thead>
                                     <tr>
                                         <th className='column-headers' scope="col">#</th>
-                                        <th className='column-headers' scope="col">IdProducto</th>
-                                        <th className='column-headers' scope="col">Imágen</th>
+                                        <th className='sticky column-headers' scope="col">IdProducto</th>
+                                        <th className='sticky-2 column-headers' scope="col">Imágen</th>
                                         <th className='column-headers' id='isVarCell' scope="col">EsVariable</th>
                                         <th className='column-headers' scope="col">sku</th>
                                         <th className='column-headers' scope="col">Nombre</th>
@@ -42,9 +44,9 @@ function Products() {
                                         data.map(product => (
                                             <tr key={product.product_id}>
                                                 <td  className='column-values'>{i++}</td>
-                                                <td  className='column-values'>{product.product_id}</td>
-                                                <td  className='column-values'><img className='product-image' src={`${import.meta.env.VITE_URL_BASE}product/images/${product.image}`}></img></td>
-                                                <td  className='column-values'>{product.is_variable==1?(<i className=" fs-4 bi bi-check-circle-fill text-success"></i>) : (<i className=" fs-4 bi bi-x-circle-fill text-danger"></i>)}</td>
+                                                <td  className='sticky column-values'>{product.product_id}</td>
+                                                <td  className='sticky-2 column-values'><img className='product-image' src={`${import.meta.env.VITE_URL_BASE}product/images/${product.image}`}></img></td>
+                                                <td  className='column-values'>{product.is_variable==1?"si" : "no"}</td>
                                                 <td  className='column-values'>{product.sku}</td>
                                                 <td  className='column-values'>{product.name}</td>
                                                 <td  className='column-values'>{product.description}</td>
@@ -67,6 +69,8 @@ function Products() {
                             </table>
                         ) : (<span>No hay Productos para mostrar</span>)}
         </div>
+        </>
+        
     )
 
 

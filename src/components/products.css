@@ -1,11 +1,35 @@
 #prouducts-container{
-    scroll-behavior: auto;
-    overflow-x: scroll;
+    width: 100%;
+    overflow-x: auto;
+    margin: 0 auto;
+}
+#products-table{
+    border-top: 1px solid black;
 }
 
+#products-table th,
+#products-table td{
+    min-width: 100px;
+}
+#search-field{
+    border: 1px solid black;
+}
+#search-field:focus{
+    border: none;
+}
+.sticky{
+    position: sticky;
+    left: 0;
+    
+}
+.sticky-2{
+    position: sticky;
+    left: 100px;
+
+}
 .product-image{
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
 }
 @media screen and (max-width: 1400px) {
    .column-headers:nth-child(4){
