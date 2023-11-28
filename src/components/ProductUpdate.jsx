@@ -12,6 +12,12 @@ function ProductUpdate() {
     const token = localStorage.getItem("token")
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(!hasOnlyNumbers(e.target.salePrice.value)||!hasOnlyNumbers(e.target.purchasePrice.value)||!hasOnlyNumbers(e.target.generalStock.value)){
+            
+            e.target.salePrice.classList.add('border-danger')
+            e.target.salePrice.focus()
+            return
+        }
         const formData = new FormData(e.target);
         const URL_BASE=import.meta.env.VITE_URL_BASE
         axios.put(`${URL_BASE}products/update/${productId}`,formData,{
