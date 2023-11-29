@@ -1,0 +1,10 @@
+.product-update-container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.alert-container{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
