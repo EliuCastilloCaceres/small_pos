@@ -4,20 +4,34 @@ import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "./ProvidersPicker";
 import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
+import MessageCard from "./messageCard.jsx";
 
 function ProductUpdate() {
     const { productId } = useParams();
     const [data, isLoading, error] = usePetition(`products/${productId}`);
     const [updateMessage, setUpdateMessage] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
     const token = localStorage.getItem("token")
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!hasOnlyNumbers(e.target.salePrice.value)||!hasOnlyNumbers(e.target.purchasePrice.value)||!hasOnlyNumbers(e.target.generalStock.value)){
-            
+        if(!hasOnlyNumbers(e.target.purchasePrice.value)){
+
+            e.target.purchasePrice.classList.add('border-danger')
+            e.target.purchasePrice.focus()
+            return
+        }else if(!hasOnlyNumbers(e.target.salePrice.value)){
             e.target.salePrice.classList.add('border-danger')
             e.target.salePrice.focus()
             return
         }
+        else if(!hasOnlyNumbers(e.target.generalStock.value)){
+            e.target.generalStock.classList.add('border-danger')
+            e.target.generalStock.focus()
+            return
+        }
+        e.target.generalStock.classList.remove('border-danger')
+        e.target.salePrice.classList.remove('border-danger')
+        e.target.purchasePrice.classList.remove('border-danger')
         const formData = new FormData(e.target);
         const URL_BASE=import.meta.env.VITE_URL_BASE
         axios.put(`${URL_BASE}products/update/${productId}`,formData,{
@@ -28,6 +42,7 @@ function ProductUpdate() {
         .then(response =>{
             console.log(response)
             setUpdateMessage(response.data.message)
+            setShowAlert(true)
             
         })
         .catch(error=>{
@@ -103,14 +118,16 @@ function ProductUpdate() {
                         <button type="submit" className="btn btn-primary">Guardar</button>
                     </div>
                 </form>
-                <div className={`toast align-items-center text-white bg-success border-0 ${updateMessage?('show'):('')} mt-5`} role="alert" aria-live="assertive" aria-atomic="true">
-                    <div className="d-flex">
-                        <div className="toast-body">
-                            {updateMessage||<span>Error</span>}
-                        </div>
-                        <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                </div>
+                
+                    {
+                        showAlert&& (
+                            <MessageCard
+                         message={updateMessage}
+                         onClose={() => setShowAlert(false)}
+                         />
+                        )
+                    }
+                
             </div>
         )
     }

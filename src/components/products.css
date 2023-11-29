@@ -29,7 +29,7 @@
 }
 .product-image{
     width: 100px;
-    height: 100px;
+    height: auto;
 }
 @media screen and (max-width: 1400px) {
    .column-headers:nth-child(4){
