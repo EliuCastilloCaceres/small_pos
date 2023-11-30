@@ -1,16 +1,12 @@
-import { useParams, useNavigate } from "react-router-dom";
-import usePetition from "../hooks/usePetition";
+
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "./ProvidersPicker";
 import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
 import MessageCard from "./MessageCard.jsx";
-import './productUpdate.css'
 import ImageUploader from "./ImageUploader.jsx";
-
-function ProductUpdate() {
-    const { productId } = useParams();
-    const [data, isLoading, error] = usePetition(`products/${productId}`);
+function NewProduct(){
     const [updateMessage, setUpdateMessage] = useState(null)
     const [showAlert, setShowAlert] = useState(false)
     const token = localStorage.getItem("token")
@@ -37,7 +33,7 @@ function ProductUpdate() {
         e.target.purchasePrice.classList.remove('border-danger')
         const formData = new FormData(e.target);
         const URL_BASE = import.meta.env.VITE_URL_BASE
-        axios.put(`${URL_BASE}products/update/${productId}`, formData, {
+        axios.post(`${URL_BASE}products/create`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -50,6 +46,8 @@ function ProductUpdate() {
             })
             .catch(error => {
                 console.log(error)
+                setUpdateMessage(error.message)
+                setShowAlert(true)
             })
     }
     return (
@@ -57,53 +55,50 @@ function ProductUpdate() {
             <button onClick={() => { navigation(-1) }} type="button" className="btn btn-secondary">
                 <i className="bi bi-arrow-left-square"></i>
             </button>
-            {
-                isLoading ? (<span>Cargando datos...</span>) : error ? (<span>Error: {error}</span>) 
-                : data ?
-                    (
+        
                         <div className="product-update-container">
-                            <h2 className='fw-bold text-center my-3'>Detalles Producto {productId}</h2>
+                            <h2 className='fw-bold text-center my-3'>Nuevo Producto</h2>
 
                             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
-                                
-                                   <ImageUploader defaultSrc={`${import.meta.env.VITE_URL_BASE}product/images/${data[0].image}`}/>
-                                
+                                <div className="main-form-div">
+                                    <ImageUploader/>
+                                </div>
 
                                 <div className="col-md-2 d-flex gap-1">
-                                    <input className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
+                                    <input className="form-check-input" name="isVariable" type="checkbox" id="flexCheckDefault" />
                                     <label className="form-check-label" htmlFor="isVariable">Variable</label>
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="sku">sku</label>
-                                    <input type="text" name="sku" className="form-control" defaultValue={data[0].sku} />
+                                    <input type="text" name="sku" className="form-control" />
                                 </div>
                                 <div className="col-md-8">
                                     <label className="form-label" htmlFor="flexCheckDefault">Nombre</label>
-                                    <input type="text" name="name" className="form-control" defaultValue={data[0].name} />
+                                    <input type="text" name="name" className="form-control" />
                                 </div>
                                 <div className="col-md-10">
                                     <label className="form-label" htmlFor="description">Descripcion</label>
-                                    <input type="text" name="description" className="form-control" defaultValue={data[0].description} />
+                                    <input type="text" name="description" className="form-control"  />
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="color">color</label>
-                                    <input type="text" name="color" className="form-control" defaultValue={data[0].color} />
+                                    <input type="text" name="color" className="form-control" />
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="purchasePrice">PrecioCompra</label>
-                                    <input type="text" name="purchasePrice" className="form-control" defaultValue={data[0].purchase_price} />
+                                    <input type="text" name="purchasePrice" className="form-control" />
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="salePrice">PrecioVenta</label>
-                                    <input type="text" name="salePrice" className="form-control" defaultValue={data[0].sale_price} />
+                                    <input type="text" name="salePrice" className="form-control" />
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="generalStock">StockGeneral</label>
-                                    <input type="text" name="generalStock" className="form-control" defaultValue={data[0].general_stock} />
+                                    <input type="text" name="generalStock" className="form-control" />
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="uom">UoM</label>
-                                    <select name="uom" className="form-select" defaultValue={data[0].uom}>
+                                    <select name="uom" className="form-select">
 
                                         <option value="pza">pza</option>
                                         <option value="kg" >kg</option>
@@ -115,7 +110,7 @@ function ProductUpdate() {
                                 </div>
                                 <div className="col-md-4">
                                     <label className="form-label" htmlFor="providerId">Proveedor</label>
-                                    <ProvidersPicker name="providerId" selectedProvider={data[0].provider_id} />
+                                    <ProvidersPicker name="providerId"/>
                                 </div>
                               
 
@@ -137,13 +132,9 @@ function ProductUpdate() {
                                 )
                             }
 
-                        </div>
-                    ) : (<span>No hay productos para mostrar =C</span>)
-            }
+                        </div>     
+            
         </div>
     )
-
-
 }
-
-export default ProductUpdate
+export default NewProduct

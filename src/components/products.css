@@ -3,6 +3,16 @@
     overflow-x: auto;
     margin: 0 auto;
 }
+.module-header .add-btn-wrapper{
+    display: flex;
+    justify-content: end;
+}
+.module-header .add-btn{
+    display: flex;
+    gap: 3px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 #products-table{
     border-top: 1px solid black;
 }

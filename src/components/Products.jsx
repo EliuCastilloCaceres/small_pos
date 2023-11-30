@@ -9,7 +9,15 @@ function Products() {
     let i = 1;
     return (
         <>
-         <h2 className='fw-bold text-center my-3'>PRODUCTOS</h2>
+         <div className='module-header'>
+         <h2 className='fw-bold text-center'>PRODUCTOS</h2>
+         <div className='add-btn-wrapper'>
+         <Link to={'new'} type='button' className='btn btn-success add-btn'>
+            <i className="bi bi-plus-circle-fill"></i>
+            Agregar Producto</Link>
+         </div>
+         
+         </div>
          <input onChange={(e)=>{setSearch(e.target.value)}} id='search-field' className="form-control form-control-lg my-3" type="text" placeholder="Buscar producto.." aria-label="search product" autoFocus />
         
          <div id='prouducts-container'>       
