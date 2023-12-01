@@ -58,7 +58,7 @@ function Products() {
                                             <tr key={product.product_id}>
                                                 <td  className='column-values'>{i++}</td>
                                                 <td  className='sticky column-values'>{product.product_id}</td>
-                                                <td  className='sticky-2 column-values'><img className='product-image' src={`${import.meta.env.VITE_URL_BASE}product/images/${product.image}`}></img></td>
+                                                <td  className='sticky-2 column-values'><img className='product-image' src={`${import.meta.env.VITE_URL_BASE}product/images/${product.image?product.image:'sin_imagen.jpg'}`}></img></td>
                                                 <td  className='column-values'>{product.is_variable==1?"si" : "no"}</td>
                                                 <td  className='column-values'>{product.sku}</td>
                                                 <td  className='column-values'>{product.name}</td>

@@ -31,11 +31,26 @@ function NewProduct(){
         e.target.generalStock.classList.remove('border-danger')
         e.target.salePrice.classList.remove('border-danger')
         e.target.purchasePrice.classList.remove('border-danger')
-        const formData = new FormData(e.target);
+        const data = {
+                isVariable :e.target.isVariable.checked,
+                sku :e.target.sku.value,
+                name :e.target.name.value,
+                description :e.target.description.value,
+                color :e.target.color.value,
+                purchasePrice :e.target.purchasePrice.value,
+                salePrice :e.target.salePrice.value,
+                generalStock :e.target.generalStock.value,
+                uom :e.target.uom.value,
+                
+                providerId :e.target.providerId.value,
+               
+
+        }
+        console.log(data)
         const URL_BASE = import.meta.env.VITE_URL_BASE
-        axios.post(`${URL_BASE}products/create`, formData, {
+        axios.post(`${URL_BASE}products/create`, new FormData(e.target), {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
@@ -46,8 +61,6 @@ function NewProduct(){
             })
             .catch(error => {
                 console.log(error)
-                setUpdateMessage(error.message)
-                setShowAlert(true)
             })
     }
     return (

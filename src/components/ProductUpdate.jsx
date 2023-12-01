@@ -66,7 +66,7 @@ function ProductUpdate() {
 
                             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
                                 
-                                   <ImageUploader defaultSrc={`${import.meta.env.VITE_URL_BASE}product/images/${data[0].image}`}/>
+                                   <ImageUploader defaultSrc={`${import.meta.env.VITE_URL_BASE}product/images/${data[0].image?data[0].image:'sin_imagen.jpg'}`}/>
                                 
 
                                 <div className="col-md-2 d-flex gap-1">
