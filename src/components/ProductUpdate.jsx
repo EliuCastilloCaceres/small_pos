@@ -54,7 +54,7 @@ function ProductUpdate() {
     }
     return (
         <div>
-            <button onClick={() => { navigation(-1) }} type="button" className="btn btn-secondary">
+            <button onClick={() => { navigation(-1) }} type="button" className="btn btn-lg btn-secondary  mt-3">
                 <i className="bi bi-arrow-left-square"></i>
             </button>
             {
@@ -69,9 +69,10 @@ function ProductUpdate() {
                                    <ImageUploader defaultSrc={`${import.meta.env.VITE_URL_BASE}product/images/${data[0].image?data[0].image:'sin_imagen.jpg'}`}/>
                                 
 
-                                <div className="col-md-2 d-flex gap-1">
+                                <div className="col-md-2 d-flex align-items-center flex-column gap-1">
+                                <label className="form-check-label" htmlFor="isVariable">Variable</label>
                                     <input className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
-                                    <label className="form-check-label" htmlFor="isVariable">Variable</label>
+                                    
                                 </div>
                                 <div className="col-md-2">
                                     <label className="form-label" htmlFor="sku">sku</label>
