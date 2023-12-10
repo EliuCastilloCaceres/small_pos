@@ -19,7 +19,7 @@ function ImageUploader({defaultSrc}) {
     };
     return (
         <>
-            <div className="d-flex align-items-center justify-content-between">
+            <div className="d-flex align-items-center">
                 <div>
                    {image &&<img style={{ width: '200px', height: 'auto', border: 'solid 1px black' }} className="product-image rounded" src={image} alt="Vista Previa" />} 
                 </div>

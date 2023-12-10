@@ -7,7 +7,8 @@ function ProvidersPicker({ selectedProvider, name }) {
                 isloading ? (<span>Cargando..</span>)
                     : error ? (<span>Error: {error}</span>)
                         : data &&
-                        (<select className="form-select" defaultValue={selectedProvider}  name={name}>
+                        (<select className="form-select" defaultValue={selectedProvider?selectedProvider:''}  name={name}>
+                            <option disabled value="">Seleccionar</option>
                             {
                                 data.map(({name,provider_id})=>{
                                     return(

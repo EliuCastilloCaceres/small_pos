@@ -36,6 +36,7 @@ function ProductUpdate() {
         e.target.salePrice.classList.remove('border-danger')
         e.target.purchasePrice.classList.remove('border-danger')
         const formData = new FormData(e.target);
+        console.log(e.target.image.files[0])
         const URL_BASE = import.meta.env.VITE_URL_BASE
         axios.put(`${URL_BASE}products/update/${productId}`, formData, {
             headers: {
