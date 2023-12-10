@@ -12,6 +12,7 @@ function ProductUpdate() {
     const { productId } = useParams();
     const [data, isLoading, error] = usePetition(`products/${productId}`);
     const [updateMessage, setUpdateMessage] = useState(null)
+    const [alertType, setalertType] = useState('')
     const [showAlert, setShowAlert] = useState(false)
     const token = localStorage.getItem("token")
     const navigation = useNavigate()
@@ -47,10 +48,12 @@ function ProductUpdate() {
                 console.log(response)
                 setUpdateMessage(response.data.message)
                 setShowAlert(true)
+                setalertType('success')
 
             })
             .catch(error => {
                 console.log(error)
+                setalertType('danger')
             })
     }
     return (
@@ -71,7 +74,7 @@ function ProductUpdate() {
                                 
 
                                 <div className="col-md-2 d-flex align-items-center flex-column gap-1">
-                                <label className="form-check-label" htmlFor="isVariable">Variable</label>
+                                <label className="form-check-label" htmlFor="isVariable">Tallas</label>
                                     <input className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
                                     
                                 </div>
@@ -133,6 +136,7 @@ function ProductUpdate() {
                                         <MessageCard
                                             message={updateMessage}
                                             onClose={() => setShowAlert(false)}
+                                            type={alertType}
                                         />
                                     </div>
 

@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import usePetition from "../hooks/usePetition";
 import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "./ProvidersPicker";
 import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
 import MessageCard from "./MessageCard.jsx";
-import './productUpdate.css'
+import './newProduct.css'
 import ImageUploader from "./ImageUploader.jsx";
 function NewProduct() {
     const [updateMessage, setUpdateMessage] = useState(null)
     const [showAlert, setShowAlert] = useState(false)
     const [alertType, setalertType] = useState('')
+    const [loading, setLoading] = useState(false)
     const token = localStorage.getItem("token")
     const navigation = useNavigate()
     const handleSubmit = (e) => {
@@ -35,23 +35,28 @@ function NewProduct() {
         e.target.purchasePrice.classList.remove('border-danger')
         const formData = new FormData(e.target);
         const URL_BASE = import.meta.env.VITE_URL_BASE
+        setLoading(true)
         axios.post(`${URL_BASE}products/create`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => {
+                setLoading(false)
                 console.log(response)
                 setUpdateMessage(response.data.message)
                 setShowAlert(true)
                 setalertType('success')
+               
 
             })
             .catch(error => {
+                setLoading(false)
                 console.log(error.message)
                 setUpdateMessage(error.message)
                 setShowAlert(true)
                 setalertType('danger')
+                
             })
     }
     return (
@@ -59,7 +64,10 @@ function NewProduct() {
             <button onClick={() => { navigation(-1) }} type="button" className="btn btn-lg btn-secondary  mt-3">
                 <i className="bi bi-arrow-left-square"></i>
             </button>
-            <div className="product-update-container">
+            <div className={`new-product-container ${loading && 'loading'} `}>
+                <div className={`spinner-border spinner ${!loading && 'hide'}`}  role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
                 <h2 className='fw-bold text-center my-3'>Nuevo Producto</h2>
 
                 <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
@@ -68,7 +76,7 @@ function NewProduct() {
 
 
                     <div className="col-md-2 d-flex align-items-center flex-column gap-1">
-                        <label className="form-check-label" htmlFor="isVariable">Variable</label>
+                        <label className="form-check-label" htmlFor="isVariable">Tallas</label>
                         <input className="form-check-input" name="isVariable" type="checkbox" />
 
                     </div>
@@ -114,11 +122,10 @@ function NewProduct() {
                     </div>
                     <div className="col-md-4">
                         <label className="form-label" htmlFor="providerId">Proveedor</label>
-                        <ProvidersPicker name="providerId"/>
+                        <ProvidersPicker name="providerId" />
                     </div>
 
-
-                    <div className="col-12 my-3">
+                    <div className="col-12 my-5">
                         <button type="submit" className="btn btn-primary">Guardar</button>
                     </div>
 

@@ -3,3 +3,16 @@
     border: 1px solid red;
     margin: 0 auto;
 }
+.spinner{
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    width: 200px;
+    height: 200px;
+}
+.loading{
+    opacity: 0.5;
+}
+.hide{
+    display: none;
+}
