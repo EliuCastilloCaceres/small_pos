@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 
-function BackButton() {
+function BackButton({saved}) {
     const navigation = useNavigate();
     const handleClick=()=>{
-        if(confirm('¿Desea Salir? Los cambios se perderán')){
+
+        if(!saved){
+
+            if(confirm('¿Desea Salir? Los cambios se perderán')){
+                navigation(-1)
+            }
+        }else{
             navigation(-1)
         }
+       
     }
 
     return (

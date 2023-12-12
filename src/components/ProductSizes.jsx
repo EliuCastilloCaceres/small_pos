@@ -10,6 +10,10 @@ function ProductSizes() {
         document.getElementById('sizeInput').focus();
        
     }
+    const handleAddSizeSubmit = (e)=>{
+        e.preventDefault();
+        console.log(e.target)
+    }
     const renderSizes = () => {
         if (isLoading) {
             return <span>Cargando datos...</span>;
@@ -34,11 +38,11 @@ function ProductSizes() {
                     <input type="text" name="size" className="form-control" defaultValue={size} />
                 </div>
                 <div className="col-md-4">
-                    {index == 0 && (<label className="form-label fw-bold">Código Variante</label>)}
-                    <input type="text" name="code" className="form-control" defaultValue={sku} />
+                    {index == 0 && (<label className="form-label fw-bold">Sku</label>)}
+                    <input type="text" name="sku" className="form-control" defaultValue={sku} />
                 </div>
                 <div className="col-md-3">
-                    {index == 0 && (<label className="form-label fw-bold">stock</label>)}
+                    {index == 0 && (<label className="form-label fw-bold">Stock</label>)}
                     <input type="text" name="stock" className="form-control" defaultValue={stock} />
                 </div>
                 <div className="col-md-2 d-flex align-self-end">
@@ -55,14 +59,14 @@ function ProductSizes() {
             <BackButton />
             <div className="product-sizes-container text-center">
                 <h2 className='my-3'>Editar Tallas del producto {productId}</h2>
-                <form className='row g-3'>
+                <form onSubmit={handleAddSizeSubmit} className='row g-3'>
                     <div className="col-md-3">
                         <label className="form-label fw-bold">Talla</label>
                         <input id='sizeInput' type="text" name="size" className="form-control" required />
                     </div>
                     <div className="col-md-4">
-                        <label className="form-label fw-bold">Código de Variante</label>
-                        <input type="text" name="code" className="form-control" required />
+                        <label className="form-label fw-bold">Sku</label>
+                        <input type="text" name="sku" className="form-control" required />
                     </div>
                     <div className="col-md-3">
                         <label className="form-label fw-bold">Stock</label>

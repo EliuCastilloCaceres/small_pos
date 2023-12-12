@@ -16,6 +16,7 @@ function ProductUpdate() {
     const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
+    const [saved, setSaved]=useState(false)
     const token = localStorage.getItem("token")
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,6 +53,7 @@ function ProductUpdate() {
                 setUpdateMessage('Cambios guardados correctamente')
                 setShowAlert(true)
                 setalertType('success')
+                setSaved(true)
 
             })
             .catch(error => {
@@ -60,11 +62,12 @@ function ProductUpdate() {
                 setUpdateMessage('Algo salio mal: ' + error.message)
                 setShowAlert(true)
                 setalertType('danger')
+                setSaved(false)
             })
     }
     return (
         <div>
-            <BackButton/>
+            <BackButton saved={saved}/>
             {
                 isLoading ? (<span>Cargando datos...</span>) : error ? (<span>Error: {error}</span>)
                     : data ?
