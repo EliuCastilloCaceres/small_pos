@@ -44,19 +44,24 @@ function NewProduct() {
             .then(response => {
                 setLoading(false)
                 console.log(response)
-                setUpdateMessage(response.data.message)
+                setUpdateMessage('Producto creado exitosamente')
                 setShowAlert(true)
                 setalertType('success')
-               
+                setLoading(true)
+                setTimeout(() => {
+                    setLoading(false)
+                    navigation(-1)
+                }, 1500)
+
 
             })
             .catch(error => {
                 setLoading(false)
                 console.log(error.message)
-                setUpdateMessage(error.message)
+                setUpdateMessage('Algo salió mal: ' + error.message)
                 setShowAlert(true)
                 setalertType('danger')
-                
+
             })
     }
     return (
@@ -65,7 +70,7 @@ function NewProduct() {
                 <i className="bi bi-arrow-left-square"></i>
             </button>
             <div className={`new-product-container ${loading && 'loading'} `}>
-                <div className={`spinner-border spinner ${!loading && 'hide'}`}  role="status">
+                <div className={`spinner-border spinner ${!loading && 'hide'}`} role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
                 <h2 className='fw-bold text-center my-3'>Nuevo Producto</h2>
@@ -124,9 +129,8 @@ function NewProduct() {
                         <label className="form-label" htmlFor="providerId">Proveedor</label>
                         <ProvidersPicker name="providerId" />
                     </div>
-
                     <div className="col-12 my-5">
-                        <button type="submit" className="btn btn-primary">Guardar</button>
+                        <button type="submit" className={`btn btn-primary ${loading && 'disabled'}`}>Guardar</button>
                     </div>
 
                 </form>
