@@ -9,7 +9,7 @@ import OrderUpdate from './components/OrderUpdate.jsx'
 import Products from './components/Products.jsx'
 import ProductUpdate from './components/ProductUpdate.jsx'
 import NewProduct from './components/NewProduct.jsx'
-import ProductSizes from './components/ProductSizez.jsx'
+import ProductSizes from './components/ProductSizes.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

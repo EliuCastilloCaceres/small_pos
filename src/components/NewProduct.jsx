@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "./ProvidersPicker";
@@ -6,13 +6,13 @@ import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
 import MessageCard from "./MessageCard.jsx";
 import './newProduct.css'
 import ImageUploader from "./ImageUploader.jsx";
+import BackButton from "./BackButton.jsx";
 function NewProduct() {
     const [updateMessage, setUpdateMessage] = useState(null)
     const [showAlert, setShowAlert] = useState(false)
     const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
     const token = localStorage.getItem("token")
-    const navigation = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!hasOnlyNumbers(e.target.purchasePrice.value)) {
@@ -66,9 +66,7 @@ function NewProduct() {
     }
     return (
         <div>
-            <button onClick={() => { navigation(-1) }} type="button" className="btn btn-lg btn-secondary  mt-3">
-                <i className="bi bi-arrow-left-square"></i>
-            </button>
+            <BackButton/>
             <div className={`new-product-container ${loading && 'loading'} `}>
                 <div className={`spinner-border spinner ${!loading && 'hide'}`} role="status">
                     <span className="visually-hidden">Loading...</span>

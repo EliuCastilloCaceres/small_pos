@@ -28,7 +28,7 @@ const usePetition = (endpoint)=>{
             .catch((e) => {
                 console.log(e);
                 setisLoading(false)
-                setError(e.response.data.errorMessage?e.response.data.errorMessage:e.message)
+                setError(e.message) 
             })
     }, [])
 

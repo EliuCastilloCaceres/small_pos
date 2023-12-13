@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import usePetition from "../hooks/usePetition";
 import axios from "axios";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { hasOnlyNumbers } from '../helpers/formFieldValidators.js';
 import MessageCard from "./MessageCard.jsx";
 import './productUpdate.css'
 import ImageUploader from "./ImageUploader.jsx";
+import BackButton from "./BackButton.jsx";
 
 function ProductUpdate() {
     const { productId } = useParams();
@@ -16,7 +17,6 @@ function ProductUpdate() {
     const [loading, setLoading] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const token = localStorage.getItem("token")
-    const navigation = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!hasOnlyNumbers(e.target.purchasePrice.value)) {
@@ -64,9 +64,7 @@ function ProductUpdate() {
     }
     return (
         <div>
-            <button onClick={() => { navigation(-1) }} type="button" className="btn btn-lg btn-secondary  mt-3">
-                <i className="bi bi-arrow-left-square"></i>
-            </button>
+            <BackButton/>
             {
                 isLoading ? (<span>Cargando datos...</span>) : error ? (<span>Error: {error}</span>)
                     : data ?
