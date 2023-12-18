@@ -3,16 +3,47 @@ import { useParams } from 'react-router-dom'
 import './productSizes.css'
 import usePetition from '../hooks/usePetition';
 import BackButton from './BackButton';
+import { useState } from 'react';
+import axios from 'axios';
 function ProductSizes() {
+    const token = localStorage.getItem("token")
     const { productId } = useParams();
-    const [data, isLoading, error] = usePetition(`products/${productId}/sizes`);
-    const btnClick =() => {
-        document.getElementById('sizeInput').focus();
-       
+    const [data, isLoading, error, setReload] = usePetition(`products/${productId}/sizes`);
+    const [size, setSize] = useState('')
+    const [sku, setSku] = useState('')
+    const [stock, setStock] = useState(0)
+    const btnClick = () => {
+        
     }
-    const handleAddSizeSubmit = (e)=>{
+    const handleAddSizeSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target)
+        console.log(size)
+        console.log(sku)
+        console.log(stock)
+        const URL_BASE = import.meta.env.VITE_URL_BASE
+        const sizeData = {
+            size,
+            sku,
+            stock,
+            productId
+        }
+        axios.post(`${URL_BASE}products/${productId}/sizes/create`, sizeData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(response => {
+                console.log(response)
+                alert('Talla creada exitosamente')
+                setReload(true)
+            })
+            .catch(error => {
+     
+                console.log(error)
+                alert('Algo salió mal: ' + error.response.data.message)
+            })
+        
+        
     }
     const renderSizes = () => {
         if (isLoading) {
@@ -21,14 +52,17 @@ function ProductSizes() {
 
         if (error) {
             return <span>Error: {error}</span>;
-            
+
         }
 
         if (!data || data.length === 0) {
             return <span>
                 No hay tallas para este producto aun
-                <button onClick={btnClick} type="button" className="btn btn-link">Agregar Talla</button>
-                </span>;
+                <button onClick={() => {
+                    document.getElementById('sizeInput').focus();
+
+                }} type="button" className="btn btn-link">Agregar Talla</button>
+            </span>;
         }
 
         return data.map(({ size_id, size, sku, stock }, index) => (
@@ -62,15 +96,18 @@ function ProductSizes() {
                 <form onSubmit={handleAddSizeSubmit} className='row g-3'>
                     <div className="col-md-3">
                         <label className="form-label fw-bold">Talla</label>
-                        <input id='sizeInput' type="text" name="size" className="form-control" required />
+                        <input onChange={(e)=>{
+                            setSize(e.target.value)
+                            setSku('P'+productId+'T'+e.target.value)
+                        }} id='sizeInput' type="text" name="size" className="form-control" value={size} required />
                     </div>
                     <div className="col-md-4">
                         <label className="form-label fw-bold">Sku</label>
-                        <input type="text" name="sku" className="form-control" required />
+                        <input onChange={(e)=>{setSku(e.target.value)}} type="text" name="sku" className="form-control" required value={sku}/>
                     </div>
                     <div className="col-md-3">
                         <label className="form-label fw-bold">Stock</label>
-                        <input type="number" name="stock" className="form-control" />
+                        <input onChange={(e)=>{setStock(e.target.value)}} type="number" name="stock" className="form-control" value={stock} />
                     </div>
                     <div className="col-md-2 d-flex align-self-end">
                         <button type="submit" className={`btn btn-success w-100`}> Agregar </button>

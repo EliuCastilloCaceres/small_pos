@@ -8,6 +8,7 @@ const usePetition = (endpoint)=>{
 
     const [data, setData] = useState()
     const [isLoading, setisLoading] = useState(false)
+    const [reload, setReload] = useState(false)
     const [error, setError] = useState()
     const token = localStorage.getItem('token');
     useEffect(() => {
@@ -30,9 +31,11 @@ const usePetition = (endpoint)=>{
                 setisLoading(false)
                 setError(e.message) 
             })
-    }, [])
+            setReload(false)
+            console.log('i reload')
+    }, [reload])
 
-    return [data, isLoading, error]
+    return [data, isLoading, error, setReload]
 }
 
 export default usePetition
