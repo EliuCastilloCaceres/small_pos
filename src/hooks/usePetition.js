@@ -12,7 +12,7 @@ const usePetition = (endpoint)=>{
     const [error, setError] = useState()
     const token = localStorage.getItem('token');
     useEffect(() => {
-
+        setReload(false)
         setisLoading(true)
 
         axios.get(`${API_URL}${endpoint}`,{
@@ -31,7 +31,7 @@ const usePetition = (endpoint)=>{
                 setisLoading(false)
                 setError(e.message) 
             })
-            setReload(false)
+            
             console.log('i reload')
     }, [reload])
 
