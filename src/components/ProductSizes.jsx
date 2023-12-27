@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom'
 import './productSizes.css'
 import usePetition from '../hooks/usePetition';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 function ProductSizes({ generalStock, onSendSizesStock }) {
     const token = localStorage.getItem("token")
@@ -11,8 +11,32 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
     const [size, setSize] = useState('')
     const [sku, setSku] = useState('')
     const [stock, setStock] = useState(0)
+    const [stocks2, setStocks2] = useState(0)
     const sizeInput = document.getElementById('sizeInput')
     let stocks = 0
+    const updateSizes = (e)=>{
+        e.preventDefault()
+        let qty = 0
+        let sizesQty = e.target.sku.length
+        for(let i = 0; i<sizesQty; i++){
+            qty = qty+parseFloat(e.target.stock[i].value)
+        }
+        console.log(qty)
+        if(qty!=generalStock){
+            alert('la cantidad ingresada y el stock general no coinciden')
+            e.target.stock[0].focus()
+            
+        }else{
+            for(let i = 0; i<sizesQty; i++){
+                let sizesData = {
+                    size: e.target.size[i].value,
+                    sku: e.target.sku[i].value,
+                    stock: e.target.stock[i].value
+                }
+            }
+        }
+        
+    }
     const handleAddSizeSubmit = (e) => {
         e.preventDefault();
         const URL_BASE = import.meta.env.VITE_URL_BASE
@@ -25,7 +49,8 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
         let finalStock = stocks + parseFloat(stock)
         console.log(finalStock)
         if (finalStock != generalStock) {
-            alert('El stock final es mayor que el stock General')
+            alert('El stock final no coincide con el stock General')
+            e.target.stock.focus()
         } else {
             axios.post(`${URL_BASE}products/${productId}/sizes/create`, sizeData, {
                 headers: {
@@ -49,6 +74,11 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
         }
 
     }
+    useEffect(()=>{
+        if(data){
+            setStocks2(stocks)
+        }
+    },[])
     const renderSizes = () => {
         if (isLoading) {
             return <span>Cargando datos...</span>;
@@ -75,27 +105,36 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
             onSendSizesStock(stocks)
         }
 
-        return data.map(({ size_id, size, sku, stock }, index) => (
-            <div key={size_id} className='row g-2'>
-                <div className="col-md-3">
-                    {index == 0 && (<label className="form-label fw-bold">Talla</label>)}
-                    <input type="text" name="size" className="form-control" defaultValue={size} />
+        return (
+            <>
+            {
+                data.map(({size_id, size, sku, stock}, index) => (
+                    <div key={size_id} className='row g-2'>
+                        <div className="col-md-3">
+                            {index == 0 && (<label className="form-label fw-bold">Talla</label>)}
+                            <input type="text" name="size" className="form-control" defaultValue={size} />
+                        </div>
+                        <div className="col-md-4">
+                            {index == 0 && (<label className="form-label fw-bold">Sku</label>)}
+                            <input type="text" name="sku" className="form-control" defaultValue={sku} />
+                        </div>
+                        <div className="col-md-3">
+                            {index == 0 && (<label className="form-label fw-bold">Stock</label>)}
+                            <input type="number" name="stock" className="form-control" defaultValue={stock} />
+                        </div>
+                        <div className="col-md-2 d-flex align-self-end">
+                            <button type="button" className={`btn btn-danger`}>
+                                <i className="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    ))
+            }
+                <div className="col">
+                <button type='submit' className='btn btn-dark'>Guardar</button>
                 </div>
-                <div className="col-md-4">
-                    {index == 0 && (<label className="form-label fw-bold">Sku</label>)}
-                    <input type="text" name="sku" className="form-control" defaultValue={sku} />
-                </div>
-                <div className="col-md-3">
-                    {index == 0 && (<label className="form-label fw-bold">Stock</label>)}
-                    <input type="number" name="stock" className="form-control" defaultValue={stock} />
-                </div>
-                <div className="col-md-2 d-flex align-self-end">
-                    <button type="button" className={`btn btn-danger`}>
-                        <i className="bi bi-trash"></i>
-                    </button>
-                </div>
-            </div>
-        ))
+            </>
+        )
     }
 
     return (
@@ -122,10 +161,10 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
                         <button type="submit" className={`btn btn-success w-100`}> Agregar </button>
                     </div>
                 </form>
-                <div className='row g-3 my-5 border border-secondary pb-3'>
+                <form onSubmit={updateSizes} className='row g-3 my-5 border border-secondary pb-3'>
                     {renderSizes()}
-                    <label >Cantidad: {stocks}</label>
-                </div>
+                    <label className='fw-bold' >Cantidad: {stocks2}</label>
+                </form>
             </div>
         </>
     )

@@ -125,7 +125,7 @@ function ProductUpdate() {
 
                 <div className="col-md-2 d-flex align-items-center flex-column gap-1">
                     <label className="form-check-label" htmlFor="isVariable">Tallas</label>
-                    <input onChange={(e) => { setHasTallas(e.target.value) }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
+                    <input onChange={(e) => { setHasTallas(e.target.checked) }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
 
                 </div>
                 <div className="col-md-2">
