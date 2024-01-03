@@ -8,11 +8,9 @@ const usePetition = (endpoint)=>{
 
     const [data, setData] = useState()
     const [isLoading, setisLoading] = useState(false)
-    const [reload, setReload] = useState(false)
     const [error, setError] = useState()
     const token = localStorage.getItem('token');
     useEffect(() => {
-        setReload(false)
         setisLoading(true)
 
         axios.get(`${API_URL}${endpoint}`,{
@@ -32,10 +30,9 @@ const usePetition = (endpoint)=>{
                 setError(e.message) 
             })
             
-            console.log('i reload')
-    }, [reload])
+    }, [])
 
-    return [data, isLoading, error, setReload]
+    return [data, isLoading, error, setData]
 }
 
 export default usePetition

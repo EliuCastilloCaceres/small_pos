@@ -57,6 +57,8 @@ function ProductUpdate() {
         e.target.salePrice.classList.remove('border-danger')
         e.target.purchasePrice.classList.remove('border-danger')
         if (e.target.isVariable.checked) {
+            console.log(generalStock)
+                console.log(sizesStock)
             if (generalStock != sizesStock) {
                 alert('El Stock General y la suma del stock de las tallas no coinciden')
                 return
@@ -122,12 +124,6 @@ function ProductUpdate() {
 
                 <ImageUploader defaultSrc={`${import.meta.env.VITE_URL_BASE}product/images/${data[0].image ? data[0].image : 'sin_imagen.jpg'}`} />
 
-
-                <div className="col-md-2 d-flex align-items-center flex-column gap-1">
-                    <label className="form-check-label" htmlFor="isVariable">Tallas</label>
-                    <input onChange={(e) => { setHasTallas(e.target.checked) }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
-
-                </div>
                 <div className="col-md-2">
                     <label className="form-label" htmlFor="sku">sku</label>
                     <input type="text" name="sku" className="form-control" defaultValue={data[0].sku} />
@@ -154,7 +150,7 @@ function ProductUpdate() {
                 </div>
                 <div className="col-md-2">
                     <label className="form-label" htmlFor="generalStock">StockGeneral</label>
-                    <input type="text" name="generalStock" className="form-control" defaultValue={data[0].general_stock} />
+                    <input onChange={(e)=>{setGeneralStock(e.target.value)}} type="text" name="generalStock" className="form-control" defaultValue={data[0].general_stock} />
                 </div>
                 <div className="col-md-2">
                     <label className="form-label" htmlFor="uom">UoM</label>
@@ -168,17 +164,16 @@ function ProductUpdate() {
 
                     </select>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <label className="form-label" htmlFor="providerId">Proveedor</label>
                     <ProvidersPicker name="providerId" selectedProvider={data[0].provider_id} />
                 </div>
-                <div className="col-12">
-                    <button type="submit" className={`btn btn-primary ${loading && 'disabled'}`}>Guardar</button>
+                <div className="col-md-1 d-flex align-items-center flex-column gap-1">
+                    <label className="form-check-label" htmlFor="isVariable">Tallas</label>
+                    <input onChange={(e) => { setHasTallas(e.target.checked) }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
+
                 </div>
-
-
-            </form>
-            {
+                {
                 hasTallas && (
                     <ProductSisez
                         generalStock={generalStock}
@@ -186,6 +181,12 @@ function ProductUpdate() {
                     />
                 )
             }
+            <div className="col-12">
+                    <button type="submit" className={`btn btn-primary ${loading && 'disabled'}`}>Guardar</button>
+            </div>
+
+            </form>
+            
 
 
             {
