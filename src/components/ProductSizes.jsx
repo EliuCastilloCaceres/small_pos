@@ -13,27 +13,38 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
     const [stock, setStock] = useState(0)
     const [stocks, setStocks] = useState(0)
     const sizeInput = document.getElementById('sizeInput')
-    const updateSizes = (e)=>{
-        e.preventDefault()
-        let qty = 0
-        let sizesQty = e.target.sku.length
-        for(let i = 0; i<sizesQty; i++){
-            qty = qty+parseFloat(e.target.stock[i].value)
-        }
-        console.log(qty)
-        if(qty!=generalStock){
-            alert('la cantidad ingresada y el stock general no coinciden')
-            e.target.stock[0].focus()
+    const sumStocks = ()=>{
+
+        const stocksInputs = document.getElementsByName('updateStock')
+        console.log(stocksInputs.length)
+        let stocksQty = 0
+        for(let i = 0; i<stocksInputs.length; i++){
+                if(stocksInputs[i].value)
+                stocksQty = stocksQty+parseFloat(stocksInputs[i].value)
+             }
+             setStocks(stocksQty)
+             onSendSizesStock(stocksQty)
+
+        // e.preventDefault()
+        // let qty = 0
+        // let sizesQty = e.target.sku.length
+        // for(let i = 0; i<sizesQty; i++){
+        //     qty = qty+parseFloat(e.target.stock[i].value)
+        // }
+        // console.log(qty)
+        // if(qty!=generalStock){
+        //     alert('la cantidad ingresada y el stock general no coinciden')
+        //     e.target.stock[0].focus()
             
-        }else{
-            for(let i = 0; i<sizesQty; i++){
-                let sizesData = {
-                    size: e.target.size[i].value,
-                    sku: e.target.sku[i].value,
-                    stock: e.target.stock[i].value
-                }
-            }
-        }
+        // }else{
+        //     for(let i = 0; i<sizesQty; i++){
+        //         let sizesData = {
+        //             size: e.target.size[i].value,
+        //             sku: e.target.sku[i].value,
+        //             stock: e.target.stock[i].value
+        //         }
+        //     }
+        // }
         
     }
     const handleAddSizeSubmit = () => {
@@ -43,6 +54,12 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
             sku,
             stock,
             productId
+        }
+        let nextSizeStock = parseFloat(generalStock)+parseFloat(stock)
+
+        if(nextSizeStock>parseFloat(generalStock)){
+            sizeData.stock=0
+            alert('el stock de esta talla sera de 0, ya que excede al stock general')
         }
             axios.post(`${URL_BASE}products/${productId}/sizes/create`, sizeData, {
                 headers: {
@@ -110,7 +127,7 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
                         </div>
                         <div className="col-md-3">
                             {index == 0 && (<label className="form-label fw-bold">Stock</label>)}
-                            <input type="number" name="updateStock" className="form-control" defaultValue={stock} />
+                            <input onChange={(e)=>{sumStocks()}} type="number" name="updateStock" className="form-control" defaultValue={stock} />
                         </div>
                         <div className="col-md-2 d-flex align-self-end">
                             <button type="button" className={`btn btn-danger`}>
@@ -148,7 +165,7 @@ function ProductSizes({ generalStock, onSendSizesStock }) {
                         <button onClick={handleAddSizeSubmit} type="button" className={`btn btn-success w-100`}> Agregar </button>
                     </div>
                 </div>
-                <div onSubmit={updateSizes} className='row g-3 my-5 border border-secondary pb-3'>
+                <div className='row g-3 my-5 border border-secondary pb-3'>
                     {renderSizes()}
                     <label className='fw-bold' >Cantidad: {stocks}</label>
                 </div>

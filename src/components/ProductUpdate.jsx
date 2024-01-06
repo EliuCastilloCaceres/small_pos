@@ -38,6 +38,8 @@ function ProductUpdate() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(e.target.updateSku[5].value)
+        return
         if (!hasOnlyNumbers(e.target.purchasePrice.value)) {
 
             e.target.purchasePrice.classList.add('border-danger')
