@@ -26,6 +26,19 @@
     font-weight: bold;
     transition: background-color 300ms ease-in-out;    
 }
+.pos-btn{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:#fd7e14;
+    gap: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: background-color 300ms ease-in-out; 
+}
 
 .menu-element:hover{
     background-color: #0b5ed7;
@@ -33,6 +46,10 @@
 .menu-element.active{
     background-color: #0142a3;
 }
+.pos-btn:hover{
+    background-color: #bc5b0c;
+}
+
 .main-content{
     /*border: 1px solid black;*/
 }

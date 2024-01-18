@@ -15,7 +15,7 @@ function Header() {
 
     return (
         <header className=''>
-            <Link className='logo' to={accesToken ? '/pos' : '/login'}>SMALL POS V1.0</Link>
+            <Link className='logo' to={accesToken ? '/dashboard' : '/login'}>SMALL POS V1.0</Link>
             <div>
                 {!isLoginPath && (
                     <div>

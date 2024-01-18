@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
-import usePetition from "../hooks/usePetition";
-import CustomersPicker from "./CustomersPicker";
-import UsersPicker from "./UsersPicker";
+import usePetition from "../../hooks/usePetition";
+import CustomersPicker from "../Customers/CustomersPicker";
+import UsersPicker from "../Users/UsersPicker";
 
 function OrderUpdate() {
     const { orderId } = useParams();

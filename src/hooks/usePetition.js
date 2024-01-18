@@ -12,23 +12,26 @@ const usePetition = (endpoint)=>{
     const token = localStorage.getItem('token');
     useEffect(() => {
         setisLoading(true)
+        const fetchData = async ()=>{
+            try{
 
-        axios.get(`${API_URL}${endpoint}`,{
-            headers:{
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then((data) => {
-                // console.log(data.data.data)
+                const data = await axios.get(`${API_URL}${endpoint}`,{
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
                 setData(data.data.data)
-                setisLoading(false)
-            })
-
-            .catch((e) => {
+                 setisLoading(false)
+                
+            }catch(e){
                 console.log(e);
                 setisLoading(false)
-                setError(e.message) 
-            })
+                setError(e.message)
+            }
+
+        }
+        fetchData()
+       
             
     }, [])
 

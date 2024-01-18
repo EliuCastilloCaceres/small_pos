@@ -7,8 +7,12 @@ function App() {
     <>
       <div className="main-container">
         <div className='menu'>
+        <NavLink to='/pos' className='pos-btn'>
+          <i className="bi bi-pc-display-horizontal"></i>
+            POS
+          </NavLink>
           <NavLink to='/dashboard' className='menu-element'>
-          <i className="bi bi-pie-chart"></i>
+          <i className="bi bi-graph-up-arrow"></i>
             DASHBOARD
           </NavLink>
           <NavLink to='/orders' className={({isActive})=> isActive?"active menu-element":"menu-element"}>

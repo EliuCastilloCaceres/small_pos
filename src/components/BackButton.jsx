@@ -1,9 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 
-function BackButton({saved}) {
+function BackButton({saved, sizesSaved}) {
     const navigation = useNavigate();
     const handleClick=()=>{
-
+       if(sizesSaved != undefined){
+        if(!sizesSaved){
+            if(!confirm('¿Desea Salir? Las tallas no se han guardado')){
+               return
+            }
+        }
+       }
         if(!saved){
 
             if(confirm('¿Desea Salir? Los cambios se perderán')){

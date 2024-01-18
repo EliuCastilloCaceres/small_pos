@@ -1,4 +1,4 @@
-import usePetition from "../hooks/usePetition"
+import usePetition from "../../hooks/usePetition"
 
 function UsersPicker({selectedUser}) {
     const [data, isloading, error] = usePetition('users')
