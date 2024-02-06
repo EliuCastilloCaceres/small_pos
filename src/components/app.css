@@ -6,11 +6,14 @@
 
 .menu{
     width: 100%;
+    min-height: 70px;
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid black;
+    justify-content: space-between;
 }
 
 .menu-element{
@@ -49,7 +52,9 @@
 .pos-btn:hover{
     background-color: #bc5b0c;
 }
-
-.main-content{
-    /*border: 1px solid black;*/
+.app-modules{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
+

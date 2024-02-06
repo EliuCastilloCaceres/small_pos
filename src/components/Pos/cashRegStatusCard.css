@@ -1,0 +1,48 @@
+
+.cash-reg-card{
+    border: 1px solid black;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size:1.5rem ;
+    font-weight: bold;
+    transition: all 300ms ease-in-out;
+    position: relative;
+    padding: 5px;
+    gap: 5px;
+}
+.disabled {
+    /* opacity: 0.5; Cambia la opacidad para indicar que está deshabilitado */
+    cursor: not-allowed;
+    /* pointer-events: none; /*Evita que se interactúe con el contenido */
+  }
+.cash-reg-card:hover{
+    box-shadow: 6px 5px 13px -1px rgba(189,189,189,1);
+    border: 1px solid #eee;
+}
+
+.cash-reg-card i {
+    font-size: 5rem;
+}
+.status-badge{
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+.badge-title{
+    font-size: 1rem;
+}
+.user-badge{
+    background-color: #B4FED2;
+    color: black;
+    font-size: 1rem;
+}
+.last-open-badge{
+    
+    font-size: 1rem;
+}

@@ -9,26 +9,26 @@ import './productUpdate.css'
 import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";
 import ProductSisez from "./ProductSizes.jsx"
+import toast, { Toaster } from "react-hot-toast";
 
 function ProductUpdate() {
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { productId } = useParams();
     const [data, isLoading, error] = usePetition(`products/${productId}`);
-    const [updateMessage, setUpdateMessage] = useState(null)
-    const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
-    const [showAlert, setShowAlert] = useState(false)
     const [saved, setSaved] = useState(true)
-    const [generalStock, setGeneralStock] = useState(null)
+    const [generalStock, setGeneralStock] = useState('')
     const [sizesStock, setSizesStock] = useState(null)
     const [hasTallas, setHasTallas] = useState(null)
     const [sizesSaved, setSizesSaved] = useState(true)
     const [imgSrc, setImgSrc] = useState(`${URL_BASE}product/images/sin_imagen.jpg`)
+    const [selectedProvider, setSelectedProvider] = useState()
     useEffect(() => {
         if (data) {
-            if(data[0].image){
+            if (data[0].image) {
                 setImgSrc(`${URL_BASE}product/images/${data[0].image}`)
+                setSelectedProvider(data[0].provider_id)
             }
             setGeneralStock(data[0].general_stock);
             if (data[0].is_variable == 1) {
@@ -38,22 +38,20 @@ function ProductUpdate() {
             }
         }
     }, [data])
-    const changeImgSrc = (newSrc)=>{
+    const selectProvider = (provider) => {
+        setSelectedProvider(provider)
+    }
+    const changeImgSrc = (newSrc) => {
         setImgSrc(newSrc)
     }
-    const isSizesSaved =(saved)=>{
+    const isSizesSaved = (saved) => {
         setSizesSaved(saved)
     }
-    const isSaved =(saved)=>{
+    const isSaved = (saved) => {
         setSaved(saved)
     }
-    const configAlert = (message,type,visible)=>{
-        setUpdateMessage(message)
-        setalertType(type)
-        setShowAlert(visible)
-    }
     const handleSizesStock = (dataSizes) => {
-       //console.log('Suma de las tallas del hijo: ', dataSizes)
+        //console.log('Suma de las tallas del hijo: ', dataSizes)
         setSizesStock(dataSizes)
     }
     const handleSubmit = (e) => {
@@ -86,32 +84,28 @@ function ProductUpdate() {
                 return
             }
         }
-            const formData = new FormData(e.target);
-            //console.log(e.target.image.files[0])
-            axios.put(`${URL_BASE}products/update/${productId}`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => {
-                    setLoading(false)
-                    console.log(response)
-                    setUpdateMessage('Cambios guardados correctamente')
-                    setShowAlert(true)
-                    setalertType('success')
-                    setSaved(true)
-                    setGeneralStock(e.target.generalStock.value)
+        const formData = new FormData(e.target);
+        //console.log(e.target.image.files[0])
+        axios.put(`${URL_BASE}products/update/${productId}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                setLoading(false)
+                console.log(response)
+                toast.success('Cambios Guardados')
+                setSaved(true)
+                setGeneralStock(e.target.generalStock.value)
 
-                })
-                .catch(error => {
-                    setLoading(false)
-                    console.log(error)
-                    setUpdateMessage('Algo salio mal2: ' + error.message)
-                    setShowAlert(true)
-                    setalertType('danger')
-                    setSaved(false)
-                    return
-                })
+            })
+            .catch(error => {
+                setLoading(false)
+                console.log(error)
+                toast.error(`Algo salió mal: ${error.message}`)
+                setSaved(false)
+                return
+            })
 
     }
 
@@ -135,10 +129,10 @@ function ProductUpdate() {
     }
 
     return <div>
-        <BackButton 
-        saved={saved}
-        sizesSaved={sizesSaved}
-         />
+        <BackButton
+            saved={saved}
+            sizesSaved={sizesSaved}
+        />
         <div className={`product-update-container ${loading && 'loading'}`}>
             <h2 className='fw-bold text-center my-3'>Detalles Producto {productId}</h2>
             <div className={`spinner-border spinner ${!loading && 'hide'}`} role="status">
@@ -147,42 +141,49 @@ function ProductUpdate() {
             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
 
                 <ImageUploader changeImgSrc={changeImgSrc} isSaved={isSaved} imgSrc={imgSrc} />
-
                 <div className="col-md-6">
-                    <label className="form-label" htmlFor="sku">sku</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="sku" className="form-control" defaultValue={data[0].sku} />
-                </div>
-                <div className="col-md-6">
-                    <label className="form-label" htmlFor="flexCheckDefault">Nombre</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="name" className="form-control" defaultValue={data[0].name} />
-                </div>
-                <div className="col-md-8">
-                    <label className="form-label" htmlFor="description">Descripcion</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="description" className="form-control" defaultValue={data[0].description} />
-                </div>
-                <div className="col-md-4">
-                    <label className="form-label" htmlFor="color">color</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="color" className="form-control" defaultValue={data[0].color} />
+                    <label className="form-label" htmlFor="generalStock">StockGeneral</label>
+                    <input onChange={(e) => {
+                        setGeneralStock(e.target.value)
+                        setSaved(false)
+                    }} type="number" name="generalStock" className="form-control" value={generalStock} />
                 </div>
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="purchasePrice">PrecioCompra</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="purchasePrice" className="form-control" defaultValue={data[0].purchase_price} />
+                    <input onChange={() => { setSaved(false) }} type="number" name="purchasePrice" className="form-control" defaultValue={data[0].purchase_price} />
                 </div>
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="salePrice">PrecioVenta</label>
-                    <input onChange={()=>{setSaved(false)}} type="text" name="salePrice" className="form-control" defaultValue={data[0].sale_price} />
+                    <input onChange={() => { setSaved(false) }} type="number" name="salePrice" className="form-control" defaultValue={data[0].sale_price} />
+                </div>
+
+                <div className="col-md-6">
+                    <label className="form-label" htmlFor="sku">sku</label>
+                    <div className="d-flex gap-1">
+                        <input onChange={() => { setSaved(false) }} type="text" name="sku" className="form-control" defaultValue={data[0].sku} />
+                        <Link to={`../products/barcode/${data[0].sku}/${generalStock}`} type="button" className={`btn btn-info`} >
+                            <i className="bi bi-upc"></i>
+                        </Link>
+                    </div>
+
                 </div>
                 <div className="col-md-6">
-                    <label className="form-label" htmlFor="generalStock">StockGeneral</label>
-                    <input onChange={(e) => 
-                    { 
-                        setGeneralStock(e.target.value)
-                        setSaved(false) 
-                    }} type="text" name="generalStock" className="form-control" defaultValue={data[0].general_stock} />
+                    <label className="form-label" htmlFor="flexCheckDefault">Nombre</label>
+                    <input onChange={() => { setSaved(false) }} type="text" name="name" className="form-control" defaultValue={data[0].name} />
                 </div>
                 <div className="col-md-6">
+                    <label className="form-label" htmlFor="description">Descripcion</label>
+                    <input onChange={() => { setSaved(false) }} type="text" name="description" className="form-control" defaultValue={data[0].description} />
+                </div>
+                <div className="col-md-4">
+                    <label className="form-label" htmlFor="color">color</label>
+                    <input onChange={() => { setSaved(false) }} type="text" name="color" className="form-control" defaultValue={data[0].color} />
+                </div>
+               
+               
+                <div className="col-md-3">
                     <label className="form-label" htmlFor="uom">UoM</label>
-                    <select onChange={()=>{setSaved(false)}}  name="uom" className="form-select" defaultValue={data[0].uom}>
+                    <select onChange={() => { setSaved(false) }} name="uom" className="form-select" defaultValue={data[0].uom}>
 
                         <option value="pza">pza</option>
                         <option value="kg" >kg</option>
@@ -192,27 +193,27 @@ function ProductUpdate() {
 
                     </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                     <label className="form-label" htmlFor="providerId">Proveedor</label>
-                    <ProvidersPicker isSaved={isSaved} name="providerId" selectedProvider={data[0].provider_id} />
+                    <ProvidersPicker isSaved={isSaved} name="providerId" selectProvider={selectProvider} selectedProvider={selectedProvider} />
                 </div>
                 <div className="col-md-1 d-flex align-items-center flex-column gap-1">
                     <label className="form-check-label" htmlFor="isVariable">Tallas</label>
-                    <input 
-                    onChange={
-                        (e) => { 
-                            setHasTallas(e.target.checked)
-                            setSaved(false)
-                             }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
+                    <input
+                        onChange={
+                            (e) => {
+                                setHasTallas(e.target.checked)
+                                setSaved(false)
+                            }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
 
                 </div>
                 {
                     hasTallas && (
                         <ProductSisez
                             generalStock={generalStock}
+                            isSaved={isSaved}
                             onSendSizesStock={handleSizesStock}
-                            configAlert={configAlert}
-                            isSizesSaved = {isSizesSaved}
+                            isSizesSaved={isSizesSaved}
                         />
                     )
                 }
@@ -222,22 +223,11 @@ function ProductUpdate() {
 
             </form>
 
-
-
-            {
-                showAlert && (
-                    <div className="m-3 alert-container">
-                        <MessageCard
-                            message={updateMessage}
-                            onClose={() => setShowAlert(false)}
-                            type={alertType}
-                        />
-                    </div>
-
-                )
-            }
-
         </div>
+
+        <Toaster
+            position="bottom-right"
+        />
     </div>
 
 

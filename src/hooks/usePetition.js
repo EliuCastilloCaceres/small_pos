@@ -20,6 +20,7 @@ const usePetition = (endpoint)=>{
                         'Authorization': `Bearer ${token}`
                     }
                 })
+                //console.log(data)
                 setData(data.data.data)
                  setisLoading(false)
                 

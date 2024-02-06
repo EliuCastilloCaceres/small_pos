@@ -1,0 +1,25 @@
+.pos-layout{
+    height: calc(100vh - 70px);
+    width: 100%;
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+}
+.products-section{
+    box-sizing: border-box;
+    grid-column: 1 / 2;
+    background-color: #eee;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    padding: 10px;
+}
+.cart-section{
+    box-sizing: border-box;
+    grid-column: 2 / 3;
+    background-color: #ccc;
+}
+.products-searcher-wrapper{
+    background-color: red;
+    border-radius: 5px;
+}

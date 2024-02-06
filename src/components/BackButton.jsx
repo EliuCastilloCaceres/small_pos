@@ -22,7 +22,7 @@ function BackButton({saved, sizesSaved}) {
     }
 
     return (
-        <button onClick={handleClick} type="button" className="btn btn-lg btn-secondary  mt-3">
+        <button onClick={handleClick} type="button" className="btn btn-lg btn-secondary hide-to-print  mt-3">
             <i className="bi bi-arrow-left-square"></i>
         </button>
     )

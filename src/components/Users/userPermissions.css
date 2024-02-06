@@ -1,4 +1,38 @@
-.hello{
+.permissions-container{
     width: 100%;
-    text-align: center;
+    
+}
+.module-permission-label{
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.permissions-wrapper{
+    width: 80%;
+    border: 1px solid red;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+}
+.permissions-form {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+.permission-check{
+    font-size: 1.5rem;
+}
+.spinner{
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    width: 200px;
+    height: 200px;
+}
+
+.loading{
+    opacity: 0.5;
+}
+.hide{
+    display: none;
 }

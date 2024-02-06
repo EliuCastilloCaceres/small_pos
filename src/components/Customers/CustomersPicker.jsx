@@ -1,6 +1,6 @@
 import usePetition from "../../hooks/usePetition"
 
-function CustomersPicker({selectedCustomer}) {
+function CustomersPicker({selectedCustomer,selectCustomer,name}) {
     const [data, isloading, error] = usePetition('customers')
     return (
         <>
@@ -8,7 +8,9 @@ function CustomersPicker({selectedCustomer}) {
                 isloading ? (<span>Cargando..</span>)
                     : error ? (<span>Error: {error}</span>)
                         : data &&
-                        (<select className="form-select" defaultValue={selectedCustomer}>
+                        (<select name={name} className="form-select" value={selectedCustomer} onChange={(e)=>{
+                            selectCustomer(e.target.value)
+                        }} >
                             {
                                 data.map(({first_name,last_name,customer_id})=>{
                                     return(

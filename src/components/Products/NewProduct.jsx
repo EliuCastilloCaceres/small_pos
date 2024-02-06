@@ -3,16 +3,13 @@ import axios from "axios";
 import { useState } from "react";
 import ProvidersPicker from "../Providers/ProvidersPicker.jsx";
 import { hasOnlyNumbers } from '../../helpers/formFieldValidators.js';
-import MessageCard from "../MessageCard.jsx";
 import './newProduct.css'
 import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";
+import toast, { Toaster } from "react-hot-toast";
 function NewProduct() {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
-    const [updateMessage, setUpdateMessage] = useState(null)
-    const [showAlert, setShowAlert] = useState(false)
-    const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)
     const [imgSrc, setImgSrc] = useState(`${URL_BASE}product/images/sin_imagen.jpg`)
@@ -85,9 +82,7 @@ function NewProduct() {
                 setLoading(false)
                 setSaved(true)
                 console.log(response)
-                setUpdateMessage('Producto creado exitosamente')
-                setShowAlert(true)
-                setalertType('success')
+                toast.success('Producto Creado')
                 setFields({
                     sku: '',
                     name: '',
@@ -106,9 +101,7 @@ function NewProduct() {
             .catch(error => {
                 setLoading(false)
                 console.log(error)
-                setUpdateMessage('Algo salió mal: '+ error.response.data.message??error.message)
-                setShowAlert(true)
-                setalertType('danger')
+                toast.error(`Algo salió mal: ${error.response.data.message??error.message}`)
 
             })
     }
@@ -181,22 +174,10 @@ function NewProduct() {
 
                 </form>
 
-                {
-                    showAlert && (
-                        <div className="m-3 alert-container">
-                            <MessageCard
-                                message={updateMessage}
-                                onClose={() => setShowAlert(false)}
-                                type={alertType}
-                            />
-                        </div>
-
-                    )
-                }
-
             </div>
-
-
+                    <Toaster
+                        position="bottom-right"
+                    />
         </div>
     )
 }

@@ -3,16 +3,13 @@ import { useState } from "react"
 import { Navigate, useNavigate } from "react-router-dom"
 import "./login.css"
 const Login = () => {
-
     const navigation = useNavigate()
-
     const [user, setUser] = useState({
         username: "",
         password: ""
     })
     const [cargando, setCargando] = useState(false)
     const [error, setError] = useState()
-
     const submit = (e) => {
         e.preventDefault()
         setCargando(true)
@@ -29,7 +26,7 @@ const Login = () => {
                 setCargando(false)
                 console.log('Ha ocurrido el sig error: ' + e)
                 console.log(e)
-                setError(e.response.data.errorMessage)
+                setError( e.response?e.response.data.errorMessage:e.message)
             })
     }
 

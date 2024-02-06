@@ -8,32 +8,56 @@ import '../Products/productUpdate.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
+import toast, { Toaster } from "react-hot-toast";
 
 function ProviderUpdate() {
-    const { providerId } = useParams();
-    const [data, isLoading, error] = usePetition(`providers/${providerId}`);
-    const [updateMessage, setUpdateMessage] = useState(null)
-    const [alertType, setalertType] = useState('')
-    const [selectedState, setSelectedState] = useState(null)
-    const [selectedCity, setSelectedCity] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [showAlert, setShowAlert] = useState(false)
-    const [saved, setSaved] = useState(true)
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
-
+    const { providerId } = useParams();
+    const [data, isLoading, error] = usePetition(`providers/${providerId}`);
+    const [loading, setLoading] = useState(false)
+    const [saved, setSaved] = useState(true)
+    const [fields, setFields] = useState({
+        name:'',
+        rfc:'',
+        adress:'',
+        zipCode:'',
+        phoneNumber:'',
+        state:'',
+        city:''
+    })
+ 
     useEffect(()=>{
-        if(data){
-            setSelectedState(data[0].state)
-            setSelectedCity(data[0].city)
+        if(data && data.length>0){
+            setFields({
+                name:data[0].name,
+                rfc:data[0].rfc,
+                adress:data[0].adress,
+                zipCode:data[0].zip_code,
+                phoneNumber:data[0].phone_number,
+                state:data[0].state,
+                city:data[0].city
+            })
         }
     },[data])
-
+    const handleChange = (e,fieldName)=>{
+        setFields({
+            ...fields,
+            [fieldName]:e.target.value
+        })
+        setSaved(false)
+    }
     const selectState = (state)=>{
-        setSelectedState(state)
+        setFields({
+            ...fields,
+            state:state
+        })
     }
     const selectCity = (city)=>{
-        setSelectedCity(city)
+        setFields({
+            ...fields,
+            city:city
+        })
     }
 
     const unSaved =()=>{
@@ -43,8 +67,7 @@ function ProviderUpdate() {
         e.preventDefault();
         
         setLoading(true)
-            const formData = new FormData(e.target);
-            axios.put(`${URL_BASE}providers/update/${providerId}`, formData, {
+            axios.put(`${URL_BASE}providers/update/${providerId}`, fields, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -52,20 +75,15 @@ function ProviderUpdate() {
                 .then(response => {
                     setLoading(false)
                     console.log(response)
-                    setUpdateMessage('Cambios guardados correctamente')
-                    setShowAlert(true)
-                    setalertType('success')
+                    toast.success('Proveedor actualizado')
                     setSaved(true)
 
                 })
                 .catch(error => {
                     setLoading(false)
                     console.log(error)
-                    setUpdateMessage('Algo salio mal: ' + error.message)
-                    setShowAlert(true)
-                    setalertType('danger')
+                    toast.error(`Algo salió mal: ${error.message}`)
                     setSaved(false)
-                    return
                 })
 
     }
@@ -101,23 +119,23 @@ function ProviderUpdate() {
             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="name">Nombre</label>
-                        <input onChange={unSaved} required type="text" name="name" className="form-control" defaultValue={data[0].name} />
+                        <input onChange={(e)=>{handleChange(e,'name')}} required type="text" name="name" className="form-control" defaultValue={data[0].name} />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="rfc">RFC</label>
-                        <input onChange={unSaved} type="text" name="rfc" className="form-control" defaultValue={data[0].rfc} />
+                        <input onChange={(e)=>{handleChange(e,'rfc')}} type="text" name="rfc" className="form-control" defaultValue={data[0].rfc} />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="adress">Dirección</label>
-                        <input onChange={unSaved} type="text" name="adress" className="form-control" defaultValue={data[0].adress} />
+                        <input onChange={(e)=>{handleChange(e,'adress')}} type="text" name="adress" className="form-control" defaultValue={data[0].adress} />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="zipCode">Código Postal</label>
-                        <input onChange={unSaved} type="text" name="zipCode" className="form-control" defaultValue={data[0].zip_code} />
+                        <input onChange={(e)=>{handleChange(e,'zipCode')}} type="text" name="zipCode" className="form-control" defaultValue={data[0].zip_code} />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="phoneNumber">Teléfono</label>
-                        <input onChange={unSaved} type="text" name="phoneNumber" className="form-control" defaultValue={data[0].phone_number} />
+                        <input  onChange={(e)=>{handleChange(e,'phoneNumber')}} type="text" name="phoneNumber" className="form-control" defaultValue={data[0].phone_number} />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="state">Estado</label>
@@ -125,7 +143,7 @@ function ProviderUpdate() {
                             unSaved = {unSaved}
                             selectState={selectState}
                             name={"state"}
-                            selectedState = {selectedState??''}
+                            selectedState = {fields.state??''}
                         />
                     </div>
                     <div className="col-md-6">
@@ -133,32 +151,19 @@ function ProviderUpdate() {
                         <CitiesPicker 
                         unSaved = {unSaved} 
                         name={"city"} 
-                        state={selectedState} 
+                        state={fields.state} 
                         selectCity={selectCity}
-                        selectedCity={selectedCity??''}/>
+                        selectedCity={fields.city??''}/>
                     </div>
                     <div className="col-12 text-center my-5">
                         <button type="submit" className={`btn btn-primary ${loading || saved && 'disabled'}`}>Guardar</button>
                     </div>
 
                 </form>
-
-
-
-            {
-                showAlert && (
-                    <div className="m-3 alert-container">
-                        <MessageCard
-                            message={updateMessage}
-                            onClose={() => setShowAlert(false)}
-                            type={alertType}
-                        />
-                    </div>
-
-                )
-            }
-
         </div>
+        <Toaster
+            position="bottom-right"
+        />
     </div>
 
 

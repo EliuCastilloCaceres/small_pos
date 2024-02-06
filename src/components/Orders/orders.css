@@ -1,0 +1,93 @@
+.filters-container{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid blue;
+    border-radius: 5px;
+    min-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.filters-form{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.date-picker-container, .select-order-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="date"], select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    box-sizing: border-box;
+}
+.submit-btn-container{
+    min-height: 63px;
+    display: flex;
+    align-items: flex-end;
+}
+.search-filter-container{
+    /* width: 400px; */
+}
+.search-filter-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.search-filter-wrapper .search{
+    width: 300px;
+    padding: 10px;
+    font-weight: 500;
+}
+.search-filter-wrapper i {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+.orders-container{
+    height: 400px;
+    overflow-y: scroll;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.orders-container thead{
+    position: sticky;
+    top: 0;
+}
+.no-sales-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.no-sales-card i{
+    font-size: 10rem;
+    color: #ccc;
+}
+.information-wrapper{
+    /* border: 1px solid red; */
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.information-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid green;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+}

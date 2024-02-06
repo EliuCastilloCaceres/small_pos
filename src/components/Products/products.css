@@ -2,6 +2,7 @@
     width: 100%;
     overflow-x: auto;
     margin: 0 auto;
+   height: 450px;
 }
 .module-header .add-btn-wrapper{
     display: flex;
@@ -13,10 +14,12 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
-#products-table{
-    border-top: 1px solid black;
-}
 
+#products-table thead{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
 #products-table th,
 #products-table td{
     min-width: 100px;
@@ -30,6 +33,7 @@
 .sticky{
     position: sticky;
     left: 0;
+    
     
 }
 .sticky-2{

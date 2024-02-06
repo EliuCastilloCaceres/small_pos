@@ -1,25 +1,23 @@
 
 import axios from "axios";
 import { useState } from "react";
-import MessageCard from "../MessageCard.jsx";
 import '../Products/newProduct.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
+import toast, { Toaster } from "react-hot-toast";
 function NewProvider() {
-    const [updateMessage, setUpdateMessage] = useState(null)
-    const [showAlert, setShowAlert] = useState(false)
-    const [alertType, setalertType] = useState('')
+    const URL_BASE = import.meta.env.VITE_URL_BASE
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)
-    const [selectedState, setSelectedState] = useState('')
-    const [selectedCity, setSelectedCity] = useState('')
     const [fields, setFields] = useState({
         name:'',
         rfc:'',
         adress:'',
         zipCode:'',
         phoneNumber:'',
+        state:'',
+        city:''
     })
     const token = localStorage.getItem("token")
     const handleChange = (e,fieldName)=>{
@@ -33,18 +31,21 @@ function NewProvider() {
         setSaved(false)
     }
     const selectState = (state)=>{
-        setSelectedState(state)
+        setFields({
+            ...fields,
+            state:state
+        })
     }
     const selectCity = (city)=>{
-        setSelectedCity(city)
+        setFields({
+            ...fields,
+            city:city
+        })
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        const URL_BASE = import.meta.env.VITE_URL_BASE
-        //console.log('FormData:', formData)
         setLoading(true)
-        axios.post(`${URL_BASE}providers/create`, formData, {
+        axios.post(`${URL_BASE}providers/create`, fields, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 
@@ -53,9 +54,7 @@ function NewProvider() {
             .then(response => {
                 setLoading(false)
                 console.log(response)
-                setUpdateMessage('Proveedor creado exitosamente')
-                setShowAlert(true)
-                setalertType('success')
+                toast.success('Proveedor Creado')
                 setSaved(true)
                 setFields({
                     name: '',
@@ -63,18 +62,14 @@ function NewProvider() {
                     adress: '',
                     zipCode: '',
                     phoneNumber: '',
+                    state:'',
+                    city:''
                 });
-                setSelectedState('');
-                setSelectedCity('');
-
-
+               
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error.message)
-                setUpdateMessage('Algo salió mal: ' + error.message)
-                setShowAlert(true)
-                setalertType('danger')
+                toast.error(`Algo salió mal: ${error.message}`)
 
             })
     }
@@ -114,7 +109,7 @@ function NewProvider() {
                             unSaved = {unSaved}
                             selectState={selectState}
                             name={"state"}
-                            selectedState={selectedState??''}
+                            selectedState={fields.state??''}
                         />
                     </div>
                     <div className="col-md-6">
@@ -122,8 +117,8 @@ function NewProvider() {
                         <CitiesPicker 
                         unSaved = {unSaved} 
                         name={"city"} 
-                        state={selectedState} 
-                        selectedCity={selectedCity??''}
+                        state={fields.state} 
+                        selectedCity={fields.city??''}
                         selectCity={selectCity}
                         />
                         
@@ -134,22 +129,12 @@ function NewProvider() {
 
                 </form>
 
-                {
-                    showAlert && (
-                        <div className="m-3 alert-container">
-                            <MessageCard
-                                message={updateMessage}
-                                onClose={() => setShowAlert(false)}
-                                type={alertType}
-                            />
-                        </div>
-
-                    )
-                }
 
             </div>
 
-
+            <Toaster 
+                position="bottom-right"
+            />
         </div>
     )
 }

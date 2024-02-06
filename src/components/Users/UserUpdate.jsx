@@ -1,29 +1,44 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MessageCard from "../MessageCard.jsx";
 import '../Products/newProduct.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
-import toast,{ Toaster } from "react-hot-toast";
-function NewUser() {
+import usePetition from "../../hooks/usePetition.js";
+import { useParams } from "react-router-dom";
+import toast,{Toaster} from "react-hot-toast";
+function UserUpdate() {
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
+    const {userId} = useParams()
+    const [data, isLoading, error] = usePetition(`users/${userId}`);
+    const [updateMessage, setUpdateMessage] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)
-    const [fields, setFields] = useState({
-        firstName: '',
-        lastName: '',
-        userName: '',
-        password: '',
-        profile: '',
-        position: '',
-        adress: '',
-        zipCode: '',
-        phoneNumber: '',
-        city: '',
-        state: ''
-    })
+    const [fields, setFields] = useState({})
+
+    useEffect(()=>{
+        
+        if(data && data.length>0){
+            console.log(data)
+            setFields({
+                firstName: data[0].first_name,
+                lastName: data[0].last_name,
+                userName: data[0].user_name,
+                password:'',
+                profile: data[0].profile,
+                position:data[0].position,
+                adress: data[0].adress,
+                zipCode: data[0].zip_code,
+                phoneNumber: data[0].phone_number,
+                state:data[0].state,
+                city:data[0].city
+            })
+        }
+    },[data])
 
     const handleChange = (e, fieldName) => {
         setFields({
@@ -49,10 +64,11 @@ function NewUser() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+   
+      
 
-        //console.log('FormData:', formData)
         setLoading(true)
-        axios.post(`${URL_BASE}users/create`, fields, {
+        axios.put(`${URL_BASE}users/${userId}/update`, fields, {
             headers: {
                 'Authorization': `Bearer ${token}`,
 
@@ -61,31 +77,14 @@ function NewUser() {
             .then(response => {
                 setLoading(false)
                 console.log(response)
-                toast.success('Usuario Creado')
+                toast.success('Usuario Actualizado')
                 setSaved(true)
-                setFields({
-                    firstName: '',
-                    lastName: '',
-                    userName: '',
-                    password: '',
-                    profile: '',
-                    position: '',
-                    adress: '',
-                    zipCode: '',
-                    phoneNumber: '',
-                    city: '',
-                    state: ''
-                });
-
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error)
-                if (error.response && error.response.status != 500) {
-                    toast.error(`Algo salió mal: ${error.response.data.message}`)
-                } else {
-                    toast.error(`Algo salió mal: ${error.message}`)
-                }
+                console.log(error.message)
+                toast.error(`Algo salió mal: ${error.message}`)
+
             })
     }
     return (
@@ -95,7 +94,7 @@ function NewUser() {
                 <div className={`spinner-border spinner ${!loading && 'hide'}`} role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
-                <h2 className='fw-bold text-center my-3'>Nuevo Usuario</h2>
+                <h2 className='fw-bold text-center my-3'>Detalles del Usuario {userId}</h2>
 
                 <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
                     <div className="col-md-6">
@@ -108,15 +107,15 @@ function NewUser() {
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="userName">Usuario</label>
-                        <input onChange={(e) => { handleChange(e, 'userName') }} required value={fields.userName} type="text" name="userName" className="form-control" />
+                        <input onChange={(e) => { handleChange(e, 'userName') }} value={fields.userName} type="text" name="userName" className="form-control" />
                     </div>
                     <div className="col-md-6">
-                        <label className="form-label" htmlFor="password">Contraseña</label>
-                        <input onChange={(e) => { handleChange(e, 'password') }} required value={fields.password} type="password" name="password" className="form-control" />
+                        <label className="form-label" htmlFor="password">Cambiar Contraseña</label>
+                        <input onChange={(e) => { handleChange(e, 'password') }} value={fields.password} type="password" name="password"  className="form-control" />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="profile">Perfil</label>
-                        <select onChange={(e) => { handleChange(e, 'profile') }} value={fields.profile} name="profile" className="form-control" >
+                        <select onChange={(e) => { handleChange(e, 'profile') }} value={fields.profile}  name="profile" className="form-control" >
                             <option value="">Seleccionar Perfil</option>
                             <option value="Administrador">Administrador</option>
                             <option value="Empleado">Empleado</option>
@@ -124,7 +123,7 @@ function NewUser() {
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="profile">Puesto</label>
-                        <select onChange={(e) => { handleChange(e, 'position') }} value={fields.position} name="position" className="form-control" >
+                        <select onChange={(e) => { handleChange(e, 'position') }} value={fields.position}  name="position" className="form-control" >
                             <option value="">Seleccionar Puesto</option>
                             <option value="Gerente">Gerente</option>
                             <option value="Cajero">Cajero</option>
@@ -132,11 +131,11 @@ function NewUser() {
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="password">Dirección</label>
-                        <input onChange={(e) => { handleChange(e, 'adress') }} value={fields.adress} name="adress" className="form-control" />
+                        <input onChange={(e) => { handleChange(e, 'adress') }} value={fields.adress}  name="adress" className="form-control" />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="password">Código Postal</label>
-                        <input onChange={(e) => { handleChange(e, 'zipCode') }} value={fields.zipCode} name="zipCode" className="form-control" />
+                        <input onChange={(e) => { handleChange(e, 'zipCode') }} value={fields.zipCode}  name="zipCode" className="form-control" />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="phoneNumber">Teléfono</label>
@@ -168,13 +167,16 @@ function NewUser() {
 
                 </form>
 
+                
+
             </div>
 
             <Toaster
-                position="bottom-right"            
+                position="bottom-right"
             />
+
         </div>
     )
 }
 
-export default NewUser
+export default UserUpdate

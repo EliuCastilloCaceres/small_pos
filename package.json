@@ -13,10 +13,16 @@
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
+    "bwip-js": "^4.2.0",
     "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
     "react": "^18.2.0",
+    "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.17.0"
+    "react-hot-toast": "^2.4.1",
+    "react-router-dom": "^6.17.0",
+    "styled-components": "^6.1.8",
+    "sweetalert2": "^11.10.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

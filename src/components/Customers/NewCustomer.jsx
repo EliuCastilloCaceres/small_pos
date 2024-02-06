@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useState } from "react";
 import MessageCard from "../MessageCard.jsx";
@@ -6,25 +7,24 @@ import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
 import toast,{ Toaster } from "react-hot-toast";
-function NewUser() {
-    const token = localStorage.getItem("token")
+function NewCustomer() {
     const URL_BASE = import.meta.env.VITE_URL_BASE
+    const token = localStorage.getItem("token")
+    const [updateMessage, setUpdateMessage] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
+    const [alertType, setalertType] = useState('')
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)
     const [fields, setFields] = useState({
         firstName: '',
         lastName: '',
-        userName: '',
-        password: '',
-        profile: '',
-        position: '',
         adress: '',
         zipCode: '',
         phoneNumber: '',
-        city: '',
-        state: ''
+        rfc: '',
+        city:'',
+        state:''
     })
-
     const handleChange = (e, fieldName) => {
         setFields({
             ...fields,
@@ -49,43 +49,34 @@ function NewUser() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        //console.log('FormData:', formData)
         setLoading(true)
-        axios.post(`${URL_BASE}users/create`, fields, {
+        axios.post(`${URL_BASE}customers/create`, fields, {
             headers: {
                 'Authorization': `Bearer ${token}`,
 
             }
         })
             .then(response => {
+                toast.success('Cliente creado')
                 setLoading(false)
                 console.log(response)
-                toast.success('Usuario Creado')
                 setSaved(true)
                 setFields({
                     firstName: '',
                     lastName: '',
-                    userName: '',
-                    password: '',
-                    profile: '',
-                    position: '',
                     adress: '',
                     zipCode: '',
                     phoneNumber: '',
+                    rfc: '',
+                    state: '',
                     city: '',
-                    state: ''
                 });
-
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error)
-                if (error.response && error.response.status != 500) {
-                    toast.error(`Algo salió mal: ${error.response.data.message}`)
-                } else {
-                    toast.error(`Algo salió mal: ${error.message}`)
-                }
+                console.log(error.message)
+                toast.error(`Algo salió mal: ${error.message}`)
+
             })
     }
     return (
@@ -95,52 +86,32 @@ function NewUser() {
                 <div className={`spinner-border spinner ${!loading && 'hide'}`} role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
-                <h2 className='fw-bold text-center my-3'>Nuevo Usuario</h2>
+                <h2 className='fw-bold text-center my-3'>Nuevo Cliente</h2>
 
                 <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
                     <div className="col-md-6">
-                        <label className="form-label" htmlFor="firstName">Nombre(s)</label>
+                        <label className="form-label" htmlFor="name">Nombre(s)</label>
                         <input onChange={(e) => { handleChange(e, 'firstName') }} required value={fields.firstName} type="text" name="firstName" className="form-control" />
                     </div>
                     <div className="col-md-6">
-                        <label className="form-label" htmlFor="lastName">Apellido(s)</label>
+                        <label className="form-label" htmlFor="rfc">Apellido(s)</label>
                         <input onChange={(e) => { handleChange(e, 'lastName') }} value={fields.lastName} type="text" name="lastName" className="form-control" />
                     </div>
                     <div className="col-md-6">
-                        <label className="form-label" htmlFor="userName">Usuario</label>
-                        <input onChange={(e) => { handleChange(e, 'userName') }} required value={fields.userName} type="text" name="userName" className="form-control" />
+                        <label className="form-label" htmlFor="adress">Dirección</label>
+                        <input onChange={(e) => { handleChange(e, 'adress') }} value={fields.adress} type="text" name="adress" className="form-control" />
                     </div>
                     <div className="col-md-6">
-                        <label className="form-label" htmlFor="password">Contraseña</label>
-                        <input onChange={(e) => { handleChange(e, 'password') }} required value={fields.password} type="password" name="password" className="form-control" />
-                    </div>
-                    <div className="col-md-6">
-                        <label className="form-label" htmlFor="profile">Perfil</label>
-                        <select onChange={(e) => { handleChange(e, 'profile') }} value={fields.profile} name="profile" className="form-control" >
-                            <option value="">Seleccionar Perfil</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Empleado">Empleado</option>
-                        </select>
-                    </div>
-                    <div className="col-md-6">
-                        <label className="form-label" htmlFor="profile">Puesto</label>
-                        <select onChange={(e) => { handleChange(e, 'position') }} value={fields.position} name="position" className="form-control" >
-                            <option value="">Seleccionar Puesto</option>
-                            <option value="Gerente">Gerente</option>
-                            <option value="Cajero">Cajero</option>
-                        </select>
-                    </div>
-                    <div className="col-md-6">
-                        <label className="form-label" htmlFor="password">Dirección</label>
-                        <input onChange={(e) => { handleChange(e, 'adress') }} value={fields.adress} name="adress" className="form-control" />
-                    </div>
-                    <div className="col-md-6">
-                        <label className="form-label" htmlFor="password">Código Postal</label>
-                        <input onChange={(e) => { handleChange(e, 'zipCode') }} value={fields.zipCode} name="zipCode" className="form-control" />
+                        <label className="form-label" htmlFor="zipCode">Código Postal</label>
+                        <input onChange={(e) => { handleChange(e, 'zipCode') }} value={fields.zipCode} type="text" name="zipCode" className="form-control" />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="phoneNumber">Teléfono</label>
                         <input onChange={(e) => { handleChange(e, 'phoneNumber') }} value={fields.phoneNumber} type="text" name="phoneNumber" className="form-control" />
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label" htmlFor="phoneNumber">RFC</label>
+                        <input onChange={(e) => { handleChange(e, 'rfc') }} value={fields.rfc} type="text" name="rfc" className="form-control" />
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="state">Estado</label>
@@ -168,13 +139,15 @@ function NewUser() {
 
                 </form>
 
+                
+
             </div>
 
-            <Toaster
-                position="bottom-right"            
-            />
+                <Toaster
+                    position="bottom-right"
+                />
         </div>
     )
 }
 
-export default NewUser
+export default NewCustomer
