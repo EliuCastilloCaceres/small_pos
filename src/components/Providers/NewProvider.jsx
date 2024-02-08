@@ -1,12 +1,18 @@
 
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import '../Products/newProduct.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../Context/UserContext.jsx";
+import { Navigate } from "react-router-dom";
 function NewProvider() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.providers !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)

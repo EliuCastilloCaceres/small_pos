@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Grid from "../../../Grid"
 import GridCard from "../../../GridCard"
 import CashRegStatusCard from "../../Pos/CashRegStatusCard"
@@ -8,8 +8,14 @@ import usePetition from "../../../hooks/usePetition"
 import BackButton from "../../BackButton"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
+import UserContext from "../../../Context/UserContext"
+import { Navigate } from "react-router-dom"
 
 function CashRegisterList() {
+    const {user} = useContext(UserContext)
+    if(user.permissions.settings !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const [showModal, setShowModal] = useState(false)
     const [modatTitle, setmodatTitle] = useState('')
     const [cashRegData, setCashRegData] = useState()
@@ -72,14 +78,15 @@ function CashRegisterList() {
             <h2 className="tex-center">Cajas Registradoras</h2>
             <Grid>
                 <GridCard
-                    title={"Agregar"}
-                    iconClass={"bi bi-plus-circle-fill"}
                     onClick={() => {
                         handleGridCardClick('', '')
                         setmodatTitle('Agregar Caja Registradora')
                     }}
 
-                />
+                >
+                    <i className="bi bi-plus-circle-fill fs-1"></i>
+                    <span>Agregar</span>
+                </GridCard>
                 {
                     data && data.length > 0 && (
                         data.map(({ name, cash_register_id, is_open }) => (

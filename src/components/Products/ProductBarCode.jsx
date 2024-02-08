@@ -1,9 +1,14 @@
 import BwipJs from "bwip-js"
 import './productBarCode.css'
-import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useContext, useEffect } from "react"
+import { Navigate, useParams } from "react-router-dom"
 import BackButton from "../BackButton"
+import UserContext from "../../Context/UserContext"
 function ProductBarCode() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.products !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const { sku } = useParams()
     const { qty } = useParams()
     useEffect(() => {

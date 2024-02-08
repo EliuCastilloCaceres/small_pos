@@ -1,14 +1,19 @@
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import usePetition from "../../hooks/usePetition";
 import CustomersPicker from "../Customers/CustomersPicker";
 import UsersPicker from "../Users/UsersPicker";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import './orderUpdate.css'
 import BackButton from "../BackButton";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import UserContext from "../../Context/UserContext";
 
 function OrderUpdate() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.orders !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { orderId } = useParams();

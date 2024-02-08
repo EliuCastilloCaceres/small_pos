@@ -1,7 +1,7 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import usePetition from "../../hooks/usePetition.js";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProvidersPicker from "../Providers/ProvidersPicker.jsx";
 import { hasOnlyNumbers } from '../../helpers/formFieldValidators.js';
 import MessageCard from "../MessageCard.jsx";
@@ -10,8 +10,13 @@ import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";
 import ProductSisez from "./ProductSizes.jsx"
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../Context/UserContext.jsx";
 
 function ProductUpdate() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.products !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { productId } = useParams();

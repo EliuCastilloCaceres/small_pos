@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import usePetition from "../../hooks/usePetition.js";
 import axios from "axios";
-import {  useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import { hasOnlyNumbers } from '../../helpers/formFieldValidators.js';
 import MessageCard from "../MessageCard.jsx";
 import '../Products/productUpdate.css'
@@ -9,8 +9,13 @@ import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../Context/UserContext.jsx";
 
 function ProviderUpdate() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.providers !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { providerId } = useParams();

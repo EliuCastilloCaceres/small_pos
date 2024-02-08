@@ -1,17 +1,20 @@
 import usePetition from "../../hooks/usePetition"
 import '../Products/products.css'
 import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { format } from 'date-fns';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import UserContext from "../../Context/UserContext";
 const Customers = () => {
+    const { user } = useContext(UserContext)
+    if(user.permissions.customers !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const [search, setSearch] = useState('')
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const [data, IsLoading, error, setData] = usePetition('customers');
-    const { user } = useContext(UserContext)
     const deleteCustomer = (id) => {
         const deleteCustomer = confirm('Desea borrar este Cliente?')
         if (deleteCustomer) {

@@ -1,11 +1,16 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Navigate } from 'react-router-dom'
 import './productSizes.css'
 import usePetition from '../../hooks/usePetition';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import ProductBarCode from './productBarCode';
+import UserContext from '../../Context/UserContext';
 function ProductSizes({ generalStock, onSendSizesStock, isSizesSaved, isSaved }) {
+    const { user } = useContext(UserContext)
+    if(user.permissions.products !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const token = localStorage.getItem("token")
     const { productId } = useParams();
     const [data, isLoading, error, setData] = usePetition(`products/${productId}/sizes`);

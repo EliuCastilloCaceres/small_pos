@@ -1,0 +1,34 @@
+.variants-wrapper{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.variants-wrapper .variant-container{
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 10px;
+    transition: 300ms all ease-in-out;
+}
+.disabled{
+    opacity: 0.5;
+    pointer-events: none;
+}
+.variants-wrapper .variant-container:hover{
+    box-shadow: 6px 5px 13px -1px rgba(189,189,189,1);
+}
+.variants-wrapper .variant-container .size-stock-badge{
+    font-size: 1rem;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}

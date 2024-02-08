@@ -1,15 +1,20 @@
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MessageCard from "../MessageCard.jsx";
 import '../Products/newProduct.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";
 import CitiesPicker from "../CitiesPicker.jsx";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import usePetition from "../../hooks/usePetition.js";
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../Context/UserContext.jsx";
 function CustomerUpdate() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.customers !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { customerId } = useParams()
     const token = localStorage.getItem("token")

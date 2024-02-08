@@ -1,13 +1,19 @@
 
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ProvidersPicker from "../Providers/ProvidersPicker.jsx";
 import { hasOnlyNumbers } from '../../helpers/formFieldValidators.js';
 import './newProduct.css'
 import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../Context/UserContext.jsx";
+import { Navigate } from "react-router-dom";
 function NewProduct() {
+    const { user } = useContext(UserContext)
+    if(user.permissions.products !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
     const [loading, setLoading] = useState(false)

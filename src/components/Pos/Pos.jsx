@@ -1,19 +1,21 @@
 import { useContext, useEffect, useState } from "react"
 import UserContext from "../../Context/UserContext"
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
+import { Link, Navigate, useLocation } from "react-router-dom"
 import usePetition from "../../hooks/usePetition"
 import './pos.css'
 import PosLayout from "./PosLayout"
 
 function Pos() {
     //const { cashRegSession } = useContext(CashRegContext)
+    const {user} = useContext(UserContext)
+    if(user.permissions.pos !==1){
+        return <Navigate to={'/dashboard'} />
+    }
     const { search } = useLocation()
     const params = new URLSearchParams(search)
     const cashRegId = params.get('crId')
-    const { user } = useContext(UserContext)
     const [selectedCashReg, setSelectedCashReg] = useState()
     const [cashRegSelection, setCashRegSelection] = useState('')
-    const navigate = useNavigate()
     const [data, isLoading, error] = usePetition(`cash-registers/open`)
     useEffect(() => {
         console.log('selected cashReg:', selectedCashReg)
@@ -38,12 +40,8 @@ function Pos() {
                             console.log(result[0].user_id)
                             if (user.user_id === result[0].user_id) {//user logged is same of the cashReg open?
                                 setSelectedCashReg(result[0])
-                            } else {
-                                // navigate('/open-cash-register')
                             }
                         }
-                    } else {
-                        // navigate('/open-cash-register')
                     }
                 } else {
 
@@ -58,9 +56,7 @@ function Pos() {
                                 setSelectedCashReg(result[0])
                             }
 
-                        } else {
-                            // navigate('/open-cash-register')
-                        }
+                        } 
                     }
                 }
             } else {
@@ -115,7 +111,7 @@ function Pos() {
 
         }
         return (
-            <PosLayout/>
+            <PosLayout cashRegister = {selectedCashReg}/>
         )
     }
     return (
