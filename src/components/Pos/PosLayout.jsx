@@ -38,6 +38,7 @@ function PosLayout({ cashRegister }) {
     const [cartProducts, setCartProducts] = useState([])
     const [deposits, setDeposits] = useState()
     const [withdrawals, setWithdrawals] = useState()
+    const searchInput = document.getElementById('search-input')
     const fetchMovements = async () => {
         console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
         const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
@@ -74,7 +75,9 @@ function PosLayout({ cashRegister }) {
             setSearch('')
         }
     }, [variableProductSelected])
-   
+   const focusInput = ()=>{
+        searchInput.focus()
+   }
     const toggleModal = () => {
         setShowModal(!showModal)
     }
@@ -220,7 +223,7 @@ function PosLayout({ cashRegister }) {
                      <Cart cartProducts={cartProducts} setCartProducts={setCartProducts} prod={prod} setProd={setProd}/>
                 </div>
                 <div className='cart-actions'>
-                    <CartActions cartProducts={cartProducts} setCartProducts={setCartProducts} cashRegister={cashRegister} setDt={setDt} setDtCopy={setDtCopy} setSizes={setSizes} />
+                    <CartActions focusInput={focusInput} cartProducts={cartProducts} setCartProducts={setCartProducts} cashRegister={cashRegister} setDt={setDt} setDtCopy={setDtCopy} setSizes={setSizes} />
                 </div>
                 </div>
                 

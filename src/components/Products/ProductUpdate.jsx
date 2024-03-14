@@ -111,7 +111,7 @@ function ProductUpdate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(fields)
-        if(fields.generalStock!=totalSizesStock){
+        if(fields.isVariable===1 && fields.generalStock!=totalSizesStock){
             alert(`el stock general: ${fields.generalStock} y el total de las tallas: ${totalSizesStock}, no coinciden`)
             return
         }

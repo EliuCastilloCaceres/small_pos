@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './cashRegstatusCard.css'
+import { formatToMoney } from '../../helpers/currencyFormatter'
 
-function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userActive,isDisabled,onMouseOver, setValidate }) {
+function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userActive,isDisabled,onMouseOver, setValidate, balance }) {
     return (
         <>
             <div onMouseOver={()=>{
@@ -12,7 +13,21 @@ function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userAc
 
             className={`cash-reg-card ${isDisabled} `}>
                 <i className={iconClass}></i>
+               
                 <span>{title}</span>
+
+                {
+                    isOpen===0 && (
+                        <div className='d-flex'>
+                        <span className='badge-title'>Saldo: </span>
+                        <div className='last-open-badge badge rounded-pill bg-dark'>
+                            <span>{formatToMoney(balance)}</span>
+                        </div>
+                        </div>
+                       
+                    )
+                }
+                
                 {
                     userActive && (
                         

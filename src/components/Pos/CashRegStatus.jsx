@@ -154,6 +154,7 @@ function CashRegStatus() {
                 userActive={cr.user_name ? cr.user_name : ''}
                 isOpen={cr.is_open}
                 lastOpen={cr.close_date ? format(new Date(cr.close_date), 'dd-MM-yyyy HH:mm:ss') : cr.open_date ? format(new Date(cr.open_date), 'dd-MM-yyyy HH:mm:ss') : ''}
+                balance={cr.close_amount ? cr.close_amount : ''}
                 onClick={() => { 
                     ValidatePermissionsAndStatus(cr.is_open, cr.user_name ? cr.user_name : '',cr.name,cr.cash_register_id) 
                 }}

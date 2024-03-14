@@ -6,7 +6,7 @@ import UserContext from '../../Context/UserContext';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import SaleReceipt from './saleReceipt';
-function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, cashRegister, emptyCart, toggleModal, setDt, setDtCopy, setSizes }) {
+function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, cashRegister, emptyCart, toggleModal, setDt, setDtCopy, setSizes, focusInput }) {
     const { user } = useContext(UserContext)
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
@@ -48,6 +48,11 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
             setCashRecived(value)
         };
     }
+    const handleCashRKeyDown = (e)=>{
+        if (e.key === 'Enter') {
+            endSale()    
+        }
+    }
 
     const endSale = async () => {
         if(cashReceived===''|| cashReceived<total){
@@ -84,6 +89,7 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
             setDtCopy(response.data.updatedProducts)
             console.log(response.data.updatedSizes)
             setSizes(response.data.updatedSizes)
+            focusInput()
            
             toast.dismiss(toastId)
         } catch (e){
@@ -136,7 +142,9 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
                             <div className='cash-payment-wrapper'>
                                 <div className='cash-received'>
                                     <span>Entrega Cliente</span>
-                                    <input autoFocus className='text-center' onChange={(e) => { 
+                                    <input autoFocus className='text-center'
+                                    onKeyDown={(e)=>{handleCashRKeyDown(e)}} 
+                                    onChange={(e) => { 
                                         handleCashRecived(e)
                                          }} value={cashReceived} />
                                     <span>{formatToMoney(cashReceived)}</span>

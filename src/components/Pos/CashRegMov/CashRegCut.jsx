@@ -8,6 +8,7 @@ import CloseCarshRegReport from './CloseCashRegReport'
 import { useReactToPrint } from 'react-to-print'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals, movements }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
@@ -124,6 +125,19 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
             setCardCounted(0)
         }
     }
+    const confirmCloseCashRegister = ()=>{
+        Swal.fire({
+            title: `¿Confirmar cierre de caja ${cashRegister.name}?`,
+            icon:'question',
+            showCancelButton: true,
+            confirmButtonText: "Cerrar Caja",
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                handlePrint()
+            } 
+          });
+    }
     return (
         <>
             <div className="cash-cut-container">
@@ -158,7 +172,7 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
                         <span>Saldo en Caja: <span>{balance - CashWithdrawal}</span></span>
                     </div>
                     <button className='btn btn-primary' onClick={() => {
-                        handlePrint()
+                        confirmCloseCashRegister()
                     }}>
                         <i className="bi bi-door-closed-fill"></i>
                         Cerrar Caja

@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast"
 import Pay from "./Pay"
 import CustomersPicker from "../Customers/CustomersPicker"
 import usePetition from "../../hooks/usePetition"
-function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDtCopy, setSizes }) {
+function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDtCopy, setSizes, focusInput }) {
     const [data] = usePetition('customers/generic-customer')
     const [discountApplied, setDiscountApplied] = useState({
         amo: 0,
@@ -302,6 +302,7 @@ function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDt
                     setDt={setDt}
                     setDtCopy={setDtCopy}
                     setSizes={setSizes}
+                    focusInput={focusInput}
                 />
             )
         }

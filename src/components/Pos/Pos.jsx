@@ -18,20 +18,21 @@ function Pos() {
     const [cashRegSelection, setCashRegSelection] = useState('')
     const [data, isLoading, error] = usePetition(`cash-registers/open`)
     useEffect(() => {
-        // console.log('selected cashReg:', selectedCashReg)
+        //  console.log('selected cashReg:', selectedCashReg)
     }, [selectedCashReg])
     const filterCashRegs = (field, value) => {
         const result = data.filter(cashReg => cashReg[field] === value)
         return result
     }
     useEffect(() => {
-        //console.log('cashRegsOpen: ', data)
+        // console.log('cashRegsOpen: ', data)
 
         if (data && data.length > 0) { //there are open cashregs?
             if (data.length > 1) {//there are more than 1?
                 if (cashRegId) {// there is a specific cashReg?
                     const id = parseInt(cashRegId)
                     const result = filterCashRegs('cash_register_id', id)//cashReg with specific id is open?
+                    // console.log('resultFiltered',result)
                     if (result.length > 0) {//open cash that pass the filter
                         if (user.profile.toLowerCase() === 'administrador') { //is admin
                             setSelectedCashReg(result[0])
@@ -60,7 +61,8 @@ function Pos() {
                     }
                 }
             } else {
-                if (user.profile.toLowerCase === 'administrador') { //is admin
+                console.log('no more than one')
+                if (user.profile.toLowerCase() === 'administrador') { //is admin
                     setSelectedCashReg(data[0])
                 } else {
                     if (data[0].user_id === user.user_id) {
@@ -77,8 +79,8 @@ function Pos() {
     const handleSubmit = (e) => {
         e.preventDefault()
         const result = selectedCashReg.filter(cr => cr.cash_register_id == cashRegSelection)
-        console.log(result)
-        setSelectedCashReg(result)
+        console.log('crSelection',result)
+        setSelectedCashReg(result[0])
     }
     const renderPos = () => {
         if (!selectedCashReg || selectedCashReg.length === 0) return <div className="choose-cash-reg-btn-wrapper">
