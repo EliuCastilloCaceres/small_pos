@@ -8,109 +8,141 @@ import MessageCard from "../MessageCard.jsx";
 import './productUpdate.css'
 import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";
-import ProductSisez from "./ProductSizes.jsx"
 import toast, { Toaster } from "react-hot-toast";
 import UserContext from "../../Context/UserContext.jsx";
+import ProductSizes from "./ProductSizes.jsx";
 
 function ProductUpdate() {
     const { user } = useContext(UserContext)
-    if(user.permissions.products !==1){
+    if (user.permissions.products !== 1) {
         return <Navigate to={'/dashboard'} />
     }
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const { productId } = useParams();
+    const [sizes, setSizes] = useState([])
     const [data, isLoading, error] = usePetition(`products/${productId}`);
     const [loading, setLoading] = useState(false)
     const [saved, setSaved] = useState(true)
-    const [generalStock, setGeneralStock] = useState('')
-    const [sizesStock, setSizesStock] = useState(null)
-    const [hasTallas, setHasTallas] = useState(null)
-    const [sizesSaved, setSizesSaved] = useState(true)
+    const [generalStock, setGeneralStock] = useState(0)
+    const [totalSizesStock, setTotalSizesStock] = useState(0)
     const [imgSrc, setImgSrc] = useState(`${URL_BASE}product/images/sin_imagen.jpg`)
-    const [selectedProvider, setSelectedProvider] = useState()
+    const [fields, setFields] = useState({
+        isVariable: false,
+        sku: '',
+        name: '',
+        description: '',
+        color: '',
+        purchasePrice: '0',
+        salePrice: '0',
+        generalStock: '',
+        uom: '',
+        providerId: ''
+    })
     useEffect(() => {
-        if (data) {
+        if (data && data.length > 0) {
             if (data[0].image) {
                 setImgSrc(`${URL_BASE}product/images/${data[0].image}`)
-                setSelectedProvider(data[0].provider_id)
             }
-            setGeneralStock(data[0].general_stock);
-            if (data[0].is_variable == 1) {
-                setHasTallas(true)
-            } else {
-                setHasTallas(false)
-            }
+            setFields({
+                isVariable: data[0].is_variable === 1 ? true : false,
+                sku: data[0].sku,
+                name: data[0].name,
+                description: data[0].description,
+                color: data[0].color,
+                purchasePrice: data[0].purchase_price,
+                salePrice: data[0].sale_price,
+                generalStock: data[0].general_stock,
+                uom: data[0].uom,
+                providerId: data[0].provider_id
+            })
         }
     }, [data])
+    const fetchSizes = async () => {
+        setLoading(true)
+        try {
+            const response = await axios.get(`${URL_BASE}products/${productId}/sizes`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            console.log(response.data.data)
+            setSizes(response.data.data)
+            
+            setLoading(false)
+        } catch (e) {
+            console.log(e)
+            setLoading(false)
+            setError(e.message)
+        }
+
+    }
     const selectProvider = (provider) => {
-        setSelectedProvider(provider)
+        setFields({
+            ...fields,
+            providerId: provider
+        })
     }
     const changeImgSrc = (newSrc) => {
         setImgSrc(newSrc)
     }
-    const isSizesSaved = (saved) => {
-        setSizesSaved(saved)
-    }
     const isSaved = (saved) => {
         setSaved(saved)
     }
-    const handleSizesStock = (dataSizes) => {
-        //console.log('Suma de las tallas del hijo: ', dataSizes)
-        setSizesStock(dataSizes)
+    const handleChange = (e, fieldName) => {
+        const value = e.target.value
+        if (fieldName === 'purchasePrice' || fieldName === 'salePrice' || fieldName === 'generalStock') {
+            if (/^\d*\.?\d*$/.test(value)) {
+                setFields({
+                    ...fields,
+                    [fieldName]: value
+                })
+
+            }
+        } else {
+            setFields({
+                ...fields,
+                [fieldName]: fieldName != 'isVariable' ? value : !fields.isVariable
+            })
+        }
+        setSaved(false)
     }
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!hasOnlyNumbers(e.target.purchasePrice.value)) {
-
-            e.target.purchasePrice.classList.add('border-danger')
-            e.target.purchasePrice.focus()
-            return
-        } else if (!hasOnlyNumbers(e.target.salePrice.value)) {
-            e.target.salePrice.classList.add('border-danger')
-            e.target.salePrice.focus()
+        console.log(fields)
+        if(fields.generalStock!=totalSizesStock){
+            alert(`el stock general: ${fields.generalStock} y el total de las tallas: ${totalSizesStock}, no coinciden`)
             return
         }
-        else if (!hasOnlyNumbers(e.target.generalStock.value)) {
-            e.target.generalStock.classList.add('border-danger')
-            e.target.generalStock.focus()
-            return
-        }
-        e.target.generalStock.classList.remove('border-danger')
-        e.target.salePrice.classList.remove('border-danger')
-        e.target.purchasePrice.classList.remove('border-danger')
         setLoading(true)
-        if (e.target.isVariable.checked) {
-            //console.log(generalStock)
-            //console.log(sizesStock)
-            if (generalStock != sizesStock) {
-                alert('El Stock General y la suma del stock de las tallas no coinciden')
-                setLoading(false)
-                return
-            }
-        }
-        const formData = new FormData(e.target);
-        //console.log(e.target.image.files[0])
-        axios.put(`${URL_BASE}products/update/${productId}`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                setLoading(false)
-                console.log(response)
-                toast.success('Cambios Guardados')
-                setSaved(true)
-                setGeneralStock(e.target.generalStock.value)
+     
+            // const formData = new FormData(e.target);
+        // console.log(e.target.image.files[0])
+         const formData = new FormData()
+        formData.append('image', e.target.image.files[0])
+        formData.append('updates', JSON.stringify(fields))
+        formData.append('sizes', JSON.stringify(sizes))
+         try {
+            const response = await axios.put(`${URL_BASE}products/update/${productId}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            setLoading(false)
+            console.log(response)
+            toast.success('Cambios Guardados')
+            fetchSizes()
+            setSaved(true)
+            setGeneralStock(e.target.generalStock.value)
 
-            })
-            .catch(error => {
-                setLoading(false)
-                console.log(error)
-                toast.error(`Algo salió mal: ${error.message}`)
-                setSaved(false)
-                return
-            })
+        } catch (e) {
+            setLoading(false)
+            console.log(e)
+            toast.error(`Algo salió mal: ${e.message}`)
+            setSaved(false)
+        }
+
 
     }
 
@@ -136,7 +168,6 @@ function ProductUpdate() {
     return <div>
         <BackButton
             saved={saved}
-            sizesSaved={sizesSaved}
         />
         <div className={`product-update-container ${loading && 'loading'}`}>
             <h2 className='fw-bold text-center my-3'>Detalles Producto {productId}</h2>
@@ -146,80 +177,60 @@ function ProductUpdate() {
             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
 
                 <ImageUploader changeImgSrc={changeImgSrc} isSaved={isSaved} imgSrc={imgSrc} />
-                <div className="col-md-6">
-                    <label className="form-label" htmlFor="generalStock">StockGeneral</label>
-                    <input onChange={(e) => {
-                        setGeneralStock(e.target.value)
-                        setSaved(false)
-                    }} type="number" name="generalStock" className="form-control" value={generalStock} />
-                </div>
-                <div className="col-md-6">
-                    <label className="form-label" htmlFor="purchasePrice">PrecioCompra</label>
-                    <input onChange={() => { setSaved(false) }} type="number" name="purchasePrice" className="form-control" defaultValue={data[0].purchase_price} />
-                </div>
-                <div className="col-md-6">
-                    <label className="form-label" htmlFor="salePrice">PrecioVenta</label>
-                    <input onChange={() => { setSaved(false) }} type="number" name="salePrice" className="form-control" defaultValue={data[0].sale_price} />
-                </div>
+
 
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="sku">sku</label>
-                    <div className="d-flex gap-1">
-                        <input onChange={() => { setSaved(false) }} type="text" name="sku" className="form-control" defaultValue={data[0].sku} />
-                        <Link to={`../products/barcode/${data[0].sku}/${generalStock}`} type="button" className={`btn btn-info`} >
-                            <i className="bi bi-upc"></i>
-                        </Link>
-                    </div>
-
+                    <input onChange={(e) => { handleChange(e, 'sku') }} value={fields.sku} type="text" name="sku" className="form-control" />
                 </div>
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="flexCheckDefault">Nombre</label>
-                    <input onChange={() => { setSaved(false) }} type="text" name="name" className="form-control" defaultValue={data[0].name} />
+                    <input onChange={(e) => { handleChange(e, 'name') }} value={fields.name} type="text" name="name" className="form-control" required />
+                </div>
+                <div className="col-md-8">
+                    <label className="form-label" htmlFor="description">Descripcion</label>
+                    <input onChange={(e) => { handleChange(e, 'description') }} value={fields.description} type="text" name="description" className="form-control" />
+                </div>
+                <div className="col-md-4">
+                    <label className="form-label" htmlFor="color">Color</label>
+                    <input onChange={(e) => { handleChange(e, 'color') }} value={fields.color} type="text" name="color" className="form-control" />
                 </div>
                 <div className="col-md-6">
-                    <label className="form-label" htmlFor="description">Descripcion</label>
-                    <input onChange={() => { setSaved(false) }} type="text" name="description" className="form-control" defaultValue={data[0].description} />
+                    <label className="form-label" htmlFor="purchasePrice">PrecioCompra</label>
+                    <input onChange={(e) => { handleChange(e, 'purchasePrice') }} value={fields.purchasePrice} type="text" name="purchasePrice" className="form-control" />
                 </div>
-                <div className="col-md-4">
-                    <label className="form-label" htmlFor="color">color</label>
-                    <input onChange={() => { setSaved(false) }} type="text" name="color" className="form-control" defaultValue={data[0].color} />
+                <div className="col-md-6">
+                    <label className="form-label" htmlFor="salePrice">PrecioVenta</label>
+                    <input onChange={(e) => { handleChange(e, 'salePrice') }} value={fields.salePrice} type="text" name="salePrice" className="form-control" />
                 </div>
-               
-               
-                <div className="col-md-3">
+                <div className="col-md-6">
+                    <label className="form-label" htmlFor="generalStock">StockGeneral</label>
+                    <input onChange={(e) => { handleChange(e, 'generalStock') }} value={fields.generalStock} type="text" name="generalStock" className="form-control" />
+                </div>
+                <div className="col-md-6">
                     <label className="form-label" htmlFor="uom">UoM</label>
-                    <select onChange={() => { setSaved(false) }} name="uom" className="form-select" defaultValue={data[0].uom}>
-
+                    <select onChange={(e) => { handleChange(e, 'uom') }} value={fields.uom} name="uom" className="form-select">
+                        <option disabled value="">Seleccionar</option>
+                        <option value="par">par</option>
                         <option value="pza">pza</option>
                         <option value="kg" >kg</option>
-                        <option value="gr" >gr</option>
                         <option value="mt" >mt</option>
-                        <option value="cm" >cm</option>
-
                     </select>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <label className="form-label" htmlFor="providerId">Proveedor</label>
-                    <ProvidersPicker isSaved={isSaved} name="providerId" selectProvider={selectProvider} selectedProvider={selectedProvider} />
+                    <ProvidersPicker required={true} selectProvider={selectProvider} selectedProvider={fields.providerId} isSaved={isSaved} name="providerId" />
                 </div>
                 <div className="col-md-1 d-flex align-items-center flex-column gap-1">
                     <label className="form-check-label" htmlFor="isVariable">Tallas</label>
-                    <input
-                        onChange={
-                            (e) => {
-                                setHasTallas(e.target.checked)
-                                setSaved(false)
-                            }} className="form-check-input" name="isVariable" type="checkbox" defaultChecked={data[0].is_variable == 1 ? (true) : (false)} id="flexCheckDefault" />
+                    <input onChange={(e) => { handleChange(e, 'isVariable') }} checked={fields.isVariable} className="form-check-input" name="isVariable" type="checkbox" />
 
                 </div>
+
                 {
-                    hasTallas && (
-                        <ProductSisez
-                            generalStock={generalStock}
-                            isSaved={isSaved}
-                            onSendSizesStock={handleSizesStock}
-                            isSizesSaved={isSizesSaved}
-                        />
+                    fields.isVariable && (
+                      
+                        <ProductSizes totalSizesStock={totalSizesStock} setTotalSizesStock={setTotalSizesStock} sizes={sizes} setSizes={setSizes} fetchSizes={fetchSizes} />
                     )
                 }
                 <div className="col-12 text-center my-5">

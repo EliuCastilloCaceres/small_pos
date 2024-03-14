@@ -9,11 +9,7 @@
     width: 200px;
     height: 200px;
 }
-.product-image{
-    width: 200px;
-    height: auto;
-    border: 1px solid black;
-}
+
 .alert-container{
     position: fixed;
     bottom: 0;

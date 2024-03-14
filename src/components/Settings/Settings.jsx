@@ -21,10 +21,10 @@ function Settings() {
                     <i className='bi bi-pc-display-horizontal fs-1'></i>
                     <span>Cajas Registradoras</span>
                 </GridCard>
-                {/* <GridCard
-                    title={'Tickets'}
-                    iconClass={"bi bi-receipt"}
-                /> */}
+                <GridCard onClick={() => { navigateTo('receipt') }}>
+                    <i className='bi bi-receipt fs-1'></i>
+                    <span>Ticket</span>
+                </GridCard>
             </Grid>
 
         </>

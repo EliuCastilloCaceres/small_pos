@@ -9,7 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import UserContext from '../../Context/UserContext.jsx';
 function Orders() {
     const { user } = useContext(UserContext)
-    if(user.permissions.orders !==1){
+    if (user.permissions.orders !== 1) {
         return <Navigate to={'/dashboard'} />
     }
     const [newData, setNewData] = useState(null)
@@ -24,16 +24,18 @@ function Orders() {
     const [data, IsLoading, error, setData] = usePetition(`orders/date/${today}`);
     const token = localStorage.getItem("token")
     const URL_BASE = import.meta.env.VITE_URL_BASE
-  
+
     useEffect(() => {
-        console.log('NewData: ', newData)
-        console.log('newDataCopy: ', newDataCopy)
-    }, [newData, newDataCopy])
+        if (data && data.length > 0) {
+            setNewData(data)
+            setNewDataCopy(data)
+        }
+    }, [data])
     useEffect(() => {
         //console.log(search)
         if (newData) {
             const result = newDataCopy.filter(item => {
-                return search.toLowerCase() === "" ? item : item.customer_firstname.toLowerCase().includes(search) || item.order_id.toString().includes(search) || item.status.toLowerCase().includes(search) || item.payment_method.toLowerCase().includes(search) || item.user_firstname.toLowerCase().includes(search)
+                return search.toLowerCase() === "" ? item : item.customer_firstname.toLowerCase().includes(search) || item.order_id.toString().includes(search) || item.status.toLowerCase().includes(search) || item.payment_method.toLowerCase().includes(search) || item.user_firstname.toLowerCase().includes(search) || item.name.toLowerCase().includes(search)
             })
             setNewData(result)
         }
@@ -137,7 +139,14 @@ function Orders() {
     return (
 
         <div>
+
             <h2 className='fw-bold text-center my-3'>VENTAS</h2>
+            <div className='sub-menu-wrapper mb-1'>
+                <Link to={'products-sold'} type='button' className='btn btn-dark add-btn'>
+                    <i className="bi bi-bag-check-fill"></i>
+                    Productos Vendidos
+                </Link>
+            </div>
             <div className='filters-container'>
                 <form onSubmit={filterByDate} className='filters-form'>
                     <div className='date-picker-container'>
@@ -192,6 +201,7 @@ function Orders() {
                                                     <th className='sort' scope="col">
                                                         Fecha
                                                     </th>
+                                                    <th scope="col">Caja</th>
                                                     <th scope="col">Atendio</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Acciones</th>
@@ -205,26 +215,34 @@ function Orders() {
                                                             <td>{index + 1}</td>
                                                             <td><strong>{order.order_id}</strong></td>
                                                             <td>{order.customer_firstname} {order.customer_lastname}</td>
-                                                            <td>${order.total}</td>
+                                                            <td>{formatToMoney(order.total)}</td>
                                                             <td>{order.payment_method}</td>
                                                             <td>{format(new Date(order.order_date), 'dd-MM-yyyy HH:mm:ss')}</td>
+                                                            <td>{order.name}</td>
                                                             <td>{order.user_firstname} {order.user_lastname}</td>
                                                             <td>{order.status === 'completado' ? (<span className='badge bg-success'>Completado</span>) : (<span className='badge bg-danger'>Cancelado</span>)}
                                                             </td>
-                                                            {
-                                                                user.profile.toLowerCase() == 'administrador' && (
-                                                                    <td className='d-flex justify-content-center gap-2'>
 
-                                                                        <Link to={`${order.order_id}/update`} className='btn btn-warning'>Editar</Link>
-                                                                        {
-                                                                            order.status === 'cancelado' ? (<button onClick={() => { handleChangeOrderstatus(order.order_id, order.status) }} className='btn btn-info'>Reanudar</button>) :
-                                                                                (<button onClick={() => { handleChangeOrderstatus(order.order_id, order.status) }} className='btn btn-danger'>Cancelar</button>)
-                                                                        }
+                                                            <td className='d-flex justify-content-center gap-2'>
+                                                                <Link to={`${order.order_id}/details`} className='btn btn-primary'>Detalles</Link>
+                                                                {
+                                                                    user.profile.toLowerCase() == 'administrador' && (
+                                                                        <div className='d-flex justify-content-center gap-2'>
 
-                                                                    </td>
+                                                                            <Link to={`${order.order_id}/update`} className='btn btn-warning'>Editar</Link>
+                                                                            {
+                                                                                order.status === 'cancelado' ? (<button onClick={() => { handleChangeOrderstatus(order.order_id, order.status) }} className='btn btn-info'>Reanudar</button>) :
+                                                                                    (<button onClick={() => { handleChangeOrderstatus(order.order_id, order.status) }} className='btn btn-danger'>Cancelar</button>)
+                                                                            }
 
-                                                                )
-                                                            }
+                                                                        </div>
+
+                                                                    )
+                                                                }
+
+                                                            </td>
+
+
 
                                                         </tr>
                                                     ))
@@ -245,30 +263,9 @@ function Orders() {
                                 </div>
 
                                 <div className='information-wrapper'>
-                                    {
-
-                                        <>
-
-                                            <div className='information-card'>
-                                                <p className='fw-bold fs-5'>Ventas en Efectivo </p>
-                                                <i className="bi bi-cash-coin fs-1"></i>
-                                                <strong className='fs-2'>{information ? information.cashSales : '0.00'}</strong>
-                                            </div>
-                                            <div className='information-card'>
-                                                <p className='fw-bold fs-5'>Ventas con Tarjeta </p>
-                                                <i className="bi bi-credit-card-2-front fs-1"></i>
-                                                <strong className='fs-2'>{information ? information.cardSales : '0.00'}</strong>
-                                            </div>
-                                            <div className='information-card'>
-                                                <p className='fw-bold fs-5' >Total de ventas </p>
-                                                <i className="bi bi-wallet2 fs-1"></i>
-                                                <strong className='fs-2'>{information ? information.totalSales : '0.00'}</strong>
-                                            </div>
-                                        </>
-
-
-                                    }
-
+                                    <span className='fs-3 fw-bold information-card' >Efectivo: <span className='badge bg-success fs-3'><i className="bi bi-cash-coin fs-1"></i> {information ? information.cashSales : '0.00'}</span> </span>
+                                    <span className='fs-3 fw-bold information-card'>Tarjeta: <span className='badge bg-info fs-3'><i className="bi bi-credit-card-2-front fs-1"></i> {information ? information.cardSales : '0.00'}</span> </span>
+                                    <span className='fs-3 fw-bold information-card'>Total: <span className='badge bg-warning fs-3'><i className="bi bi-wallet2 fs-1"></i> {information ? information.totalSales : '0.00'}</span> </span>
                                 </div>
                             </div>
 

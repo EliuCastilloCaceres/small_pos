@@ -1,0 +1,29 @@
+.cash-cut-container{
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.cash-cut-container .cash-cut-body{
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+}
+.cash-cut-container .cash-cut-body .cash-cut-item{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.cash-cut-container .cash-cut-body .cash-cut-item .total{
+   margin-top: 10px;
+}
+.cash-cut-item input{
+    text-align: center;
+}
+.cash-cut-container .print-wrapper{
+    display: none;
+}

@@ -1,0 +1,86 @@
+.main-dashboard-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 150px 1fr;
+    /* border: 1px solid red; */
+    height: calc(100vh - 70px);
+    overflow: auto;
+    box-sizing: border-box;
+}
+.cards-section{
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(20rem, 1fr));
+    gap: 10px;
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: auto;
+}
+.main-dashboard-container .info-section{
+    grid-column: 1/3;
+    /* border: 1px solid red; */
+    box-sizing: border-box;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(40rem, 1fr));
+    grid-auto-rows: 30rem;
+    gap: 10px;
+    
+}
+.main-dashboard-container .info-section .info-card-section{
+    box-shadow: 6px 5px 13px -1px rgba(189,189,189,1);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    overflow: auto;
+}
+
+.main-dashboard-container .info-section .card-section-title{
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    /* border: 1px solid black; */
+}
+.main-dashboard-container .info-section .info-card-section .content-wrapper{
+    height: 22rem;
+    overflow: auto;
+}
+#dashboard-products-table thead{
+    position: sticky;
+    top: 0;
+}
+.info-section-product-image{
+    width: 50px;
+    height: 50px;
+}
+.main-dashboard-container .info-section .info-card-section ul{
+    list-style: none;
+}
+.cr-card{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    align-items: center;
+    justify-items: center;
+}
+.cr-card > div {
+    display: flex;
+    flex-flow: column wrap;
+  }
+
+  .cr-card span {
+    font-size: 14px;
+    color: #555555;
+  }
+  .cr-card span:first-child {
+    font-weight: bold;
+  }
+  
+  .cr-card span:last-child {
+    font-weight: normal;
+  }

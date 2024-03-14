@@ -5,10 +5,13 @@ import { Navigate, useParams } from "react-router-dom"
 import BackButton from "../BackButton"
 import UserContext from "../../Context/UserContext"
 function ProductBarCode() {
-    const { user } = useContext(UserContext)
-    if(user.permissions.products !==1){
-        return <Navigate to={'/dashboard'} />
-    }
+     const { user } = useContext(UserContext)
+    // if(user.permissions.products !==1){
+    //     return <Navigate to={'/dashboard'} />
+    // }
+    useEffect(()=>{
+        console.log('pb user: ',user)
+    },[user])
     const { sku } = useParams()
     const { qty } = useParams()
     useEffect(() => {

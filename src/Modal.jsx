@@ -6,7 +6,7 @@ function Modal({ title, showModal, toggleModal,children }) {
             <div className={`modal ${showModal ? 'active' : ''}`}>
 
                 <div className="modal-content">
-                    <button onClick={toggleModal} className="close-btn btn btn-danger">
+                    <button tabIndex={-1} onClick={toggleModal} className=" close-modal-btn close-btn btn btn-danger">
                         <i className="bi bi-x-square-fill"></i>
                     </button>
                     <div className="modal-title">

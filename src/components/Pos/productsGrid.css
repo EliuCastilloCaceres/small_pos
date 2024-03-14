@@ -1,0 +1,41 @@
+.product-info-wrapper{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap: 5px;
+}
+.product-info-wrapper .image-container img{
+    width: 150px;
+    height: 150px;
+}
+.product-info-wrapper .title-container{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 1rem;
+    background-color: #eee;
+    height: 100%;
+   
+}
+.product-info-wrapper .title-container span{
+    text-align: center;
+    display: inline-block; /* Para que la propiedad overflow funcione */
+    width: 100%; /* Ancho del contenedor */
+    overflow: auto; /* Permite el desplazamiento vertical */
+    /* border: 1px solid #ccc; Borde para visualización */
+}
+
+ .product-info-wrapper .stock-badge{
+    font-size: 1rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

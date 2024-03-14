@@ -21,6 +21,10 @@
     cursor: not-allowed;
     /* pointer-events: none; /*Evita que se interactúe con el contenido */
   }
+.validate{
+    opacity: 0.5;
+    pointer-events: none;
+}
 .cash-reg-card:hover{
     box-shadow: 6px 5px 13px -1px rgba(189,189,189,1);
     border: 1px solid #eee;

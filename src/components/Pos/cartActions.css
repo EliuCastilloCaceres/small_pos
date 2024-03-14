@@ -1,0 +1,107 @@
+.separator {
+    border: none;
+    height: 2px;
+    /* Grosor del separador */
+    background-color: #ccc;
+    /* Color del separador */
+    margin: 5px 0;
+    /* Espacio alrededor del separador */
+}
+.discount-wrapper .discount-title{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.discount-title .btn{
+    padding: 1px;
+}
+
+.total-wrapper .total-title {
+    font-weight: bolder;
+    font-size: 2rem;
+}
+
+.total-wrapper .total {
+    color: green;
+    font-weight: bolder;
+    font-size: 3rem;
+}
+
+.actions-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.actions-wrapper .actions {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
+    gap: 2px
+}
+
+.actions .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+    cursor: pointer;
+    font-weight: bolder;
+    transition: all 200ms ease-in-out;
+}
+
+.actions .action-item:hover {
+    /* box-shadow: 6px 5px 13px -1px rgba(189,189,189,1); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Agrega una sombra */
+}
+
+.actions .action-item i {
+    font-size: 3rem;
+}
+
+.actions .add-desc {
+    background-color: #ced4da;
+}
+
+.actions .add-note {
+    background-color: #ffc107;
+}
+
+.actions .empty-cart {
+    background-color: #dc3545;
+}
+
+.actions .suspend-cart {
+    background-color: #0dcaf0;
+}
+
+.actions .pay {
+    transition: all 200ms ease-in-out;
+    background-color: #198754;
+}
+.actions .pay:hover {
+    background-color: #5ABB7C;
+    color: white;
+}
+.actions .pay:focus {
+    background-color: #5ABB7C;
+    color: white;
+}
+
+.actions .pay {
+    grid-column: 5/7;
+}
+.add-discount-container{
+    display: grid;
+    grid-template-columns: repeat(10,1fr);
+    grid-auto-rows: auto;
+    gap: 10px;
+}
+.add-discount-container .discount-type-wrapper{
+    grid-column: 4/5;
+}
+.add-discount-container .discount-amount-wrapper{
+    grid-column: 5/7;
+}

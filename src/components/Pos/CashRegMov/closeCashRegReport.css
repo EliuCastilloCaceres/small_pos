@@ -1,0 +1,24 @@
+.report-container .report-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+
+}
+.report-container .cash-totals{
+    display: flex;
+    justify-content: space-around;
+}
+.report-container .cash-totals div{
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+.report-container .cash-balance{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.5rem;
+
+}

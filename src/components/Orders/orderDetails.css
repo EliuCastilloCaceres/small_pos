@@ -1,0 +1,47 @@
+.details-wrapper {
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+.details-wrapper .details-header .header-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.details-wrapper .table-wrapper {
+    height: 200px;
+    overflow: auto;
+}
+
+.details-wrapper .table-wrapper thead {
+    position: sticky;
+    top: 0;
+}
+
+.details-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.details-footer .information {
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+ 
+}
+
+.details-footer .information .information-wrapper {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.hide{
+    display: none;
+}

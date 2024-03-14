@@ -7,16 +7,16 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import UserContext from '../../Context/UserContext.jsx';
 function Products() {
-   
+
     const { user } = useContext(UserContext)
-    if(user.permissions.products !==1){
+    if (user.permissions.products !== 1) {
         return <Navigate to={'/dashboard'} />
     }
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
     const [search, setSearch] = useState('')
     const [data, IsLoading, error, setData] = usePetition('products');
-   
+
 
     const deleteProduct = (id) => {
         const deleteProduct = confirm('Desea borrar este Producto?, los datos relacionados a este producto se perderan')
@@ -88,7 +88,7 @@ function Products() {
                                 <td className='column-values'>{product.is_variable == 1 ? "SI" : "NO"}</td>
                                 <td className='column-values'>{product.sku}</td>
                                 <td className='column-values'>{product.name}</td>
-                                <td className='column-values'>{product.description}</td>
+                                <td  className='column-values'>{product.description}</td>
                                 <td className='column-values'>{product.color}</td>
                                 <td className='column-values'>${product.purchase_price}</td>
                                 <td className='column-values'>${product.sale_price}</td>
@@ -117,10 +117,19 @@ function Products() {
         <>
             <div className='module-header'>
                 <h2 className='fw-bold text-center'>PRODUCTOS</h2>
-                <div className='add-btn-wrapper'>
-                    <Link to={'new'} type='button' className='btn btn-success add-btn'>
-                        <i className="bi bi-plus-circle-fill"></i>
-                        Agregar Producto</Link>
+                <div className='sub-menu-wrapper'>
+                    <div>
+                        <Link to={'inventory'} type='button' className='btn btn-warning add-btn'>
+                            <i className="bi bi-list-check"></i>
+                            inventario
+                        </Link>
+                    </div>
+                    <div>
+                        <Link to={'new'} type='button' className='btn btn-success add-btn'>
+                            <i className="bi bi-plus-circle-fill"></i>
+                            Agregar
+                        </Link>
+                    </div>
                 </div>
 
             </div>

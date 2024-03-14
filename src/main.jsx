@@ -28,6 +28,11 @@ import { CashRegContextProvider } from './Context/CashRegContext.jsx'
 import Pos from './components/Pos/Pos.jsx'
 import Logout from './components/Logout.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
+import Receipt from './components/Settings/Receipt/Receipt.jsx'
+import OrderDetails from './components/Orders/orderDetails.jsx'
+import Inventory from './components/Products/inventory.jsx'
+import InventoryOperations from './components/Products/InventoryOperations.jsx'
+import ProductsSold from './components/Products/ProductsSold.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -41,12 +46,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='dashboard' element={<Dashboard/>} />
               <Route path='settings' element={<Settings />} />
               <Route path='settings/cashregisters' element={<CashRegisterList />} />
+              <Route path='settings/receipt' element={<Receipt />} />
               <Route path='orders' element={<Orders />} />
+              <Route path='orders/products-sold' element={<ProductsSold />} />
               <Route path='orders/:orderId/update' element={<OrderUpdate />} />
+              <Route path='orders/:orderId/details' element={<OrderDetails />} />
               <Route path='products' element={<Products />} />
               <Route path='products/:productId/update' element={<ProductUpdate />} />
               <Route path='products/:productId/update/sizes' element={<ProductSizes />} />
               <Route path='products/new' element={<NewProduct />} />
+              <Route path='products/inventory' element={<Inventory />} />
+              <Route path='products/inventory/operations' element={<InventoryOperations />} />
               <Route path='providers' element={<Providers />} />
               <Route path='providers/new' element={<NewProvider />} />
               <Route path='providers/:providerId/update' element={<ProviderUpdate />} />

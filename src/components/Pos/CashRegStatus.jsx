@@ -12,37 +12,39 @@ function CashRegStatus() {
     const [data, isLoading, error] = usePetition('cash-registers')
     const [cashRegisters, setCashRegisters] = useState()
     const [newData, setNewData] = useState()
+    const [validate, setValidate] = useState(true)
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
     const { user } = useContext(UserContext)
     useEffect(()=>{
-        console.log('User in statusCashReg: ',user)
-    },[user])
+        //console.log('User in statusCashReg: ',user)
+        console.log('the data: !' ,newData)
+    },[newData])
     const navigation = useNavigate()
-    useEffect(() => {
-        const fetchCashRegStatus = async () => {
+    const fetchCashRegStatus = async () => {
 
-            const cashRegs = await Promise.all(
-                data.map(async cr => {
-                    try {
-                        const response = await axios.get(`${URL_BASE}cash-registers/${cr.cash_register_id}/status`, {
-                            headers: {
-                                'Authorization': `Bearer ${token}`,
+        const cashRegs = await Promise.all(
+            data.map(async cr => {
+                try {
+                    const response = await axios.get(`${URL_BASE}cash-registers/${cr.cash_register_id}/status`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
 
-                            }
-                        })
-                        // console.log(response.data.data)
-                        if (response.data.data.length > 0) {
-                            return response.data.data[0]
                         }
-                    } catch (e) {
-                        console.log(e)
+                    })
+                    // console.log(response.data.data)
+                    if (response.data.data.length > 0) {
+                        return response.data.data[0]
                     }
-                })
-            )
-            // console.log('status:',cashRegs.filter(Boolean))
-            setCashRegisters(cashRegs.filter(Boolean))
-        }
+                } catch (e) {
+                    console.log(e)
+                }
+            })
+        )
+        console.log('status:',cashRegs.filter(Boolean))
+        setCashRegisters(cashRegs.filter(Boolean))
+    }
+    useEffect(() => {
         if (data && data.length > 0) {
             setNewData(data)
             fetchCashRegStatus()
@@ -88,8 +90,8 @@ function CashRegStatus() {
             OpenCashReg(crId,openAmount)
           }
     }
-    const ValidatePermissionsAndStatus = (isOpen, crUser, crName,crId) => {
-        //validamos si la caja está abierta
+    const ValidatePermissionsAndStatus =  (isOpen, crUser, crName,crId) => {
+             //validamos si la caja está abierta
         console.log('open?: ',isOpen)
         console.log('is admin?: ',user.profile)
         console.log('user logged: ',user.user_name)
@@ -120,8 +122,19 @@ function CashRegStatus() {
                 }
             })
         }
+      
         
-        
+    }
+    const handleMouseOver = (isOpen)=>{
+        if(isOpen===0){
+            if(validate === true){
+                console.log('fetching...')
+                fetchCashRegStatus()
+            }
+            
+        }
+         
+        setValidate(false)
     }
 
     const renderCashRegisters = () => {
@@ -141,7 +154,11 @@ function CashRegStatus() {
                 userActive={cr.user_name ? cr.user_name : ''}
                 isOpen={cr.is_open}
                 lastOpen={cr.close_date ? format(new Date(cr.close_date), 'dd-MM-yyyy HH:mm:ss') : cr.open_date ? format(new Date(cr.open_date), 'dd-MM-yyyy HH:mm:ss') : ''}
-                onClick={() => { ValidatePermissionsAndStatus(cr.is_open, cr.user_name ? cr.user_name : '',cr.name,cr.cash_register_id) }}
+                onClick={() => { 
+                    ValidatePermissionsAndStatus(cr.is_open, cr.user_name ? cr.user_name : '',cr.name,cr.cash_register_id) 
+                }}
+                onMouseOver={()=>{handleMouseOver(cr.is_open)}}
+                setValidate={setValidate}
             />
         })
 

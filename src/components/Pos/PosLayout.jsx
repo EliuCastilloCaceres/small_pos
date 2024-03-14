@@ -3,61 +3,162 @@ import { Link } from 'react-router-dom'
 import './posLayout.css'
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../../Context/UserContext'
-import GridCard from '../../GridCard'
-import usePetition from '../../hooks/usePetition'
-import Grid from '../../Grid'
 import ProductsSearcher from './ProductsSearcher'
 import Cart from './Cart'
 
-function PosLayout({cashRegister}) {
-    const { user } = useContext(UserContext)
+import ProductsGrid from './ProductsGrid'
+import Swal from 'sweetalert2'
+import CartActions from './cartActions'
+import Modal from '../../Modal'
+import CashMovement from './CashRegMov/CashMovement'
+import CashRegCut from './CashRegMov/CashRegCut'
+import { format } from 'date-fns'
+import axios from 'axios'
+
+
+function PosLayout({ cashRegister }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
-    const [data, IsLoading, error, setData] = usePetition('products');
-    const [dataCopy,setDataCopy] = useState()
-    const [selectedProduct, setSelectedProduct] = useState()
-    const [clickBand, setClickBand] = useState(false)
-    const [cartProducts,setCartProducts] = useState()
-    useEffect(()=>{
-        if(data && data.length>0){
-            setDataCopy(data)
-        }
-    },[data])
-    const addToCart = (product)=>{
+    const token = localStorage.getItem("token")
+    const { user } = useContext(UserContext)
+    const [dt, setDt] = useState()
+    const [dtCopy, setDtCopy] = useState()
+    const [search, setSearch] = useState('')
+    const [prod, setProd] = useState('')
+    const [effectBand, setEffectBand] = useState(false)
+    const [variableProductSelected, setVariableProductSelected] = useState()
+    const [variableProduct, setVariableProduct] = useState()
+    const [sizes, setSizes] = useState()
+    const [showModal, setShowModal] =useState(false)
+    const [showLocalModal, setShowLocalModal] =useState(false)
+    const[modalTitle, setModalTitle] = useState('')
+    const[modalOption, setModalOption] = useState(0)
+    const[cashCutBand, setCashCutBand] = useState(true)
+    const [balance, setBalance] = useState(0)
+    const [movements, setMovements] = useState()
+    const [cartProducts, setCartProducts] = useState([])
+    const [deposits, setDeposits] = useState()
+    const [withdrawals, setWithdrawals] = useState()
+    const fetchMovements = async () => {
+        console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
+        const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
+        try {
+            const result = await axios.get(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/${queryDate}/movements`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
 
-    }
-    const handleProductSelection = (product)=>{
-        setSelectedProduct(product)
-        setClickBand(!clickBand)
-        console.log('product selected:',product)
-    }
-    const renderProducts = ()=>{
-        if(IsLoading)return <span>Cargando...</span>
-        if(error) return<span>Error: {error}</span>
-        if(!dataCopy || dataCopy.length === 0) return <span>No hay productos</span>
-
-        return (
-            <Grid>
-                {
-                    dataCopy.map(product=>(
-                        <GridCard onClick={()=>{handleProductSelection(product)}} key={product.product_id}>
-                            <div className='product-info-wrapper'>
-                                <div className='image-container'>
-                                        <img  src={`${URL_BASE}product/images/${product.image ? product.image : 'sin_imagen.jpg'}`} alt="product-image"/>
-                                </div>
-                                <div className='title-container'>
-                                        <span className='badge bg-info fs-5'>{product.sku}</span>
-                                        <span>{product.name}</span>
-                                </div>
-                                <span className='stock-badge badge rounded-pill text-bg-warning'>
-                                    {product.general_stock}
-                                </span>
-                            </div>
-                        </GridCard>
-                    ))
                 }
-            </Grid>
-        )
-        
+            })
+            console.log('movements: ', result.data.movements)
+            console.log('totals: ', result.data.totals)
+            setMovements(result.data.movements)
+            setDeposits(result.data.totals[0].deposits_total)
+            setWithdrawals(result.data.totals[0].withdrawals_total)
+            setBalance(result.data.totals[0].balance)
+
+        } catch (e) {
+            console.log('Ocurrio un error: ' + e)
+        }
+    }
+    useEffect(()=>{
+        console.log('CashR: ',cashRegister)
+    },[cashRegister])
+    useEffect(() => {
+        if (variableProductSelected) {
+
+            if (variableProductSelected.size.stock > 0) {
+                setProd(variableProductSelected)
+            } else {
+                productOutOfStock(variableProductSelected)
+            }
+
+            setSearch('')
+        }
+    }, [variableProductSelected])
+   
+    const toggleModal = () => {
+        setShowModal(!showModal)
+    }
+    const toggleLocalModal = () => {
+        setShowLocalModal(!showLocalModal)
+    }
+    const productOutOfStock = (product) => {
+        if (product.size) {
+            Swal.fire({
+                title: "Sin Stock",
+                text: `la variante ${product.size.size}, del producto ${product.name} se ha agotado`,
+                icon: "error"
+            });
+        } else {
+            Swal.fire({
+                title: "Sin Stock",
+                text: `el producto ${product.name} se ha agotado`,
+                icon: "error"
+            });
+        }
+
+    }
+    const handleSizeSelection = async (size) => {
+        const s = {...size}
+            const result = await dt.filter(product => product.product_id === s.product_id)
+            result[0].size = s
+            const varPord ={...result[0]} 
+            setVariableProductSelected(varPord)
+    }
+    const handleProductSelection = (product) => {
+        const p = { ...product }
+        if (p.general_stock === 0) {
+            productOutOfStock(product)
+            setSearch('')
+            return
+        }
+        if (p.is_variable === 1) {
+            setVariableProduct(p)
+            setEffectBand(!effectBand)
+            setSearch('')
+        } else {
+            setProd(p)
+            setSearch('')
+        }
+
+    }
+    const handleCashMovement= async () =>{
+        await fetchMovements()
+        setModalOption(1)
+        setModalTitle('Movimiento de Efectivo')
+        toggleLocalModal()
+    }
+    const handleCashRegCut= async () =>{
+        await fetchMovements()
+        setCashCutBand(!cashCutBand)
+        setModalOption(2)
+        setModalTitle('Corte de Caja')
+        toggleLocalModal()
+    }
+    const renderModalContent =()=>{
+        if(modalOption===1){
+            return(
+                <CashMovement 
+                cashRegister={cashRegister} 
+                toggleLocalModal={toggleLocalModal}
+                balance={balance}
+                movements={movements}
+                deposits={deposits}
+                withdrawals={withdrawals}
+                fetchMovements={fetchMovements}
+                />
+            )
+        }
+        else if(modalOption===2){
+            return(
+                <CashRegCut 
+                cashRegister={cashRegister} 
+                cashCutBand={cashCutBand} 
+                balance={balance}
+                deposits={deposits}
+                withdrawals={withdrawals} 
+                movements={movements}/>
+            )
+        }
     }
     return (
         <div className="pos-layout">
@@ -73,8 +174,10 @@ function PosLayout({cashRegister}) {
                             {user.user_name}
                         </button>
                         <ul className="dropdown-menu">
-                            <li><Link className="dropdown-item" to={'cash-movements'}>Caja</Link></li>
-                            <li><Link className="dropdown-item" to={'/dashboard'}>Ir al Dashboard</Link></li>
+                        {/* <li><Link className="dropdown-item" to={'sales-resum'}>Resumen Ventas</Link></li> */}
+                            <li><button onClick={()=>{handleCashMovement()}} className="dropdown-item" >Movimiento de Efectivo</button></li>
+                            <li><button onClick={()=>{handleCashRegCut()}} className="dropdown-item" >Corte de caja</button></li>
+                            <li><Link className="dropdown-item" to={user.profile.toLowerCase()==='administrador'?'/dashboard':'/'}>Ir al Dashboard</Link></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><Link className="dropdown-item" to={'/logout'}>Cerrar Sesión</Link></li>
                         </ul>
@@ -83,20 +186,50 @@ function PosLayout({cashRegister}) {
             </div>
             <div className='products-section'>
                 <div className='products-searcher-wrapper'>
-                    <ProductsSearcher data={data} dataCopy={dataCopy} setDataCopy={setDataCopy} addToCart={addToCart} selectedProduct={selectedProduct}/>
+                    <ProductsSearcher
+                        dt={dt}
+                        dtCopy={dtCopy}
+                        setDtCopy={setDtCopy}
+                        search={search}
+                        setSearch={setSearch}
+                        handleProductSelection={handleProductSelection}
+                        sizes={sizes}
+                        handleSizeSelection={handleSizeSelection}
+                    />
                 </div>
                 <div className='products-grid-wrapper'>
-                        {renderProducts()}
+                    <ProductsGrid 
+                    setDt={setDt} 
+                    setDtCopy={setDtCopy}  
+                    dtCopy={dtCopy}
+                    effectBand={effectBand}
+                    showModal={showModal}
+                    toggleModal={toggleModal}
+                    variableProduct={variableProduct}
+                    setVariableProductSelected={setVariableProductSelected}
+                    handleProductSelection={handleProductSelection}
+                    handleSizeSelection={handleSizeSelection}
+                    setSizes={setSizes}
+                    sizes={sizes}
+                    />
                 </div>
             </div>
             <div className='cart-section'>
+                <div className='cart-section-wrapper'>
                 <div className='cart'>
-                    <Cart products={cartProducts}/>
+                     <Cart cartProducts={cartProducts} setCartProducts={setCartProducts} prod={prod} setProd={setProd}/>
                 </div>
                 <div className='cart-actions'>
-                    
+                    <CartActions cartProducts={cartProducts} setCartProducts={setCartProducts} cashRegister={cashRegister} setDt={setDt} setDtCopy={setDtCopy} setSizes={setSizes} />
                 </div>
+                </div>
+                
             </div>
+           <Modal title={modalTitle} showModal={showLocalModal} toggleModal={toggleLocalModal}>
+            {
+                renderModalContent()
+            }
+           </Modal>
         </div>
     )
 }

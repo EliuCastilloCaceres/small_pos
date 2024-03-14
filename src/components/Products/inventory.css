@@ -1,0 +1,102 @@
+.inventory-container{
+   border: 1px solid red;
+   margin-top: 10px;
+  
+}
+.product-row{
+    cursor: pointer;
+}
+.inventory-product-image{
+    width: 50px;
+    height: auto;
+}
+.inventory-sub-menu-wrapper{
+    display: flex;
+    gap: 10px;
+}
+.product-view-container{
+    /* border: 1px solid red; */
+    width: 100%;
+    overflow: auto;
+    
+}
+.product-view-wrapper{
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 800px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    overflow: auto;
+    box-shadow: 6px 5px 13px -1px rgba(189,189,189,1);
+
+}
+.product-view-container .operation-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.selected-product-view {
+    /* border: 1px solid green; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.selected-product-view .inventory-product-image{
+    width: 150px;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.selected-product-view .product-information{
+    display: flex;
+    flex-flow: column wrap;
+    gap: 5px;
+}
+.selected-product-view .product-information .info-div{
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.product-view-container .operation-container .operation-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.product-view-container .operation-container .operation-type-icon{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+.product-view-container .operation-container .operation-type-icon i{
+   font-size: 2rem;
+   font-weight: bolder;
+   color: white;
+}
+.table-wrapper{
+    width: 100%;
+    /* height: 500px;
+    overflow: auto; */
+}
+
+.inventory-resum{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+}

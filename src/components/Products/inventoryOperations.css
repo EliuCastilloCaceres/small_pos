@@ -1,0 +1,20 @@
+.operations-wrapper {
+    border: 1px solid red;
+    height: calc(100vh - 300px);
+    overflow: auto;
+}
+.operations-container{
+    height: 75%;
+    overflow-y: scroll;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.inventory-resum{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+}

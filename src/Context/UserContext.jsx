@@ -5,7 +5,7 @@ const UserContext = createContext();
 export const UserContextProvider = ({children})=>{
     const [user,setUser] = useState(null)
     useEffect(()=>{
-        console.log('user Logged',user)
+        //console.log('user Logged',user)
     },[user])
 
     const login = (userData) => {

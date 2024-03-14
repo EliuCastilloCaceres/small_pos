@@ -18,14 +18,14 @@ function Pos() {
     const [cashRegSelection, setCashRegSelection] = useState('')
     const [data, isLoading, error] = usePetition(`cash-registers/open`)
     useEffect(() => {
-        console.log('selected cashReg:', selectedCashReg)
+        // console.log('selected cashReg:', selectedCashReg)
     }, [selectedCashReg])
     const filterCashRegs = (field, value) => {
         const result = data.filter(cashReg => cashReg[field] === value)
         return result
     }
     useEffect(() => {
-        console.log('cashRegsOpen: ', data)
+        //console.log('cashRegsOpen: ', data)
 
         if (data && data.length > 0) { //there are open cashregs?
             if (data.length > 1) {//there are more than 1?

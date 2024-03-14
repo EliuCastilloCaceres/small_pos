@@ -7,11 +7,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 .filters-form{
     display: flex;
     align-items: center;
     gap: 5px;
+    flex-wrap: wrap;
+}
+.orders-wrapper{
+    border: 1px solid red;
+    height: calc(100vh - 270px);
+    overflow: auto;
 }
 .date-picker-container, .select-order-container{
     display: flex;
@@ -51,7 +58,7 @@ input[type="date"], select {
     font-weight: bolder;
 }
 .orders-container{
-    height: 400px;
+    height: 65%;
     overflow-y: scroll;
     margin: 10px;
     border: 1px solid #ccc;
@@ -80,14 +87,16 @@ input[type="date"], select {
     justify-content: space-between;
     margin-bottom: 20px;
     padding: 10px;
+    flex-wrap: wrap;
 }
 .information-card{
     display: flex;
     flex-direction: column;
-    border: 1px solid green;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-    padding: 5px;
     box-sizing: border-box;
+}
+.add-btn{
+    font-weight: bold;
+    font-size: 1.2rem;
 }

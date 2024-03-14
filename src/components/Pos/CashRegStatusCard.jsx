@@ -1,9 +1,16 @@
+import { useState } from 'react'
 import './cashRegstatusCard.css'
 
-function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userActive,isDisabled }) {
+function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userActive,isDisabled,onMouseOver, setValidate }) {
     return (
         <>
-            <div onClick={onClick} className={`cash-reg-card ${isDisabled}`}>
+            <div onMouseOver={()=>{
+                onMouseOver()
+            }} 
+            onMouseLeave={()=>{setValidate(true)}}
+            onClick={onClick}
+
+            className={`cash-reg-card ${isDisabled} `}>
                 <i className={iconClass}></i>
                 <span>{title}</span>
                 {

@@ -1,0 +1,13 @@
+.movements-table-wrapper{
+    height: 300px;
+    overflow: auto;
+   border: 1px solid #eee;
+}
+
+.totals-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px;
+}

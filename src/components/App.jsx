@@ -21,7 +21,7 @@ function App() {
             'Authorization': `Bearer ${token}`,
           }
         })
-        console.log('autenticado')
+        //console.log('autenticado')
         //console.log(response.data)
         setUser(response.data.user[0])
         login(response.data.user[0])
@@ -43,11 +43,11 @@ function App() {
   }, [])
   useEffect(() => {
     if (user) {
-      console.log('Valor actual de user:', user);
-      console.log('Valor actual de userContext:', userData);
+      //console.log('Valor actual de user:', user);
+      //console.log('Valor actual de userContext:', userData);
     }
     if (permissions) {
-      console.log('permisos: ', permissions)
+      //console.log('permisos: ', permissions)
     }
   }, [user, userData]);
   if (!localStorage.getItem("token")) return <Navigate to="/login" />
@@ -128,7 +128,6 @@ function App() {
                         {user.user_name}
                       </button>
                       <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#">some action</a></li>
                         <li><hr className="dropdown-divider" /></li>
                         <Link className='btn btn-danger w-100' to={'/logout'}>Cerrar Sesión</Link>
                       </ul>
