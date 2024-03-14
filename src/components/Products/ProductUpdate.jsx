@@ -111,7 +111,7 @@ function ProductUpdate() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(fields)
-        if(fields.isVariable===1 && fields.generalStock!=totalSizesStock){
+        if(fields.isVariable && fields.generalStock!=totalSizesStock){
             alert(`el stock general: ${fields.generalStock} y el total de las tallas: ${totalSizesStock}, no coinciden`)
             return
         }
@@ -181,7 +181,12 @@ function ProductUpdate() {
 
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="sku">sku</label>
+                    <div className="d-flex gap-1">
                     <input onChange={(e) => { handleChange(e, 'sku') }} value={fields.sku} type="text" name="sku" className="form-control" />
+                    <Link to={`/products/barcode/${fields.sku}/${fields.generalStock}`} type="button" className={`btn btn-info ${fields.sku && fields.sku != '' ? '' : 'disabled'}`}>
+                        <i className="bi bi-upc"></i>
+                    </Link>
+                    </div>
                 </div>
                 <div className="col-md-6">
                     <label className="form-label" htmlFor="flexCheckDefault">Nombre</label>
@@ -230,7 +235,7 @@ function ProductUpdate() {
                 {
                     fields.isVariable && (
                       
-                        <ProductSizes totalSizesStock={totalSizesStock} setTotalSizesStock={setTotalSizesStock} sizes={sizes} setSizes={setSizes} fetchSizes={fetchSizes} />
+                        <ProductSizes totalSizesStock={totalSizesStock} setTotalSizesStock={setTotalSizesStock} sizes={sizes} setSizes={setSizes} fetchSizes={fetchSizes} setSaved={setSaved} />
                     )
                 }
                 <div className="col-12 text-center my-5">

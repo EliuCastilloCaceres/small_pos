@@ -24,7 +24,7 @@ const Customers = () => {
                 }
             })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     const result = data.filter(customer => customer.customer_id != id)
                     setData(result);
                     toast.success(`Cliente ${id} Borrado Exitosamente`)

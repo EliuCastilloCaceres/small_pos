@@ -19,4 +19,8 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
-  }
+}
+.update-size-card .actions-btns{
+    flex-flow: row wrap;
+    gap: 10px;
+}

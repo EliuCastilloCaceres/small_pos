@@ -25,7 +25,7 @@ function Inventory() {
     const [operationType, setOperationType] = useState('entry')
     const [sizes, setSizes] = useState()
     const [qty, setQty] = useState(0)
-    const [reason, setReason] = useState('')
+    const [reason, setReason] = useState('Inventario inicial')
     const [products, setProducts] = useState();
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
@@ -134,7 +134,7 @@ function Inventory() {
     const toggleModal = () => {
         setShowModal(!showModal)
         setQty(0)
-        setReason('')
+        setReason('Inventario inicial')
         setOperationType('entry')
     }
     const handleQtyChange = (e) => {

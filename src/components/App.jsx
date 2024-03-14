@@ -35,21 +35,13 @@ function App() {
     }
     if (token) {
       fetchAuth();
-      // const closeSession = ()=>{
-      //   localStorage.removeItem('token')
-      // }
-      // window.addEventListener('beforeunload',closeSession)
+      const closeSession = ()=>{
+        localStorage.removeItem('token')
+      }
+      window.addEventListener('beforeunload',closeSession)
     }
   }, [])
-  useEffect(() => {
-    if (user) {
-      //console.log('Valor actual de user:', user);
-      //console.log('Valor actual de userContext:', userData);
-    }
-    if (permissions) {
-      //console.log('permisos: ', permissions)
-    }
-  }, [user, userData]);
+
   if (!localStorage.getItem("token")) return <Navigate to="/login" />
 
   return (

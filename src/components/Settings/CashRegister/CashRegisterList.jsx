@@ -89,7 +89,7 @@ function CashRegisterList() {
                 </GridCard>
                 {
                     data && data.length > 0 && (
-                        data.map(({ name, cash_register_id, is_open }) => (
+                        data.map(({ name, cash_register_id, is_open}) => (
                             <div key={cash_register_id} className="w-100 h-100 d-flex flex-column align-items-center border border-primary p-1 rounded">
                                 <CashRegStatusCard
                                     title={name}

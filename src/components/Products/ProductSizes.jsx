@@ -6,7 +6,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import ProductBarCode from './productBarCode';
 import UserContext from '../../Context/UserContext';
-function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fetchSizes }) {
+function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fetchSizes, setSaved }) {
     const { user } = useContext(UserContext)
     if (user.permissions.products !== 1) {
         return <Navigate to={'/dashboard'} />
@@ -49,7 +49,22 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
             e.preventDefault(); // Evita que se envíe el formulario
         }
     }
+    const handleNewSizeChange = (e) => {
+        const value = e.target.value.toUpperCase()
+        setSize(value)
+        const skuDefault = productId + value
+        if (value && value != '') {
+            setSku(skuDefault)
+        } else {
+            setSku('')
+        }
+
+    }
     const handleAddSize = () => {
+        if (size === '') {
+            sizeInput.focus()
+            return
+        }
         const sizeInfo = {
             size,
             sku,
@@ -61,6 +76,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
         setSku('')
         setStock(0)
         sizeInput.focus()
+        setSaved(false)
     }
     const handleDeleteSize = (idx, id) => {
         if (id) {
@@ -159,10 +175,15 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
                                     <input onKeyDown={preventSubmitForm} onChange={(e) => { handleSizeChange(e, 'stock', index) }} className="form-control  text-center" type="number" value={s.stock} name="stock" />
 
                                 </div>
-                                <div>
-                                    <button onClick={() => { handleDeleteSize(index,s.size_id?s.size_id:null) }} type="button" className={`btn btn-danger`}>
+                                <div className='actions-btns'>
+                                    <Link to={`/products/barcode/${s.sku}/${s.stock}`} type="button" className={`btn btn-info ${s.sku && s.sku != '' ? '' : 'disabled'}`}>
+                                        <i className="bi bi-upc"></i>
+                                    </Link>
+                                    <button onClick={() => { handleDeleteSize(index, s.size_id ? s.size_id : null) }} type="button" className={`btn btn-danger`}>
                                         <i className="bi bi-trash"></i>
                                     </button>
+
+
                                 </div>
                             </li>
                         ))
@@ -179,7 +200,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
             <div className='row g-3 justify-content-center'>
                 <div className="col-md-3">
                     <label className="form-label fw-bold">Talla</label>
-                    <input onKeyDown={preventSubmitForm} onChange={(e) => { setSize(e.target.value) }} id='sizeInput' type="text" name="newSize" className="form-control" placeholder='Ej: 25' value={size} />
+                    <input onKeyDown={preventSubmitForm} onChange={(e) => { handleNewSizeChange(e) }} id='sizeInput' type="text" name="newSize" className="form-control" placeholder='Ej: 25' value={size} />
                 </div>
                 <div className="col-md-4">
                     <label className="form-label fw-bold">Sku</label>
@@ -190,7 +211,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
                     <input onKeyDown={preventSubmitForm} onChange={handleStockChange} type="number" name="newStock" className="form-control" value={stock} />
                 </div>
                 <div className="col-md-2 d-flex align-self-end">
-                    <button onKeyDown={preventSubmitForm} onClick={handleAddSize} type="button" className={`btn btn-success w-100`}> Agregar </button>
+                    <button onClick={handleAddSize} type="button" className={`btn btn-success w-100`}> Agregar </button>
                 </div>
 
                 <div>

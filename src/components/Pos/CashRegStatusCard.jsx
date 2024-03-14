@@ -17,7 +17,7 @@ function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userAc
                 <span>{title}</span>
 
                 {
-                    isOpen===0 && (
+                    isOpen===0 && balance &&(
                         <div className='d-flex'>
                         <span className='badge-title'>Saldo: </span>
                         <div className='last-open-badge badge rounded-pill bg-dark'>

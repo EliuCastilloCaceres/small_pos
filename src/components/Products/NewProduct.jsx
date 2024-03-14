@@ -51,6 +51,11 @@ function NewProduct() {
         setStock(0)
         sizeInput.focus()
     }
+    const preventSubmitForm = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Evita que se envíe el formulario
+        }
+    }
     const handleChange = (e, fieldName) => {
         setFields({
             ...fields,
@@ -167,6 +172,7 @@ function NewProduct() {
                     isVariable: false,
                     providerId: ''
                 })
+                setSizes([])
                 e.target.image.value = ''
                 setImgSrc(`${URL_BASE}product/images/sin_imagen.jpg`)
             })
@@ -243,15 +249,15 @@ function NewProduct() {
                             <div className='row g-3 justify-content-center'>
                                 <div className="col-md-3">
                                     <label className="form-label fw-bold">Talla</label>
-                                    <input onChange={(e) => { setSize(e.target.value) }} id='sizeInput' type="text" name="newSize" className="form-control" placeholder='Ej: 25' value={size} />
+                                    <input onKeyDown={preventSubmitForm} onChange={(e) => { setSize(e.target.value) }} id='sizeInput' type="text" name="newSize" className="form-control" placeholder='Ej: 25' value={size} />
                                 </div>
                                 <div className="col-md-4">
                                     <label className="form-label fw-bold">Sku</label>
-                                    <input onChange={(e) => { setSku(e.target.value) }} type="text" name="newSku" placeholder='Ej: P2547T25' className="form-control" value={sku} />
+                                    <input onKeyDown={preventSubmitForm} onChange={(e) => { setSku(e.target.value) }} type="text" name="newSku" placeholder='Ej: P2547T25' className="form-control" value={sku} />
                                 </div>
                                 {/* <div className="col-md-3">
                                     <label className="form-label fw-bold">Stock</label>
-                                    <input onChange={handleStockChange} type="number" name="newStock" className="form-control" value={stock} />
+                                    <input onKeyDown={preventSubmitForm} onChange={handleStockChange} type="number" name="newStock" className="form-control" value={stock} />
                                 </div> */}
                                 <div className="col-md-2 d-flex align-self-end">
                                     <button onClick={handleAddSize} type="button" className={`btn btn-success w-100`}> Agregar </button>
@@ -274,7 +280,7 @@ function NewProduct() {
                                                                 </div>
                                                                 <div>
                                                                     <span>Sku</span>
-                                                                    <input onChange={(e) => { handleSizeChange(e, 'sku', index) }} className="form-control" type="text" value={s.sku} name="sku" />
+                                                                    <input onChange={(e) => { handleSizeChange(e, 'sku', index) }} className="form-control" type="text" value={s.sku} name="sizeSku" />
 
                                                                 </div>
                                                                 {/* <div>

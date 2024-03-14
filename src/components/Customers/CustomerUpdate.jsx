@@ -80,6 +80,7 @@ function CustomerUpdate() {
                 setLoading(false)
                 console.log(response)
                 toast.success(`Cliente ${customerId} actualizado`)
+                setSaved(true)
 
             })
             .catch(error => {

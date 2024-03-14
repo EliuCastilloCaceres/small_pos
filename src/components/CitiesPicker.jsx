@@ -25,7 +25,7 @@ function citiesPicker({selectedCity, state, name, unSaved,selectCity}) {
     return (
         <>
           
-            <select onChange={(e)=>{
+            <select required onChange={(e)=>{
                 selectCity(e.target.value)
                 unSaved()
             }} className="form-select" value={selectedCity} name={name} >
