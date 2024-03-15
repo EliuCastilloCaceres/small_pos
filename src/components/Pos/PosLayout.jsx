@@ -8,7 +8,7 @@ import Cart from './Cart'
 
 import ProductsGrid from './ProductsGrid'
 import Swal from 'sweetalert2'
-import CartActions from './cartActions'
+import CartActions from './CartActions'
 import Modal from '../../Modal'
 import CashMovement from './CashRegMov/CashMovement'
 import CashRegCut from './CashRegMov/CashRegCut'
