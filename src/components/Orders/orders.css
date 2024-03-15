@@ -39,9 +39,7 @@ input[type="date"], select {
     display: flex;
     align-items: flex-end;
 }
-.search-filter-container{
-    /* width: 400px; */
-}
+
 .search-filter-wrapper{
     display: flex;
     justify-content: center;
