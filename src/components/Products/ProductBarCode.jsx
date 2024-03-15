@@ -9,9 +9,9 @@ function ProductBarCode() {
     // if(user.permissions.products !==1){
     //     return <Navigate to={'/dashboard'} />
     // }
-    useEffect(()=>{
-        console.log('pb user: ',user)
-    },[user])
+    // useEffect(()=>{
+    //     console.log('pb user: ',user)
+    // },[user])
     const { sku } = useParams()
     const { qty } = useParams()
     useEffect(() => {

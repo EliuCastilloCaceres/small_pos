@@ -60,7 +60,7 @@ function UserPermissions() {
 
     const addPermissions = (e) => {
         e.preventDefault()
-        console.log('Adding', fields)
+        //console.log('Adding', fields)
         setLoading(true)
         // return
         axios.post(`${URL_BASE}users/${userId}/create/permissions`, fields, {
@@ -68,7 +68,7 @@ function UserPermissions() {
                 'Authorization': `Bearer ${token}`,
             }
         }).then(response => {
-            console.log(response)
+            //console.log(response)
             setData(fields)
             setLoading(false)
             toast.success('Permisos actualizados')
@@ -85,13 +85,13 @@ function UserPermissions() {
     const updatePermissions = (e) => {
         e.preventDefault()
         setLoading(true)
-        console.log('Updating', fields)
+    //   console.log('Updating', fields)
         axios.post(`${URL_BASE}users/${userId}/update/permissions`, fields, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         }).then(response => {
-            console.log(response)
+            //console.log(response)
             setLoading(false)
             toast.success('Permisos actualizados')
             setSaved(true)

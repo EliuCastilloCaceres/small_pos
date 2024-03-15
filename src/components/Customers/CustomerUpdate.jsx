@@ -78,7 +78,7 @@ function CustomerUpdate() {
         })
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                //console.log(response)
                 toast.success(`Cliente ${customerId} actualizado`)
                 setSaved(true)
 

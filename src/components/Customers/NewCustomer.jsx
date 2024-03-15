@@ -65,7 +65,7 @@ function NewCustomer() {
             .then(response => {
                 toast.success('Cliente creado')
                 setLoading(false)
-                console.log(response)
+                //console.log(response)
                 setSaved(true)
                 setFields({
                     firstName: '',

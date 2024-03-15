@@ -67,7 +67,7 @@ function Receipt() {
             .then(response => {
                 setLoading(false)
                 setSaved(true)
-                console.log(response)
+                //console.log(response)
                 toast.success('Ticket Actualizado')
                 
             })

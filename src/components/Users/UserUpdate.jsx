@@ -27,7 +27,7 @@ function UserUpdate() {
 
     useEffect(() => {
         if (data && data.length > 0) {
-            console.log(data)
+           // console.log(data)
             setFields({
                 firstName: data[0].first_name,
                 lastName: data[0].last_name,
@@ -80,7 +80,7 @@ function UserUpdate() {
         })
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                //console.log(response)
                 toast.success('Usuario Actualizado')
                 setSaved(true)
             })

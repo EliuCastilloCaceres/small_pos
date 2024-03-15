@@ -37,8 +37,8 @@ function Pos() {
                         if (user.profile.toLowerCase() === 'administrador') { //is admin
                             setSelectedCashReg(result[0])
                         } else {
-                            console.log(user.user_id)
-                            console.log(result[0].user_id)
+                            //console.log(user.user_id)
+                            //console.log(result[0].user_id)
                             if (user.user_id === result[0].user_id) {//user logged is same of the cashReg open?
                                 setSelectedCashReg(result[0])
                             }
@@ -61,7 +61,7 @@ function Pos() {
                     }
                 }
             } else {
-                console.log('no more than one')
+                //console.log('no more than one')
                 if (user.profile.toLowerCase() === 'administrador') { //is admin
                     setSelectedCashReg(data[0])
                 } else {
@@ -79,7 +79,7 @@ function Pos() {
     const handleSubmit = (e) => {
         e.preventDefault()
         const result = selectedCashReg.filter(cr => cr.cash_register_id == cashRegSelection)
-        console.log('crSelection',result)
+        //console.log('crSelection',result)
         setSelectedCashReg(result[0])
     }
     const renderPos = () => {

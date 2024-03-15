@@ -36,6 +36,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
             fetchMovements()
 
         } catch (e) {
+            console.log(e)
             console.log('Ocurrio un error: ' + e)
             toast.error('Ocurrio un error: ' + e)
         }
@@ -53,6 +54,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
             fetchMovements()
 
         } catch (e) {
+            console.log(e)
             console.log('Ocurrio un error: ' + e)
             toast.error('Ocurrio un error: ' + e)
         }
@@ -101,7 +103,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
             description,
             userId: user.user_id,
         }
-        console.log('MovData: ', movementData)
+        // console.log('MovData: ', movementData)
         try {
             const result = await axios.post(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/movements/create`, movementData, {
                 headers: {
@@ -114,7 +116,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
             fetchMovements()
 
         } catch (e) {
-            console.log('Ocurrio un error: ' + e)
+            console.log(e)
             toast.error('Ocurrio un error: ' + e)
         }
     }

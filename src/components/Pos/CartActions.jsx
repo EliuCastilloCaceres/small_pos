@@ -26,7 +26,7 @@ function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDt
     const [customer, setCustomer] = useState()
     useEffect(() => {
         if (data && data.length > 0) {
-            console.log('gcId: ', data[0].customer_id)
+            // console.log('gcId: ', data[0].customer_id)
             setCustomer(data[0].customer_id)
         }
     }, [data])
@@ -34,7 +34,7 @@ function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDt
         if (cartProducts && cartProducts.length > 0) {
             let subtotals = 0
             cartProducts.map(p => {
-                console.log(p.subtotal)
+                //console.log(p.subtotal)
                 subtotals += p.subtotal
             })
             parseFloat(subtotals)
@@ -57,7 +57,7 @@ function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDt
     useEffect(() => {
         if (discountApplied.disc > 0) {
             let disc = subtotal - discountApplied.disc
-            console.log('the total: ', disc)
+            //console.log('the total: ', disc)
             setTotal(disc)
         } else {
             setTotal(subtotal)

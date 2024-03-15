@@ -115,7 +115,7 @@ function Orders() {
             }
         })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 toast.success(`Orden: ${orderId} actualizada`, {
                     id: updatingOrderToast
                 })

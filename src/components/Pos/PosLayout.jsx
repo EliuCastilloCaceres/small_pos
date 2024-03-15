@@ -40,7 +40,7 @@ function PosLayout({ cashRegister }) {
     const [withdrawals, setWithdrawals] = useState()
     const searchInput = document.getElementById('search-input')
     const fetchMovements = async () => {
-        console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
+        //console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
         const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
         try {
             const result = await axios.get(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/${queryDate}/movements`, {
@@ -49,8 +49,8 @@ function PosLayout({ cashRegister }) {
 
                 }
             })
-            console.log('movements: ', result.data.movements)
-            console.log('totals: ', result.data.totals)
+            //console.log('movements: ', result.data.movements)
+            //console.log('totals: ', result.data.totals)
             setMovements(result.data.movements)
             setDeposits(result.data.totals[0].deposits_total)
             setWithdrawals(result.data.totals[0].withdrawals_total)
@@ -60,9 +60,9 @@ function PosLayout({ cashRegister }) {
             console.log('Ocurrio un error: ' + e)
         }
     }
-    useEffect(()=>{
-        console.log('CashR: ',cashRegister)
-    },[cashRegister])
+    // useEffect(()=>{
+    //     //console.log('CashR: ',cashRegister)
+    // },[cashRegister])
     useEffect(() => {
         if (variableProductSelected) {
 

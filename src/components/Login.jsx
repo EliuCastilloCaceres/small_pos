@@ -18,7 +18,7 @@ const Login = () => {
         axios.post(`${import.meta.env.VITE_URL_BASE}login`, user)
             .then(data => {
                 setCargando(false)
-                console.log(data)
+                //console.log(data)
                 localStorage.setItem("token", data.data.token)
                 navigation("/")
             })

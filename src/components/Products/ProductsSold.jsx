@@ -38,7 +38,7 @@ function ProductsSold() {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+            //console.log(response)
             setProducts(response.data.products)
             setTotal(response.data.total)
             setLoading(false)
@@ -51,12 +51,7 @@ function ProductsSold() {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        const opInfo = {
-            startDate,
-            endDate,
-            sku,
-        }
-        console.log(opInfo)
+       
         fetcProductsSold()
     }
 
@@ -116,7 +111,7 @@ function ProductsSold() {
                                             <tbody>
                                                 {
                                                     products.map((p, index) => (
-                                                        <tr key={p.order_details_id}>
+                                                        <tr key={p.orders_details_id}>
                                                             <td>{index + 1}</td>
                                                             <td>{p.order_id}</td>
                                                             <td>{p.sku}</td>

@@ -18,7 +18,7 @@ function CashRegStatus() {
     const { user } = useContext(UserContext)
     useEffect(()=>{
         //console.log('User in statusCashReg: ',user)
-        console.log('the data: !' ,newData)
+        //console.log('the data: !' ,newData)
     },[newData])
     const navigation = useNavigate()
     const fetchCashRegStatus = async () => {
@@ -41,7 +41,7 @@ function CashRegStatus() {
                 }
             })
         )
-        console.log('status:',cashRegs.filter(Boolean))
+        //console.log('status:',cashRegs.filter(Boolean))
         setCashRegisters(cashRegs.filter(Boolean))
     }
     useEffect(() => {
@@ -55,7 +55,7 @@ function CashRegStatus() {
             const result = data.filter(item =>
                 !cashRegisters.some(item2 => item.cash_register_id === item2.cash_register_id)
             )
-            console.log('the result is: ', result)
+            //console.log('the result is: ', result)
             setNewData(cashRegisters.concat(result))
         }
     }, [data, cashRegisters])
@@ -71,7 +71,7 @@ function CashRegStatus() {
 
                 }
             })
-            console.log(response)
+            //console.log(response)
             return navigation(`/pos?crId=${crId}`)
         } catch (e) {
             console.log(e)
@@ -79,7 +79,7 @@ function CashRegStatus() {
         }
     }
     const openAmountSet = async (crId,)=>{
-        console.log(crId)
+        //console.log(crId)
         const { value: openAmount } = await Swal.fire({
             title: "Monto Inicial",
             input: "number",
@@ -92,10 +92,10 @@ function CashRegStatus() {
     }
     const ValidatePermissionsAndStatus =  (isOpen, crUser, crName,crId) => {
              //validamos si la caja está abierta
-        console.log('open?: ',isOpen)
-        console.log('is admin?: ',user.profile)
-        console.log('user logged: ',user.user_name)
-        console.log('user of the cash open: ',crUser)
+        //console.log('open?: ',isOpen)
+        //console.log('is admin?: ',user.profile)
+        //console.log('user logged: ',user.user_name)
+       // console.log('user of the cash open: ',crUser)
         
         if (isOpen == 1) {
            
@@ -128,7 +128,7 @@ function CashRegStatus() {
     const handleMouseOver = (isOpen)=>{
         if(isOpen===0){
             if(validate === true){
-                console.log('fetching...')
+                //console.log('fetching...')
                 fetchCashRegStatus()
             }
             

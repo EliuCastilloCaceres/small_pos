@@ -10,7 +10,7 @@ function ImageUploader({isSaved, changeImgSrc, imgSrc}) {
             const reader = new FileReader();
 
             reader.onload = () => {
-                console.log(reader.result)
+                //console.log(reader.result)
                 changeImgSrc(reader.result);
             };
 

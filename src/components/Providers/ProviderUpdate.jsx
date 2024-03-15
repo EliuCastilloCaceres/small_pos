@@ -79,7 +79,7 @@ function ProviderUpdate() {
             })
                 .then(response => {
                     setLoading(false)
-                    console.log(response)
+                    //console.log(response)
                     toast.success('Proveedor actualizado')
                     setSaved(true)
 

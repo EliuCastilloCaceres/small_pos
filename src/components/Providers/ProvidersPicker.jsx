@@ -7,7 +7,7 @@ function ProvidersPicker({ required, selectedProvider, name, isSaved, selectProv
         if(data && data.length>0){
             const noProvider = data.filter(provider => provider.name === '-')
             setNoProvider(noProvider[0].provider_id)
-            console.log(noProvider[0].provider_id)
+            //console.log(noProvider[0].provider_id)
            if(selectedProvider=='' || !selectProvider){
             selectProvider(noProvider[0].provider_id)
            }

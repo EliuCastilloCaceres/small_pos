@@ -34,7 +34,7 @@ function CashRegisterForm ({cashRegData, addData, updateData, toggleModal}){
             }
         })
             .then(response => {
-                console.log(response)
+                //console.log(response)
                 toast.success('Caja Registradora Actualizada',{
                     id:toastId,
                 })
@@ -58,7 +58,7 @@ function CashRegisterForm ({cashRegData, addData, updateData, toggleModal}){
             }
         })
             .then(response => {
-                console.log(response)
+                //console.log(response)
                 toast.success('Caja Registradora Creada',{
                     id:toastId,
                 })

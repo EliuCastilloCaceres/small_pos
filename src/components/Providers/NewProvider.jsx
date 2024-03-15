@@ -59,7 +59,7 @@ function NewProvider() {
         })
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                //console.log(response)
                 toast.success('Proveedor Creado')
                 setSaved(true)
                 setFields({

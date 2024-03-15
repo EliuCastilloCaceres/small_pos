@@ -24,7 +24,7 @@ const Users = () => {
                 }
             })
                 .then(response => {
-                    console.log(response)
+                    //console.log(response)
                     const result = data.filter(user => user.user_id != id)
                     setData(result);
                     toast.success(`Usuario ${id} borrado`)

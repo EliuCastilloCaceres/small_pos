@@ -55,7 +55,7 @@ function InventoryOperations() {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+            //console.log(response)
             let data = response.data.data
             setOperations(data)
             setOperationsCopy(data)
@@ -74,7 +74,7 @@ function InventoryOperations() {
             endDate,
             operationType,
         }
-        console.log(opInfo)
+       // console.log(opInfo)
         fetchOperations()
     }
 

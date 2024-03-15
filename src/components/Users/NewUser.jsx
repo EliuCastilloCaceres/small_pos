@@ -66,7 +66,7 @@ function NewUser() {
         })
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                //console.log(response)
                 toast.success('Usuario Creado')
                 setSaved(true)
                 setFields({

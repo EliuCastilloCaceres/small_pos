@@ -22,12 +22,11 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
     const navigate = useNavigate()
 
     const CloseCashReg = async () => {
-        console.log('opcdId: ',)
         const closeDetails = {
             closeAmount: balance - CashWithdrawal,
             ocdId: cashRegister.open_close_details_id
         }
-        console.log('CloseD: ', closeDetails)
+        // console.log('CloseD: ', closeDetails)
         try {
             await axios.post(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/close`, closeDetails, {
                 headers: {
@@ -49,9 +48,9 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
 
                 }
             })
-            console.log('Totals: ', result.data)
+            // console.log('Totals: ', result.data)
             if (result && result.data.data.length > 0) {
-                console.log('the totals; ', result)
+                //console.log('the totals; ', result)
                 if (result.data.data[0].card_total > 0) {
                     setCardCalculated(result.data.data[0].card_total)
                 }
@@ -93,10 +92,10 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
         content: () => componentRef.current,
         documentTitle: `Corte de Caja No. ${cashRegister.open_close_details_id}`,
         onBeforePrint: () => {
-            console.log("before printing...")
+            //console.log("before printing...")
         },
         onAfterPrint: () => {
-            console.log('after printing...')
+            // console.log('after printing...')
             CloseCashReg()
             navigate('/open-cash-register')
         },

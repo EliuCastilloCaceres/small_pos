@@ -24,7 +24,7 @@ const Providers = () => {
                 }
             })
                 .then(response => {
-                    console.log(response)
+                    //console.log(response)
                     const result = data.filter(provider => provider.provider_id != id)
                     setData(result);
                     toast.success(`Proveedor ${id} borrado`)

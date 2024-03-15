@@ -1,7 +1,7 @@
 .filters-container{
     width: 100%;
     padding: 10px;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     border-radius: 5px;
     min-height: 50px;
     display: flex;
@@ -16,7 +16,7 @@
     flex-wrap: wrap;
 }
 .orders-wrapper{
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: calc(100vh - 270px);
     overflow: auto;
 }

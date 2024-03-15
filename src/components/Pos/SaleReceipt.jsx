@@ -9,11 +9,11 @@ import { format } from 'date-fns';
 function SaleReceipt({ sale, handleToggleModal, emptyCart }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const [receiptInfo, isLoading, error] = usePetition('cash-registers/receipt')
-    useEffect(() => {
-        if (receiptInfo) {
-            console.log(receiptInfo)
-        }
-    }, [receiptInfo])
+    // useEffect(() => {
+    //     if (receiptInfo) {
+    //         console.log(receiptInfo)
+    //     }
+    // }, [receiptInfo])
 
     const clenaSale = () => {
         handleToggleModal()
@@ -31,11 +31,11 @@ function SaleReceipt({ sale, handleToggleModal, emptyCart }) {
             emptyCart()
         },
     });
-    useEffect(() => {
-        if (sale) {
-            console.log('saleDt: ', sale)
-        }
-    }, [sale])
+    // useEffect(() => {
+    //     if (sale) {
+    //         console.log('saleDt: ', sale)
+    //     }
+    // }, [sale])
     useEffect(() => {
         const saleFinished = () => {
             Swal.fire({

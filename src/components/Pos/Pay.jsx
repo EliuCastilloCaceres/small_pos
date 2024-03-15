@@ -82,12 +82,12 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+           // console.log(response)
             setLastOrderId(response.data.orderId)
             setPayView(3)
             setDt(response.data.updatedProducts)
             setDtCopy(response.data.updatedProducts)
-            console.log(response.data.updatedSizes)
+           // console.log(response.data.updatedSizes)
             setSizes(response.data.updatedSizes)
             focusInput()
            

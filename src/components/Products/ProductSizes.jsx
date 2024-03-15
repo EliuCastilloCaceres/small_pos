@@ -23,7 +23,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     useEffect(() => {
-        console.log('theS: ', sizes)
+        //console.log('theS: ', sizes)
         fetchSizes()
     }, [])
     useEffect(() => {
@@ -70,7 +70,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
             sku,
             stock: parseFloat(stock)
         }
-        console.log(sizeInfo)
+        //console.log(sizeInfo)
         setSizes(prevSizes => [...prevSizes, sizeInfo])
         setSize('')
         setSku('')
@@ -94,7 +94,7 @@ function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fe
                         'Authorization': `Bearer ${token}`,
                     }
                 })
-                console.log(response)
+               // console.log(response)
                 toast.success('Talla Borrada')
 
                 fetchSizes()

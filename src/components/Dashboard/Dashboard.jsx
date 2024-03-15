@@ -40,7 +40,7 @@ function Dashboard() {
 
                 }
             })
-            console.log(result)
+            // console.log(result)
             if (result) {
                 if (result.data.cashRegistersInfo.length > 0) {
                     setCashRegistersInfo(result.data.cashRegistersInfo)
@@ -54,6 +54,7 @@ function Dashboard() {
 
             }
         } catch (e) {
+            console.log(e)
             console.log('Ocurrio un error: ' + e)
         }
     }

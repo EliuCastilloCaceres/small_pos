@@ -66,7 +66,7 @@ function ProductUpdate() {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response.data.data)
+            //console.log(response.data.data)
             setSizes(response.data.data)
             
             setLoading(false)
@@ -110,7 +110,7 @@ function ProductUpdate() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(fields)
+        //console.log(fields)
         if(fields.isVariable && fields.generalStock!=totalSizesStock){
             alert(`el stock general: ${fields.generalStock} y el total de las tallas: ${totalSizesStock}, no coinciden`)
             return
@@ -130,7 +130,7 @@ function ProductUpdate() {
                 }
             })
             setLoading(false)
-            console.log(response)
+            //console.log(response)
             toast.success('Cambios Guardados')
             fetchSizes()
             setSaved(true)

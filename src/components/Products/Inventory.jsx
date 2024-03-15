@@ -68,7 +68,7 @@ function Inventory() {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+            //console.log(response)
             let data = response.data.data
             setProducts(data)
             setIsLoading(false)
@@ -87,7 +87,7 @@ function Inventory() {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+            //console.log(response)
             let data = response.data.data
             data.map(dt => {
                 dt.qty = 0
@@ -110,14 +110,14 @@ function Inventory() {
    }
     const createInventory = async (info) => {
         const toastId = toast.loading('Procesando..')
-        console.log('info: ', info)
+        //console.log('info: ', info)
         try {
             const response = await axios.post(`${URL_BASE}products/inventory/create`, info, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
             })
-            console.log(response)
+           // console.log(response)
             toast.success('Operación Exitosa', {
                 id: toastId,
             });
@@ -181,7 +181,7 @@ function Inventory() {
         setSelectedProduct(p)
         const prodSizes = await fetchSizes(p.product_id)
         setSizes(prodSizes)
-        console.log(prodSizes)
+        //console.log(prodSizes)
         toggleModal()
     }
     const handleSubmit = (e) => {
@@ -189,7 +189,7 @@ function Inventory() {
         if (qty === 0) {
             return
         }
-        console.log(sizes)
+        //console.log(sizes)
         let isError = false;
         if ((sizes && sizes.length > 0) && selectedProduct.is_variable === 1) {
             sizes.map((s, idx) => {

@@ -35,10 +35,10 @@ function OrderUpdate() {
             })
         }
     }, [data])
-    useEffect(() => {
-        console.log('Orden: ', order)
-        console.log(orderId)
-    }, [order])
+    // useEffect(() => {
+    //     console.log('Orden: ', order)
+    //     console.log(orderId)
+    // }, [order])
     const handleChange = (e, fieldName) => {
         setOrder({
             ...order,
@@ -72,7 +72,7 @@ function OrderUpdate() {
         })
             .then(response => {
                 setSaved(true)
-                console.log(response)
+                // console.log(response)
                 toast.success('Orden actualizada',{
                     id:updatingOrderToast
                 })

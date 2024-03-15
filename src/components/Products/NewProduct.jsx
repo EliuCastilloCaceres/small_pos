@@ -39,12 +39,16 @@ function NewProduct() {
     const [sizes, setSizes] = useState([])
 
     const handleAddSize = () => {
+        if (size === '') {
+            sizeInput.focus()
+            return
+        }
         const sizeInfo = {
             size,
             sku,
             stock: parseFloat(stock)
         }
-        console.log(sizeInfo)
+       // console.log(sizeInfo)
         setSizes(prevSizes => [...prevSizes, sizeInfo])
         setSize('')
         setSku('')
@@ -94,7 +98,7 @@ function NewProduct() {
             if (index === idx) {
                 if (name === 'stock') {
                     if (/^\d*\.?\d*$/.test(value)) {
-                        console.log('hellow')
+                        
                         return { ...item, [name]: value }; // Actualiza el valor 'stock' del elemento en el índice especificado
                     }
                 } else {
@@ -110,7 +114,7 @@ function NewProduct() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('sizes:', sizes)
+        //console.log('sizes:', sizes)
         if (!hasOnlyNumbers(e.target.purchasePrice.value)) {
 
             e.target.purchasePrice.classList.add('border-danger')
@@ -158,7 +162,7 @@ function NewProduct() {
             .then(response => {
                 setLoading(false)
                 setSaved(true)
-                console.log(response)
+                //console.log(response)
                 toast.success('Producto Creado')
                 setFields({
                     sku: '',

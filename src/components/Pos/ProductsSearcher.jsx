@@ -33,7 +33,7 @@ function ProductsSearcher({ dt, dtCopy, setDtCopy, handleProductSelection,handle
         }
         else if (result.length === 0) {// no product found
             const productVariant = await findSize(search)
-            console.log('the prodV: ', productVariant)
+           // console.log('the prodV: ', productVariant)
             if (productVariant.length > 0 && productVariant.length < 2) {
                 handleSizeSelection(productVariant[0])
             } else if (productVariant.length === 0) {

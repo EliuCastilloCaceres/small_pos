@@ -36,7 +36,7 @@ function CashRegisterList() {
         setData([...data, newData])
     }
     const updateData = (dataUpdated) => {
-        console.log(dataUpdated)
+        //console.log(dataUpdated)
         const newData = data.map(cashReg => {
             if (cashReg.cash_register_id === dataUpdated.cashRegisterId) {
                 // Actualiza el estado de la orden
@@ -91,7 +91,7 @@ function CashRegisterList() {
                     data && data.length > 0 && (
                         data.map(({ name, cash_register_id, is_open}) => (
                             <div key={cash_register_id} className="w-100 h-100 d-flex flex-column align-items-center border border-primary p-1 rounded">
-                                <CashRegStatusCard
+                                {/* <CashRegStatusCard
                                     title={name}
                                     iconClass={'bi bi-pc-horizontal'}
                                     isOpen={is_open}
@@ -99,7 +99,16 @@ function CashRegisterList() {
                                         handleGridCardClick(name, cash_register_id)
                                         setmodatTitle('Actualizar Caja Registradora')
                                     }}
-                                />
+                                /> */}
+                                
+                                    <button onClick={() => {
+                                        handleGridCardClick(name, cash_register_id)
+                                        setmodatTitle('Actualizar Caja Registradora')
+                                    }} className="btn btn-primary w-100 h-100">
+                                        <div><span className="fw-bold fs-3">{name}</span></div>
+                                        <div><span className="badge bg-warning ">{is_open===1?'Abierta':'Cerrada'}</span></div>
+                                    </button>
+                                
                                 <div className="mt-2 w-100 d-flex justify-content-center">
                                     <button onClick={() => { deleteCashReg(cash_register_id, name, is_open) }} className="btn btn-danger ">
                                         <i className="bi bi-trash-fill"></i>

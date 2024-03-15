@@ -3,11 +3,11 @@ import usePetition from "../../hooks/usePetition"
 
 function UsersPicker({selectedUser, selectUser, name}) {
     const [data, isloading, error] = usePetition('users')
-    useEffect(()=>{
-        if(data && data.length>0){
-            console.log(data)
-        }
-    },[data])
+    // useEffect(()=>{
+    //     if(data && data.length>0){
+    //         console.log(data)
+    //     }
+    // },[data])
     return (
         <>
             {

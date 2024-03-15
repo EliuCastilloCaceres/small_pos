@@ -27,7 +27,7 @@ function Products() {
                 }
             })
                 .then(response => {
-                    console.log(response)
+                    //console.log(response)
                     const result = data.filter(product => product.product_id != id)
                     setData(result);
                     toast.success('Producto Borrado')

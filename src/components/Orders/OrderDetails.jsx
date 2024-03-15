@@ -24,11 +24,12 @@ function OrderDetails() {
                 }
             })
             setOrder(result.data.order[0])
-            console.log('order: ', result.data.order[0])
+            // console.log('order: ', result.data.order[0])
             setOrderDetails(result.data.orderDetails)
-            console.log('orderDet: ', result.data.orderDetails)
+            // console.log('orderDet: ', result.data.orderDetails)
             setLoading(false)
         } catch (e) {
+            console.log(e)
             console.log('Ocurrio un error: ' + e)
             setLoading(false)
         }
