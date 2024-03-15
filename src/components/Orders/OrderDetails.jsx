@@ -61,6 +61,10 @@ function OrderDetails() {
                             )
                         }
                         <div>
+                            <span>Tienda: </span>
+                            <span>{receiptInfo[0].store ? receiptInfo[0].store : ''}</span>
+                        </div>
+                        <div>
                             <span>Direccion: </span>
                             <span>{receiptInfo[0].address ? receiptInfo[0].address : ''}</span>
                         </div>

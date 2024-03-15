@@ -75,7 +75,7 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
             userId: user.user_id,
             cashRegId: cashRegister.cash_register_id
         }
-        console.log('OrderDt: ', orderData)
+        // console.log('OrderDt: ', orderData)
         try {
             const response = await axios.post(`${URL_BASE}orders/create`, orderData, {
                 headers: {

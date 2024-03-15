@@ -17,9 +17,9 @@ function Pos() {
     const [selectedCashReg, setSelectedCashReg] = useState()
     const [cashRegSelection, setCashRegSelection] = useState('')
     const [data, isLoading, error] = usePetition(`cash-registers/open`)
-    useEffect(() => {
-        //  console.log('selected cashReg:', selectedCashReg)
-    }, [selectedCashReg])
+    // useEffect(() => {
+    //     //  console.log('selected cashReg:', selectedCashReg)
+    // }, [selectedCashReg])
     const filterCashRegs = (field, value) => {
         const result = data.filter(cashReg => cashReg[field] === value)
         return result

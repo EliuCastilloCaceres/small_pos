@@ -195,15 +195,11 @@ function Inventory() {
             sizes.map((s, idx) => {
                 if (!isError) {
                     if ((s.qty > s.stock && operationType == 'exit') || s.qty === '') {
-                        e.target.qty[idx].classList.add('border-danger')
-                        e.target.qty[idx].focus()
                         toast.error('Cantidad inválida')
                         isError = true;
                         return
-                    } else {
-                        e.target.qty[idx].classList.remove('border-danger')
-                    }
-                }
+                    } 
+            }
             })
             if (isError) {
                 return

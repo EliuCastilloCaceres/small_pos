@@ -121,8 +121,8 @@ function UserUpdate() {
                         <label className="form-label" htmlFor="profile">Perfil</label>
                         <select onChange={(e) => { handleChange(e, 'profile') }} value={fields.profile} name="profile" className="form-control" >
                             <option value="">Seleccionar Perfil</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Empleado">Empleado</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="empleado">Empleado</option>
                         </select>
                     </div>
                     <div className="col-md-6">

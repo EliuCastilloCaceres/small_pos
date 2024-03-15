@@ -23,17 +23,19 @@ function Receipt() {
         receiptId:'',
         address: '',
         rfc: '',
+        store:''
     })
  
     useEffect(() => {
-        if (data) {
+        if (data && data.length>0) {
             if (data[0].image) {
                 setImgSrc(`${URL_BASE}receipt/images/${data[0].image}`)
             }
             setFields({
                 receiptId:data[0].receipt_id,
                 address:data[0].address,
-                rfc: data[0].rfc
+                rfc: data[0].rfc,
+                store: data[0].store
             })
         }
     }, [data])
@@ -105,6 +107,10 @@ function Receipt() {
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="flexCheckDefault">RFC</label>
                         <input onChange={(e) => { handleChange(e, 'rfc') }} value={fields.rfc} type="text" name="rfc" className="form-control" required/>
+                    </div>
+                    <div className="col-md-6">
+                        <label className="form-label" htmlFor="flexCheckDefault">Tienda</label>
+                        <input onChange={(e) => { handleChange(e, 'store') }} value={fields.store} type="text" name="store" className="form-control" required/>
                     </div>
                    
                     <div className="col-12 my-5 text-center">

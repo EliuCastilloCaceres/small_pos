@@ -18,7 +18,10 @@ const Login = () => {
         axios.post(`${import.meta.env.VITE_URL_BASE}login`, user)
             .then(data => {
                 setCargando(false)
-                //console.log(data)
+                // console.log(data)
+                if(data.status===201){
+                    alert('use user:admin, password:admin, para iniciar sesion')
+                }
                 localStorage.setItem("token", data.data.token)
                 navigation("/")
             })

@@ -124,16 +124,16 @@ function NewUser() {
                         <label className="form-label" htmlFor="profile">Perfil</label>
                         <select onChange={(e) => { handleChange(e, 'profile') }} value={fields.profile} name="profile" className="form-control" >
                             <option value="">Seleccionar Perfil</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Empleado">Empleado</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="empleado">Empleado</option>
                         </select>
                     </div>
                     <div className="col-md-6">
                         <label className="form-label" htmlFor="profile">Puesto</label>
                         <select onChange={(e) => { handleChange(e, 'position') }} value={fields.position} name="position" className="form-control" >
                             <option value="">Seleccionar Puesto</option>
-                            <option value="Gerente">Gerente</option>
-                            <option value="Cajero">Cajero</option>
+                            <option value="gerente">Gerente</option>
+                            <option value="cajero">Cajero</option>
                         </select>
                     </div>
                     <div className="col-md-6">

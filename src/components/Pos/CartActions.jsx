@@ -357,7 +357,7 @@ function CartActions({ cartProducts, setCartProducts, cashRegister, setDt, setDt
                     </div>
                     <div onClick={() => { addNote() }} className="add-note action-item position-relative">
                         {note.length > 0 && (
-                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                            <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                             </span>
                         )}
                         <span>Nota</span>
