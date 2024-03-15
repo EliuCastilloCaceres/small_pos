@@ -19,7 +19,6 @@ import Customers from './components/Customers/Customers.jsx'
 import NewCustomer from './components/Customers/NewCustomer.jsx'
 import CustomerUpdate from './components/Customers/CustomerUpdate.jsx'
 import UserUpdate from './components/Users/UserUpdate.jsx'
-import ProductBarCode from './components/Products/productBarCode.jsx'
 import Settings from './components/Settings/Settings.jsx'
 import CashRegisterList from './components/Settings/CashRegister/CashRegisterList.jsx'
 import { UserContextProvider } from './Context/UserContext.jsx'
@@ -33,6 +32,7 @@ import OrderDetails from './components/Orders/orderDetails.jsx'
 import Inventory from './components/Products/inventory.jsx'
 import InventoryOperations from './components/Products/InventoryOperations.jsx'
 import ProductsSold from './components/Products/ProductsSold.jsx'
+import ProductBarCode from './components/Products/ProductBarCode.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
