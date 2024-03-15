@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import Grid from "../../../Grid"
 import GridCard from "../../../GridCard"
-import CashRegStatusCard from "../../Pos/CashRegStatusCard"
 import Modal from "../../../Modal"
-import CashRegisterForm from "./CashRegisterForm"
 import usePetition from "../../../hooks/usePetition"
 import BackButton from "../../BackButton"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
 import UserContext from "../../../Context/UserContext"
 import { Navigate } from "react-router-dom"
+import CashRegisterForm from "./CashRegisterForm"
 
 function CashRegisterList() {
     const {user} = useContext(UserContext)
