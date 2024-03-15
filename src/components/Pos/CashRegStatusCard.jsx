@@ -1,5 +1,5 @@
 
-import './cashRegstatusCard.css'
+import './cashRegStatusCard.css'
 import { formatToMoney } from '../../helpers/currencyFormatter'
 
 function CashRegStatusCard({ title, iconClass, onClick, isOpen, lastOpen, userActive,isDisabled,onMouseOver, setValidate, balance }) {
