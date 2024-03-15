@@ -1,10 +1,10 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import './productSizes.css'
-import usePetition from '../../hooks/usePetition';
+
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
-import ProductBarCode from './productBarCode';
+
 import UserContext from '../../Context/UserContext';
 function ProductSizes({ totalSizesStock, setTotalSizesStock, sizes, setSizes, fetchSizes, setSaved }) {
     const { user } = useContext(UserContext)

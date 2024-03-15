@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { useContext, useState } from "react";
-import MessageCard from "../MessageCard.jsx";
+
 import '../Products/newProduct.css'
 import BackButton from "../BackButton.jsx";
 import StatesPicker from "../StatesPicker.jsx";

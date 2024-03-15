@@ -1,10 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect,  useState } from 'react';
 import './pay.css'
 import { formatToMoney } from '../../helpers/currencyFormatter';
 import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import toast from 'react-hot-toast';
-import Swal from 'sweetalert2';
 import SaleReceipt from './saleReceipt';
 function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, cashRegister, emptyCart, toggleModal, setDt, setDtCopy, setSizes, focusInput }) {
     const { user } = useContext(UserContext)

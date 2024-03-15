@@ -3,8 +3,6 @@ import usePetition from "../../hooks/usePetition.js";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ProvidersPicker from "../Providers/ProvidersPicker.jsx";
-import { hasOnlyNumbers } from '../../helpers/formFieldValidators.js';
-import MessageCard from "../MessageCard.jsx";
 import './productUpdate.css'
 import ImageUploader from "../ImageUploader.jsx";
 import BackButton from "../BackButton.jsx";

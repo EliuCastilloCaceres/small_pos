@@ -1,7 +1,7 @@
 import BwipJs from "bwip-js"
 import './productBarCode.css'
 import { useContext, useEffect } from "react"
-import { Navigate, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import BackButton from "../BackButton"
 import UserContext from "../../Context/UserContext"
 function ProductBarCode() {

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './cashRegCut.css'
 import { formatToMoney } from '../../../helpers/currencyFormatter'
-import usePetition from '../../../hooks/usePetition'
 import { format } from 'date-fns'
 import axios from 'axios'
 import CloseCarshRegReport from './CloseCashRegReport'

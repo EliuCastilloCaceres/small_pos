@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 import './cashRegstatusCard.css'
 import { formatToMoney } from '../../helpers/currencyFormatter'
 

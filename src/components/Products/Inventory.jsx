@@ -1,6 +1,4 @@
 import { Link, Navigate } from 'react-router-dom';
-import usePetition from '../../hooks/usePetition.js';
-import { format } from 'date-fns';
 import './inventory.css'
 import './products.css'
 import { useContext, useEffect, useState } from 'react';

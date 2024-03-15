@@ -37,7 +37,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
 
         } catch (e) {
             console.log(e)
-            console.log('Ocurrio un error: ' + e)
+            // console.log('Ocurrio un error: ' + e)
             toast.error('Ocurrio un error: ' + e)
         }
     }
@@ -55,7 +55,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
 
         } catch (e) {
             console.log(e)
-            console.log('Ocurrio un error: ' + e)
+            // console.log('Ocurrio un error: ' + e)
             toast.error('Ocurrio un error: ' + e)
         }
     }
