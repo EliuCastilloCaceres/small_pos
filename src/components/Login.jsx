@@ -14,7 +14,7 @@ const Login = () => {
         e.preventDefault()
         setCargando(true)
         setError(null)
-        //console.log(user)
+        console.log(user)
         axios.post(`${import.meta.env.VITE_URL_BASE}login`, user)
             .then(data => {
                 setCargando(false)
