@@ -4,7 +4,7 @@ import { formatToMoney } from '../../helpers/currencyFormatter';
 import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import toast from 'react-hot-toast';
-import SaleReceipt from './saleReceipt';
+import SaleReceipt from './SaleReceipt';
 function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, cashRegister, emptyCart, toggleModal, setDt, setDtCopy, setSizes, focusInput }) {
     const { user } = useContext(UserContext)
     const URL_BASE = import.meta.env.VITE_URL_BASE
