@@ -62,7 +62,7 @@ function Dashboard() {
         <div className="main-dashboard-container">
             <section className='cards-section'>
                 <DashboardCard
-                    value={orderTotals && orderTotals.orders_total && (orderTotals.orders_total)}
+                    value={orderTotals && orderTotals.orders_total ? (orderTotals.orders_total):(0)}
                     description={'Ventas Hoy'}
                     iconClassName={'bi bi-cart'}
                 />
