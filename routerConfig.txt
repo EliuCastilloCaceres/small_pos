@@ -1,0 +1,10 @@
+#change Directory root
+<Directory "/var/www/htdocs">
+    RewriteEngine on
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    RewriteRule ^ index.html [L]
+</Directory>
