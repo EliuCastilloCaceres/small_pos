@@ -3,10 +3,11 @@ import Grid from "../../Grid"
 import usePetition from "../../hooks/usePetition"
 import CashRegStatusCard from "./CashRegStatusCard"
 import axios from "axios"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import UserContext from "../../Context/UserContext"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
+import { formatInTimeZone, utcToZonedTime } from "date-fns-tz"
 
 function CashRegStatus() {
     const [data, isLoading, error] = usePetition('cash-registers')
@@ -16,10 +17,15 @@ function CashRegStatus() {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
     const { user } = useContext(UserContext)
-    useEffect(()=>{
-        //console.log('User in statusCashReg: ',user)
-        //console.log('the data: !' ,newData)
-    },[newData])
+    // useEffect(()=>{
+    //   if(newData && newData.length>0){
+    //       //console.log('User in statusCashReg: ',user)
+    //       console.log('the data: !' ,newData)
+    //       const dateParsed = parseISO(newData[0].close_date)
+    //       const zonedDate = utcToZonedTime(dateParsed, 'America/Cancun');
+    //       console.log('the date: !' ,zonedDate)
+    //   }
+    // },[newData])
     const navigation = useNavigate()
     const fetchCashRegStatus = async () => {
 
@@ -82,7 +88,7 @@ function CashRegStatus() {
         //console.log(crId)
         const { value: openAmount } = await Swal.fire({
             title: "Monto Inicial",
-            input: "number",
+            input: "text",
             inputLabel: "$",
             inputPlaceholder: "Ej: 1000"
           });
@@ -153,7 +159,7 @@ function CashRegStatus() {
                 iconClass={'bi bi-pc-horizontal'}
                 userActive={cr.user_name ? cr.user_name : ''}
                 isOpen={cr.is_open}
-                lastOpen={cr.close_date ? format(new Date(cr.close_date), 'dd-MM-yyyy HH:mm:ss') : cr.open_date ? format(new Date(cr.open_date), 'dd-MM-yyyy HH:mm:ss') : ''}
+                lastOpen={cr.close_date ? formatInTimeZone(new Date(cr.close_date),'America/Cancun', 'dd-MM-yyyy HH:mm:ss') : cr.open_date ? formatInTimeZone(new Date(cr.open_date), 'America/Cancun','dd-MM-yyyy HH:mm:ss') : ''}
                 balance={cr.close_amount ? cr.close_amount : '0'}
                 onClick={() => { 
                     ValidatePermissionsAndStatus(cr.is_open, cr.user_name ? cr.user_name : '',cr.name,cr.cash_register_id) 

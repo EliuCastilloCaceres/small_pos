@@ -56,7 +56,7 @@
     height: auto;
 }
 
-@media screen and (max-width: 1400px) {
+/* @media screen and (max-width: 1400px) {
     .column-headers:nth-child(4) {
         display: none;
     }
@@ -74,4 +74,4 @@
     .column-values:nth-child(12) {
         display: none;
     }
-}
+} */

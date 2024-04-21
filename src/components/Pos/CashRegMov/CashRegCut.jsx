@@ -8,6 +8,7 @@ import { useReactToPrint } from 'react-to-print'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { formatInTimeZone } from 'date-fns-tz'
 function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals, movements }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
@@ -39,7 +40,7 @@ function CashRegCut({ cashRegister, cashCutBand, balance, deposits, withdrawals,
         }
     }
     const fetchTotals = async () => {
-        const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
+        const queryDate = formatInTimeZone(new Date(cashRegister.open_date),'America/Cancun', 'yyyy-MM-dd HH:mm:ss')
         try {
             const result = await axios.get(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/${queryDate}/totals`, {
                 headers: {

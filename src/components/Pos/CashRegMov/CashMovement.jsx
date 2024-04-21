@@ -5,6 +5,7 @@ import UserContext from "../../../Context/UserContext"
 import toast from "react-hot-toast"
 import './cashMovements.css'
 import { formatToMoney } from "../../../helpers/currencyFormatter"
+import { formatInTimeZone } from "date-fns-tz"
 function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetchMovements, deposits, withdrawals }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const token = localStorage.getItem("token")
@@ -87,13 +88,13 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
         const value = event.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
             setAmount(value)
-        };
+        }
     }
     const handleUpdateAmountChange = (event) => {
         const value = event.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
             setUpdateAmount(value)
-        };
+        }
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -158,12 +159,12 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
                                             : (
                                                 <>
                                                     <td className='sticky column-values'>{movement.movement_type}</td>
-                                                    <td className={movement.movement_type === 'deposito' ? 'text-success' : 'text-danger'}>{movement.amount}</td>
+                                                    <td className={movement.movement_type === 'deposito' ? 'text-success' : 'text-danger'}>{formatToMoney(movement.amount)}</td>
                                                     <td className='column-values'>{movement.description}</td>
                                                 </>
                                             )
                                     }
-                                    <td className='column-values'>{format(new Date(movement.movement_date),'dd-MM-yyyy HH:mm:ss')}</td>
+                                    <td className='column-values'>{formatInTimeZone(new Date(movement.movement_date),'America/Cancun','dd-MM-yyyy HH:mm:ss')}</td>
                                     <td className='column-values'>{movement.name}</td>
                                     <td className='column-values'>{movement.first_name} {movement.last_name}</td>
                                     <td className='column-values'>
@@ -210,7 +211,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
                 <span >En Caja: <span className={balance >= 0 ? 'text-success' : 'text-danger'}>{formatToMoney(balance)}</span> </span>
             </div>
             <form onSubmit={handleSubmit} className="row g-3 align-items-center fw-bold" >
-                <div className="col-md-2">
+                <div className="col-md-2 type-select-container">
                     <label className="form-label" htmlFor="name">Tipo</label>
                     <select onChange={(e) => { setType(e.target.value) }} name="type" value={type}>
                         <option value="deposito">Deposito</option>

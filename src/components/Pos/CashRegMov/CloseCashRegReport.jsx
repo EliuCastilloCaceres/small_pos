@@ -3,9 +3,11 @@ import React, { useContext, useEffect } from "react"
 import UserContext from "../../../Context/UserContext"
 import './closeCashRegReport.css'
 import { formatToMoney } from "../../../helpers/currencyFormatter"
+import { formatInTimeZone } from "date-fns-tz"
 
 const CloseCarshRegReport = React.forwardRef(({ movements, cashSales, cardSales, cashRegister, withdrawals, deposits, balance, CashWithdrawal }, ref) => {
     const { user } = useContext(UserContext)
+
     const renderMovements = () => {
         if (movements && movements.length > 0) {
             return (
@@ -29,7 +31,7 @@ const CloseCarshRegReport = React.forwardRef(({ movements, cashSales, cardSales,
                                     <td className='sticky column-values'>{movement.movement_type}</td>
                                     <td className={movement.movement_type === 'deposito' ? 'text-success' : 'text-danger'}>{movement.amount}</td>
                                     <td className='column-values'>{movement.description}</td>
-                                    <td className='column-values'>{format(new Date(movement.movement_date), 'dd-MM-yyyy HH:mm:ss')}</td>
+                                    <td className='column-values'>{formatInTimeZone(new Date(movement.movement_date), 'America/Cancun', 'dd-MM-yyyy HH:mm:ss')}</td>
                                     <td className='column-values'>{movement.name}</td>
                                     <td className='column-values'>{movement.first_name} {movement.last_name}</td>
                                 </tr>
@@ -48,7 +50,7 @@ const CloseCarshRegReport = React.forwardRef(({ movements, cashSales, cardSales,
                 <div className="report-header">
                     <span>Caja: {cashRegister.name}</span>
                     <span>Usuario: {user.first_name} {user.last_name}</span>
-                    <span>Fecha: {format(new Date(), 'dd-MM-yyyy :HH:mm:ss')}</span>
+                    <span>Fecha: {formatInTimeZone(new Date(),'America/Cancun', 'dd-MM-yyyy :HH:mm:ss')}</span>
                 </div>
                 <div className="report-body">
                     <div className="cash-movements">
