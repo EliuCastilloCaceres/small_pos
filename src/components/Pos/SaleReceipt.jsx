@@ -9,11 +9,11 @@ import { format } from 'date-fns';
 function SaleReceipt({ sale, handleToggleModal, emptyCart }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
     const [receiptInfo, isLoading, error] = usePetition('cash-registers/receipt')
-    // useEffect(() => {
-    //     if (receiptInfo) {
-    //         console.log(receiptInfo)
-    //     }
-    // }, [receiptInfo])
+    useEffect(() => {
+        if (sale) {
+            console.log('sale',sale)
+        }
+    }, [sale])
 
     const clenaSale = () => {
         handleToggleModal()
@@ -82,6 +82,10 @@ function SaleReceipt({ sale, handleToggleModal, emptyCart }) {
                         <div>
                             <span>RFC: </span>
                             <span>{receiptInfo[0].rfc ? receiptInfo[0].rfc : ''}</span>
+                        </div>
+                        <div>
+                            <span>Cliente: </span>
+                            <span>{sale.customer ? sale.customer.first_name : ''}</span>
                         </div>
                         </div>
                         <div className='receipt-separator'></div>

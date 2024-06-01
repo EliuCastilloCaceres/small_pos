@@ -5,6 +5,7 @@ import axios from 'axios';
 import UserContext from '../../Context/UserContext';
 import toast from 'react-hot-toast';
 import SaleReceipt from './SaleReceipt';
+import usePetition from '../../hooks/usePetition';
 function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, cashRegister, emptyCart, toggleModal, setDt, setDtCopy, setSizes, focusInput }) {
     const { user } = useContext(UserContext)
     const URL_BASE = import.meta.env.VITE_URL_BASE
@@ -14,6 +15,12 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
     const [cashReceived, setCashRecived] = useState('')
     const [cashChange, setCashChange] = useState(0)
     const [lastOrderId, setLastOrderId] = useState('')
+    const [customerData, isLoading, error] = usePetition(`customers/${customer}`)
+    // useEffect(()=>{
+    //     if(customerData){
+    //         console.log('customer:',customerData)
+    //     }
+    // },[customerData])
    
     const cleanStates = ()=>{
         setPayMethod('efectivo')
@@ -45,7 +52,7 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
         const value = event.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
             setCashRecived(value)
-        };
+        }
     }
     const handleCashRKeyDown = (e)=>{
         if (e.key === 'Enter') {
@@ -189,7 +196,8 @@ function Pay({ cartProducts, discountApplied, subtotal, total, note, customer, c
                 cashReceived:cashReceived,
                 change: cashChange,
                 paymentMethod: payMethod,
-                customerId: parseInt(customer),
+                customer:customerData[0],
+                // customerId: parseInt(customer),
                 user:user,
                 cashReg: cashRegister
             }
