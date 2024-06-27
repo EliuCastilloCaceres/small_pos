@@ -42,7 +42,7 @@ function PosLayout({ cashRegister }) {
     const searchInput = document.getElementById('search-input')
     const fetchMovements = async () => {
         //console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
-        const queryDate = formatInTimeZone(new Date(cashRegister.open_date), 'America/Cancun', 'yyyy-MM-dd HH:mm:ss')
+        const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
         console.log(queryDate)
         try {
             const result = await axios.get(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/${queryDate}/movements`, {

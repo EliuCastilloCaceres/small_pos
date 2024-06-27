@@ -33,6 +33,7 @@ import Inventory from './components/Products/Inventory.jsx'
 import InventoryOperations from './components/Products/InventoryOperations.jsx'
 import ProductsSold from './components/Products/ProductsSold.jsx'
 import ProductBarCode from './components/Products/ProductBarCode.jsx'
+import CashRegTransactions from './components/Pos/CashRegTransactions.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -42,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path='/' element={<App />}>
               <Route path='open-cash-register' element={<OpenCashReg />} />
+              <Route path='open-cash-register/transactions' element={<CashRegTransactions />} />
               <Route path='pos' element={<Pos/>} />
               <Route path='dashboard' element={<Dashboard/>} />
               <Route path='settings' element={<Settings />} />

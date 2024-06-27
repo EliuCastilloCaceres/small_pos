@@ -5,7 +5,7 @@ import CashRegStatusCard from "./CashRegStatusCard"
 import axios from "axios"
 import { format, parseISO } from "date-fns"
 import UserContext from "../../Context/UserContext"
-import { useNavigate } from "react-router-dom"
+import {Link, useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { formatInTimeZone, utcToZonedTime } from "date-fns-tz"
 
@@ -159,7 +159,7 @@ function CashRegStatus() {
                 iconClass={'bi bi-pc-horizontal'}
                 userActive={cr.user_name ? cr.user_name : ''}
                 isOpen={cr.is_open}
-                lastOpen={cr.close_date ? format(new Date(cr.close_date),'dd-MM-yyyy HH:mm:ss') : cr.open_date ? formatInTimeZone(new Date(cr.open_date),'dd-MM-yyyy HH:mm:ss') : ''}
+                lastOpen={cr.close_date ? format(new Date(cr.close_date),'dd-MM-yyyy HH:mm:ss') : cr.open_date ? format(new Date(cr.open_date),'dd-MM-yyyy HH:mm:ss') : ''}
                 balance={cr.close_amount ? cr.close_amount : '0'}
                 onClick={() => { 
                     ValidatePermissionsAndStatus(cr.is_open, cr.user_name ? cr.user_name : '',cr.name,cr.cash_register_id) 
@@ -172,8 +172,11 @@ function CashRegStatus() {
     }
     return (
         <>
+            <Link className="btn btn-warning p-2 mt-2 fw-bold fs-5" to={'transactions'}>
+            Ver Transacciones
+            <i className="bi bi-arrow-left-right ms-2 fw-bolder"></i>
+            </Link>
             <Grid>
-
                 {renderCashRegisters()}
             </Grid>
         </>

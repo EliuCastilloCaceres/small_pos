@@ -72,7 +72,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
         setEditingRow(index)
     }
     const handleCancelEditingRow = ()=>{
-        cleanUpdateStates
+        cleanUpdateStates()
         setEditingRow(null)
     }
     const cleanStates = () => {
@@ -164,7 +164,7 @@ function CashMovement({ cashRegister, toggleLocalModal, balance, movements, fetc
                                                 </>
                                             )
                                     }
-                                    <td className='column-values'>{formatInTimeZone(new Date(movement.movement_date),'America/Cancun','dd-MM-yyyy HH:mm:ss')}</td>
+                                    <td className='column-values'>{format(new Date(movement.movement_date),'dd-MM-yyyy HH:mm:ss')}</td>
                                     <td className='column-values'>{movement.name}</td>
                                     <td className='column-values'>{movement.first_name} {movement.last_name}</td>
                                     <td className='column-values'>

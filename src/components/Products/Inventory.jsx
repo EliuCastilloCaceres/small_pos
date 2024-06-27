@@ -28,6 +28,7 @@ function Inventory() {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     const [error, setError] = useState()
+    const [reasonSelect, setReasonSelect] = useState('Inventario inicial')
     useEffect(() => {
         fetchProducts()
     }, [])
@@ -98,6 +99,7 @@ function Inventory() {
     }
    const handleReasonChange = (e)=>{
         const value = e.target.value
+        setReasonSelect(value)
         if(value.toLowerCase() !== 'otro'){
             setIsDisabled(true)
             setReason(value)
@@ -133,6 +135,7 @@ function Inventory() {
         setShowModal(!showModal)
         setQty(0)
         setReason('Inventario inicial')
+        setReasonSelect('Inventario inicial')
         setOperationType('entry')
     }
     const handleQtyChange = (e) => {
@@ -280,7 +283,7 @@ function Inventory() {
                                                     <tr>
                                                         <th scope="col">Talla</th>
                                                         <th scope="col">Existencias</th>
-                                                        <th scope="col">Cantida</th>
+                                                        <th scope="col">Cantidad</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -320,7 +323,7 @@ function Inventory() {
 
                             <div className='w-100'>
                                 <span>Motivo</span>
-                                <select onChange={(e)=>{handleReasonChange(e)}} className='w-100 my-3'>
+                                <select onChange={(e)=>{handleReasonChange(e)}} value={reasonSelect} className='w-100 my-3'>
                                     <option value={'Inventario inicial'}>Inventario inicial</option>
                                     <option value={'Compra de producto'}>Compra de producto</option>
                                     <option value={'Producto expirado'}>Producto expirado</option>

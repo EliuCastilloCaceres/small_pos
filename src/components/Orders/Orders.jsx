@@ -115,9 +115,10 @@ function Orders() {
             }
         })
             .then(response => {
-                // console.log(response)
-                toast.success(`Orden: ${orderId} actualizada`, {
-                    id: updatingOrderToast
+                 
+                toast.success(`Orden: ${orderId} ${statusConfig.status==='cancelado'?'Cancelada. Articulos Repuestos al Inventario':'Completada'}`, {
+                    id: updatingOrderToast,
+                    duration:5000
                 })
                 const updatedData = newData.map(order => {
                     if (order.order_id === orderId) {
@@ -143,7 +144,7 @@ function Orders() {
             <h2 className='fw-bold text-center my-3'>VENTAS</h2>
             <div className='sub-menu-wrapper mb-1'>
                 <Link to={'products-sold'} type='button' className='btn btn-dark add-btn'>
-                    <i className="bi bi-bag-check-fill"></i>
+                    <i className="bi bi-bag-check-fill me-2"></i>
                     Productos Vendidos
                 </Link>
             </div>
