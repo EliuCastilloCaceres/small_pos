@@ -19,6 +19,7 @@ import { formatInTimeZone } from 'date-fns-tz'
 
 function PosLayout({ cashRegister }) {
     const URL_BASE = import.meta.env.VITE_URL_BASE
+    const SERVER_TIME_ZONE = import.meta.env.VITE_SERVER_TIME_ZONE
     const token = localStorage.getItem("token")
     const { user } = useContext(UserContext)
     const [dt, setDt] = useState()
@@ -42,7 +43,7 @@ function PosLayout({ cashRegister }) {
     const searchInput = document.getElementById('search-input')
     const fetchMovements = async () => {
         //console.log('fetching the data...',format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss'))
-        const queryDate = format(new Date(cashRegister.open_date), 'yyyy-MM-dd HH:mm:ss')
+        const queryDate = formatInTimeZone(new Date(cashRegister.open_date), SERVER_TIME_ZONE, 'yyyy-MM-dd HH:mm:ss')
         console.log(queryDate)
         try {
             const result = await axios.get(`${URL_BASE}cash-registers/${cashRegister.cash_register_id}/${queryDate}/movements`, {
